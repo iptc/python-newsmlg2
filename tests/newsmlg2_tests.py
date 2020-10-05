@@ -144,6 +144,7 @@ class TestStringMethods(unittest.TestCase):
         # TODO convert qcode to URI
         # assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
 
+    """
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:REUTERS" />
@@ -162,6 +163,7 @@ class TestStringMethods(unittest.TestCase):
         <link rel="irel:seeAlso"
             href="http://www.example.com/video/20081222-PNN-1517-407624/index.html"/>
     </itemMeta>
+    """
 
 if __name__ == '__main__':
     unittest.main()

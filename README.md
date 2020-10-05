@@ -22,6 +22,7 @@ Installing from PyPI (after we release it to PyPI...):
 
 Example:
 
+```
     import NewsMLG2
 
     parser = NewsMLG2.NewsMLG2Parser(filename="test-newsmlg2-file.xml")
@@ -54,6 +55,7 @@ Example:
     assert newsitem.get_attr('standard') == 'NewsML-G2'
     assert newsitem.get_attr('standardversion') == '2.29'
     assert newsitem.get_attr('conformance') == 'power'
+```
 
 ## Testing
 

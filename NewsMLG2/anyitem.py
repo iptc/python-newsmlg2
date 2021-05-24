@@ -1,37 +1,29 @@
 #!/usr/bin/env python
 
+"""
+AnyItemType definitions
+"""
+
 import json
 import os
 from lxml import etree
 
-DEBUG = True
-XML_NS = '{http://www.w3.org/XML/1998/namespace}'
-
-from .core import NEWSMLG2_NS, BaseObject, GenericArray
-from .catalog import CatalogMixin
-from .newsmlg2 import (
-    CommonPowerAttributes, DateTimePropType, FlexPartyPropType, I18NAttributes,
-    QualRelPropType, RightsBlockType, TimeValidityAttributes
+from .core import XML, NEWSMLG2, BaseObject, GenericArray
+from .attributegroups import (
+    CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
 )
+from .catalog import CatalogMixin
+from .complextypes import *
+# from .complextypes import DateTimeOrNullPropType, DateTimePropType
+from .newsmlg2 import RightsBlockType
+from .propertytypes import QualPropType, QualRelPropType
+from .conceptgroups import FlexPartyPropType
 
-class AnyItem(BaseObject, CatalogMixin):
+DEBUG = True
+
+class AnyItem(CatalogMixin, I18NAttributes):
     """
     An abstract class. All G2 items are inherited from this class.
-         <xs:any namespace="http://www.w3.org/2000/09/xmldsig#"
-                 processContents="lax"
-                 minOccurs="0">
-            <xs:annotation>
-               <xs:documentation>W3C's XML Digital Signature</xs:documentation>
-            </xs:annotation>
-         </xs:any>
-         <xs:choice maxOccurs="unbounded">
-            <xs:element ref="catalogRef"/>
-            <xs:element ref="catalog"/>
-         </xs:choice>
-         <xs:element ref="hopHistory" minOccurs="0"/>
-         <xs:element ref="pubHistory" minOccurs="0"/>
-         <xs:element ref="rightsInfo" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="itemMeta"/>
     """
 
     attributes = {
@@ -49,7 +41,7 @@ class AnyItem(BaseObject, CatalogMixin):
         # Specifies the language of this property and potentially all descendant
         # properties. xml:lang values of descendant properties override this
         # value. Values are determined by Internet BCP 47.
-        XML_NS+'lang': 'xml:lang',
+        XML+'lang': 'xml:lang',
         # The directionality of textual content (enumeration: ltr, rtl)
         'dir': 'dir'
     }
@@ -60,25 +52,74 @@ class AnyItem(BaseObject, CatalogMixin):
         if type(xmlelement) == etree._Element:
             self.buildCatalog(xmlelement)
             self.hopHistory = HopHistory(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'hopHistory')
+                xmlarray = xmlelement.findall(NEWSMLG2+'hopHistory')
             )
             self.pubHistory = PubHistory(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'pubHistory')
+                xmlarray = xmlelement.findall(NEWSMLG2+'pubHistory')
             )
             self.rightsInfoArray = RightsInfoArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'rightsInfo')
+                xmlarray = xmlelement.findall(NEWSMLG2+'rightsInfo')
             )
             self.itemMeta = ItemMeta(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'itemMeta')
+                xmlelement = xmlelement.find(NEWSMLG2+'itemMeta')
             )
             assert self.itemMeta is not None, "itemMeta is required in any NewsML-G2 Item"
 
 
-class Hop(BaseObject):
+class Party(FlexPartyPropType):
+    """
+    A party involved this hop of  the Hop History
+    """
+    pass
+
+class Hop(CommonPowerAttributes):
+    """
+    A single hop of the Hop History. The details of the hop entry should
+    reflect the actions taken by a party.
+    """
+    elements = {
+        'party': { 'type': 'array', 'element_class': Party }
+        # TODO more: see XML below...
+    }
+    """
+<xs:element name="action" minOccurs="0" maxOccurs="unbounded">
+<xs:annotation>
+   <xs:documentation>An action which is executed at this hop in the hop history.</xs:documentation>
+</xs:annotation>
+<xs:complexType>
+   <xs:complexContent>
+      <xs:extension base="QualRelPropType">
+         <xs:attribute name="target" type="QCodeType">
+            <xs:annotation>
+               <xs:documentation>The target of the action in a content object - expressed by a QCode. If the target attribute is omitted the target of the action is the whole object.</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="targeturi" type="IRIType">
+            <xs:annotation>
+               <xs:documentation>The target of the action in a content object - expressed by a URI. If the target attribute is omitted the target of the action is the whole object.</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+         <xs:attribute name="timestamp" type="DateOptTimeType">
+            <xs:annotation>
+               <xs:documentation>The date and optionally the time (with a time zone) when this action was performed on the target.</xs:documentation>
+            </xs:annotation>
+         </xs:attribute>
+      </xs:extension>
+   </xs:complexContent>
+</xs:complexType>
+    """
+    attributes = {
+        # The sequential value of this Hop in a sequence of Hops of a Hop History.
+        # Values need not to be consecutive. The sequence starts with the lowest value.
+        'seq': 'seq', # type="xs:nonNegativeInteger">
+        # The date and optionally the time (with a time zone) when this item's
+        # content object was forwarded.
+        'timestamp': 'timestamp', # type="DateOptTimeType">
+    }
     pass
 
 
-class HopHistory(GenericArray):
+class HopHistory(CommonPowerAttributes, GenericArray):
     """
     A history of the creation and modifications of the content object of this item, expressed as a sequence of hops.
     """
@@ -171,28 +212,28 @@ class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.accountable = Accountable(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'accountable')
+                xmlelement = xmlelement.find(NEWSMLG2+'accountable')
             )
             self.copyrightHolder = CopyrightHolder(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'copyrightHolder')
+                xmlelement = xmlelement.find(NEWSMLG2+'copyrightHolder')
             )
             self.copyrightNoticeArray = CopyrightNoticeArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'copyrightNotice')
+                xmlarray = xmlelement.findall(NEWSMLG2+'copyrightNotice')
             )
             self.usageTermsArray = UsageTermsArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'usageTerms')
+                xmlarray = xmlelement.findall(NEWSMLG2+'usageTerms')
             )
             self.linkArray =LinkArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'link')
+                xmlarray = xmlelement.findall(NEWSMLG2+'link')
             )
             self.rightsInfoExtPropertyArray = RightsInfoExtPropertyArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'self.rightsInfoExtProperty')
+                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsInfoExtProperty')
             )
             self.rightsExpressionXMLArray = RightsExpressionXMLArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'self.rightsExpressionXML')
+                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsExpressionXML')
             )
             self.rightsExpressionDataArray = RightsExpressionDataArray(
-                xmlarray = xmlelement.findall(NEWSMLG2_NS+'self.rightsExpressionData')
+                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsExpressionData')
             )
  
 
@@ -228,6 +269,35 @@ class FirstCreated(DateTimePropType):
     pass
 
 
+class Embargoed(DateTimeOrNullPropType):
+    """
+    The date and time on which the first version of the Item was created.
+    """
+    pass
+
+
+class PubStatus(QualPropType):
+    """
+    The publishing status of the Item, its value is "usable" by default.
+    """
+    pass
+
+class Role(QualPropType):
+    """
+    The role of the Item in the editorial workflow.
+    """
+    pass
+
+class ServiceElement(QualPropType):
+    """
+    An editorial service to which an item is assigned by its provider.
+    """
+    pass
+
+class Service(GenericArray):
+    element_class = ServiceElement
+
+
 class ItemMeta(BaseObject):
     """
     A set of properties directly associated with the Item
@@ -238,21 +308,29 @@ class ItemMeta(BaseObject):
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.itemClass = ItemClass(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'itemClass')
+                xmlelement = xmlelement.find(NEWSMLG2+'itemClass')
             )
             assert self.itemClass is not None, "itemClass is required in any NewsML-G2 Item"
             self.provider = Provider(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'provider')
+                xmlelement = xmlelement.find(NEWSMLG2+'provider')
             )
             assert self.provider is not None, "provider is required in any NewsML-G2 Item"
             self.versionCreated = VersionCreated(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'versionCreated')
+                xmlelement = xmlelement.find(NEWSMLG2+'versionCreated')
             )
             assert self.versionCreated is not None, "versionCreated is required in any NewsML-G2 Item"
             self.firstCreated = FirstCreated(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'firstCreated')
+                xmlelement = xmlelement.find(NEWSMLG2+'firstCreated')
             )
-
+            self.embargoed = Embargoed(
+                xmlelement = xmlelement.find(NEWSMLG2+'embargoed')
+            )
+            self.pubStatus = PubStatus(
+                xmlelement = xmlelement.find(NEWSMLG2+'pubStatus')
+            )
+            self.service = Service(
+                xmlarray = xmlelement.findall(NEWSMLG2+'service')
+            )
     def getItemClass(self):
         return self.itemClass.getQcode()
 
@@ -260,18 +338,24 @@ class ItemMeta(BaseObject):
         return self.itemClass.getURI()
 
     def getProvider(self):
-        return self.provider.getQcode() # probably doesn't work in all circumstances
+        return self.provider.getQcode()
 
     def getProviderURI(self):
         return self.provider.getURI()
 
+    def getPubStatus(self):
+        return self.pubStatus.getQcode()
+    
+    def getPubStatusURI(self):
+        return self.pubStatus.getURI()
+
+    def getService(self):
+        return self.service[0].getQcode()
+
+    def getServiceURI(self):
+        return self.service[0].getURI()
+
     """
-         <xs:element ref="itemClass"/>
-         <xs:element ref="provider"/>
-         <xs:element ref="versionCreated"/>
-         <xs:element ref="firstCreated" minOccurs="0"/>
-         <xs:element ref="embargoed" minOccurs="0"/>
-         <xs:element ref="pubStatus" minOccurs="0"/>
          <xs:element ref="role" minOccurs="0"/>
          <xs:element ref="fileName" minOccurs="0"/>
          <xs:element ref="generator" minOccurs="0" maxOccurs="unbounded"/>

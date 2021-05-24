@@ -7,9 +7,10 @@ from lxml import etree
 
 DEBUG = True
 
-from .core import NEWSMLG2_NS, BaseObject
+from .core import NSMAP, NEWSMLG2, BaseObject
 from .anyitem import AnyItem
 from .newsmlg2 import CommonPowerAttributes, I18NAttributes
+from .attributegroups import NewsContentCharacteristics, NewsContentTypeAttributes
 
 class NewsItem(AnyItem):
     """
@@ -21,29 +22,29 @@ class NewsItem(AnyItem):
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             #self.contentMeta = ContentMeta(
-            #    xmlelement = xmlelement.find(NEWSMLG2_NS+'contentMeta')
+            #    xmlelement = xmlelement.find(NEWSMLG2+'contentMeta')
             #)
             #self.partMeta = PartMetaList(
-            #    xmlarray = xmlelement.findall(NEWSMLG2_NS+'partMeta')
+            #    xmlarray = xmlelement.findall(NEWSMLG2+'partMeta')
             #)
             #self.assertList = AssertList(
-            #    xmlarray = xmlelement.findall(NEWSMLG2_NS+'assert')
+            #    xmlarray = xmlelement.findall(NEWSMLG2+'assert')
             #)
             #self.inlineRefList = InlineRefList(
-            #    xmlarray = xmlelement.findall(NEWSMLG2_NS+'inlineRef')
+            #    xmlarray = xmlelement.findall(NEWSMLG2+'inlineRef')
             #)
             #self.derivedFromList = DerivedFromList(
-            #    xmlarray = xmlelement.findall(NEWSMLG2_NS+'derivedFrom')
+            #    xmlarray = xmlelement.findall(NEWSMLG2+'derivedFrom')
             #)
             #self.derivedFromValueList = DerivedFromValueList(
-            #    xmlarray = xmlelement.findall(NEWSMLG2_NS+'derivedFromValue')
+            #    xmlarray = xmlelement.findall(NEWSMLG2+'derivedFromValue')
             #)
             self.contentSet = ContentSet(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'contentSet')
+                xmlelement = xmlelement.find(NEWSMLG2+'contentSet')
             )
 
     def to_xml(self):
-        xmlelem = etree.Element(NEWSMLG2_NS+'newsItem')
+        xmlelem = etree.Element(NEWSMLG2+'newsItem', nsmap=NSMAP)
         return xmlelem
 
 #    def getItemClass(self):
@@ -112,11 +113,11 @@ class ContentSet(CommonPowerAttributes):
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.inlineXML = InlineXML(
-                xmlelement = xmlelement.find(NEWSMLG2_NS+'inlineXML')
+                xmlelement = xmlelement.find(NEWSMLG2+'inlineXML')
             )
  
 
-class NewsContentAttributes():
+class NewsContentAttributes(BaseObject):
     """
     A group of typical attributes associated with a content rendition
     """
@@ -148,122 +149,9 @@ class NewsContentAttributes():
         # The date (and, optionally, the time) when the content was generated
         'generated': 'generated', # type="DateOptTimeType"
         # Indicates if the digital data of this rendition is available or not.
-        'hascontent': 'hascontent', # type="xs:boolean"
+        'hascontent': 'hascontent' # type="xs:boolean"
     }
 
-class NewsContentTypeAttributes(BaseObject):
-    """
-    A group of attributes representing a content type
-    """
-    attributes = {
-        # An IANA MIME type
-        'contenttype': 'contenttype', # type="xs:string"
-        # Version of the standard identified by contenttype.
-        'contenttypestandardversion': 'contenttypestandardversion', # type="xs:string"
-        # A refinement of a generic content type (i.e. IANA MIME type) by a literal string value.
-        'contenttypevariant': 'contenttypevariant', # type="xs:string"
-        # Version of the standard identified by contenttypevariant.
-        'contenttypevariantstandardversion': 'contenttypevariantstandardversion', # type="xs:string"
-        # A refinement of a generic content type (i.e. IANA MIME type) - expressed by a QCode
-        'format': 'format', # type="QCodeType"
-        # A refinement of a generic content type (i.e. IANA MIME type) - expressed by a URI
-        'formaturi': 'formaturi', # type="IRIType"
-        # Version of the standard identified by the format.
-        'formatstandardversion': 'formatstandardversion', # type="xs:string"
-    }
-
-class NewsContentCharacteristics(BaseObject):
-    """
-    A group of typical physical characteristics of media content
-    """
-    attributes = {
-        # The count of characters of textual content.
-        'charcount': 'charcount', # type="xs:nonNegativeInteger" use="optional">
-        # The count of words of textual content.
-        'wordcount': 'wordcount', # type="xs:nonNegativeInteger" use="optional">
-        # The count of lines of textual content
-        'linecount': 'linecount', # type="xs:nonNegativeInteger" use="optional">
-        # The count of pages of the content
-        'pagecount': 'pagecount', # type="xs:nonNegativeInteger" use="optional">
-        # The image width for visual content.
-        'width': 'width', # type="xs:nonNegativeInteger" use="optional">
-        # If present defines the width unit for the width - expressed by a QCode
-        'widthunit': 'widthunit', # type="QCodeType" use="optional">
-        # If present defines the width unit for the width - expressed by a URI
-        'widthunituri': 'widthunituri', # type="IRIType" use="optional">
-        # The height of visual content.
-        'height': 'height', # type="xs:nonNegativeInteger" use="optional">
-        # If present defines the height unit for the heigth - expressed by a QCode
-        'heightunit': 'heightunit', # type="QCodeType" use="optional">
-        # If present defines the height unit for the heigth - expressed by a URI
-        'heightunituri': 'heightunituri', # type="IRIType" use="optional">
-        # The orientation of the visual content of an image in regard to the standard rendition of the digital image data
-        'orientation': 'orientation', # type="xs:nonNegativeInteger" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a QCode
-        'layoutorientation': 'layoutorientation', # type="QCodeType" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a URI
-        'layoutorientationuri': 'layoutorientationuri', # type="IRIType" use="optional">
-        # The colour space of an image - expressed by a QCode
-        'colourspace': 'colourspace', # type="QCodeType" use="optional">
-        # The colour space of an image - expressed by a URI
-        'colourspaceuri': 'colourspaceuri', # type="IRIType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/  - expressed by a QCode
-        'colourindicator': 'colourindicator', # type="QCodeType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/  - expressed by a URI
-        'colourindicatoruri': 'colourindicatoruri', # type="IRIType" use="optional">
-        # The bit depth defining the spread of colour data within each sample.
-        'colourdepth': 'colourdepth', # type="xs:nonNegativeInteger" use="optional">
-        # The bit depth defining the spread of colour data within each sample.
-        'colourdepth': 'colourdepth', # type="xs:nonNegativeInteger" use="optional">
-        # The recommended printing resolution for an image in dots per inch
-        'resolution': 'resolution', # type="xs:positiveInteger" use="optional">
-        # The clip duration in time units defined by durationUnit. The default time unit is seconds. Applies to audio-visual content.
-        'duration': 'duration', # type="xs:string" use="optional">
-        # If present it defines the time unit for the duration attribute. Only codes for integer value time units of the recommended CV (available at http://cv.iptc.org/newscodes/timeunit/ )  must be applied - expressed by a QCode
-        'durationunit': 'durationunit', # type="QCodeType" use="optional">
-        # If present it defines the time unit for the duration attribute. Only codes for integer value time units of the recommended CV (available at http://cv.iptc.org/newscodes/timeunit/ )  must be applied - expressed by a URI
-        'durationunituri': 'durationunituri', # type="IRIType" use="optional">
-        # The applicable codec for audio data - expressed by a QCode
-        'audiocodec': 'audiocodec', # type="QCodeType" use="optional">
-        # The applicable codec for audio data - expressed by a URI
-        'audiocodecuri': 'audiocodecuri', # type="IRIType" use="optional">
-        # The audio bit rate in  bits per second
-        'audiobitrate': 'audiobitrate', # type="xs:positiveInteger" use="optional">
-        # An indication that the audio data is encoded with a variable bit rate
-        'audiovbr': 'audiovbr', # type="xs:boolean" use="optional">
-        # The number of bits per audio sample
-        'audiosamplesize': 'audiosamplesize', # type="xs:positiveInteger" use="optional">
-        # The number of audio samples per second, expressed as a sampling frequency in Hz
-        'audiosamplerate': 'audiosamplerate', # type="xs:positiveInteger" use="optional">
-        # The audio sound system - expressed by a QCode
-        'audiochannels': 'audiochannels', # type="QCodeType" use="optional">
-        # The audio sound system - expressed by a URI
-        'audiochannelsuri': 'audiochannelsuri', # type="IRIType" use="optional">
-        # The applicable codec for video data - expressed by a QCode
-        'videocodec': 'videocodec', # type="QCodeType" use="optional">
-        # The applicable codec for video data - expressed by a URI
-        'videocodecuri': 'videocodecuri', # type="IRIType" use="optional">
-        # The video average bit rate in bits per second. Used when the bit rate is variable
-        'videoavgbitrate': 'videoavgbitrate', # type="xs:positiveInteger" use="optional">
-        # An indication that video data is encoded with a variable bit rate
-        'videovbr': 'videovbr', # type="xs:boolean" use="optional">
-        # The number of video frames per second, i.e. the rate at which the material should be shown in order to achieve the intended visual effect
-        'videoframerate': 'videoframerate', # type="xs:decimal" use="optional">
-        # The video scan technique, progressive or interlaced
-        'videoscan': 'videoscan', # <xs:enumeration value="progressive"/> <xs:enumeration value="interlaced"/>
-        # The video aspect ratio
-        'videoaspectratio': 'videoaspectratio', # type="g2normalizedString" use="optional">
-        # The video sampling method
-        'videosampling': 'videosampling', # type="g2normalizedString" use="optional">
-        # Indicates how the original content was scaled to this format - expressed by a QCode. The recommended vocabulary is the IPTC Video Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/ 
-        'videoscaling': 'videoscaling', # type="QCodeType" use="optional">
-        # Indicates how the original content was scaled to this format - expressed by a URI. The recommended vocabulary is the IPTC Video Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/
-        'videoscalinguri': 'videoscalinguri', # type="IRIType" use="optional">
-        # Indicates which video definition is applied to this rendition of video content - expressed by a QCode - but it does not imply any particular technical characteristics of the video.The recommended vocabulary is the IPTC Video Definition NewsCodes http://cv.iptc.org/newscodes/videodefinition/
-        'videodefinition': 'videodefinition', # type="QCodeType" use="optional">
-        # Indicates which video definition is applied to this rendition of video content - expressed by a URI - but it does not imply any particular technical characteristics of the video.The recommended vocabulary is the IPTC Video Definition NewsCodes http://cv.iptc.org/newscodes/videodefinition/ 
-        'videodefinitionuri': 'videodefinitionuri', # type="IRIType" use="optional">
-    }
 
 class InlineXML(NewsContentAttributes, NewsContentTypeAttributes, NewsContentCharacteristics, I18NAttributes):
     """

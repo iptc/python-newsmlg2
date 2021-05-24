@@ -1,7 +1,7 @@
-# NewsML-G2 - Python implementation of the NewsML-G2 and NITF standards
+# NewsML-G2 - Python implementation of the NewsML-G2 standard
 
 NewsML-G2 is an open standard created by the International Press
-Telecommunications Council to share news content. See http://www.newsmlg2.org/
+Telecommunications Council to share news content. See http://www.newsml-g2.org/
 
 This module is a part-implementation of the standard in Python.  Currently it
 reads itemMeta and contentMeta blocks, catalogs and metadata objects from

@@ -3,15 +3,20 @@
 import importlib
 from lxml import etree
 
-NEWSMLG2_NS = '{http://iptc.org/std/nar/2006-10-01/}'
-NITF_NS = '{http://iptc.org/std/NITF/2006-10-18/}'
-XML_NS = '{http://www.w3.org/XML/1998/namespace}'
+NEWSMLG2_NS = 'http://iptc.org/std/nar/2006-10-01/'
+NEWSMLG2 = '{%s}' % NEWSMLG2_NS
+NITF_NS = 'http://iptc.org/std/NITF/2006-10-18/'
+NITF = '{%s}' % NITF_NS
+XML_NS = 'http://www.w3.org/XML/1998/namespace'
+XML = '{%s}' % XML_NS
+NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
 VERSION = 0.1
 
 class BaseObject(object):
     attr_values = {}
     attribute_types = {}
+    child_elements = {}
     dict = {}
 
     # Load all 'attributes' from any class in the MRO inheritance chain
@@ -35,6 +40,15 @@ class BaseObject(object):
     def get_attr(self, attr):
         return self.attr_values.get(attr, None)
 
+    # Load all 'attributes' from any class in the MRO inheritance chain
+    @classmethod
+    def get_elements(cls):
+        all_elements = {}
+        for otherclass in reversed(cls.__mro__):
+            elements = vars(otherclass).get('elements', {})
+            all_elements.update(elements)
+        return all_elements
+
     def __init__(self, **kwargs):
         # this is our base object, we don't call super() from here
         self.dict = {}
@@ -44,9 +58,13 @@ class BaseObject(object):
             attrs = self.get_attributes()
             if attrs:
                 for xml_attribute, json_attribute in attrs.items():
-                    #if xml_attribute == 'xml:lang':
-                    #    import pdb; pdb.set_trace()
                     self.attr_values[xml_attribute] = xmlelement.get(xml_attribute)
+            elements = self.get_elements()
+            if elements:
+                for element_name, element_class in elements.items():
+                    self.child_elements[element_name] = element_class(
+                        xmlelement = xmlelement.find(NEWSMLG2+element_name)
+                    )
 
     def as_dict(self):
         # this is our base object, we don't call super() from here
@@ -100,8 +118,17 @@ class GenericArray(BaseObject):
                 array_elem = self.element_class(xmlelement = xmlelement)
                 self.array_contents.append(array_elem)
 
+    def __len__(self, item):
+        return len(self.array_contents)
+
     def __getitem__(self, item):
         return self.array_contents[item]
+
+    def __setitem__(self, item, value):
+        self.array_contents[item] = value
+
+    def __delitem__(self, item):
+        del self.array_contents[item]
 
     def __str__(self):
         # Hack / "syntactic sugar": if an array has only one element,

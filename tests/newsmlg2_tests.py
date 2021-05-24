@@ -63,9 +63,9 @@ class TestStringMethods(unittest.TestCase):
     </contentSet>
 </newsItem>
 """
-        parser = NewsMLG2.NewsMLG2Parser(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
 
-        newsitem = parser.getNewsItem()
+        newsitem = g2doc.getNewsItem()
         assert newsitem.get_attr('guid') == 'simplest-test'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
@@ -73,26 +73,24 @@ class TestStringMethods(unittest.TestCase):
         assert newsitem.get_attr('version') == '1'
         assert newsitem.get_attr(XML_NS+'lang') == 'en-GB'
 
-        catalog = newsitem.getCatalog()
-        test_scheme = catalog.getSchemeForAlias('prov')
+        catalogs = newsitem.getCatalogs()
+        test_scheme = catalogs.getSchemeForAlias('prov')
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert test_scheme.definition == 'Indicates a company, publication or service provider.'
 
-        # TODO tests on catalog
+        # tests on catalog(s)
         assert newsitem.itemMeta.getItemClass() == 'ninat:text'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
         assert newsitem.itemMeta.getProvider() == 'nprov:IPTC'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/provider/IPTC'
+        assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert newsitem.itemMeta.versionCreated.getDateTime() == '2020-06-22T12:00:00+03:00'
 
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '001_simplest_file.xml')
-        parser = NewsMLG2.NewsMLG2Parser(filename=test_newsmlg2_file)
-        newsitem = parser.getNewsItem()
+        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        newsitem = g2doc.getNewsItem()
         assert newsitem.get_attr('guid') == 'simplest-test-from-file'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
@@ -100,8 +98,8 @@ class TestStringMethods(unittest.TestCase):
         assert newsitem.get_attr(XML_NS+'lang') == 'en-GB'
 
         # catalog tests
-        catalog = newsitem.getCatalog()
-        test_scheme = catalog.getSchemeForAlias('nprov')
+        catalogs = newsitem.getCatalogs()
+        test_scheme = catalogs.getSchemeForAlias('nprov')
 
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert test_scheme.authority == 'https://iptc.org/'
@@ -110,19 +108,17 @@ class TestStringMethods(unittest.TestCase):
 
         # itemmeta tests
         assert newsitem.itemMeta.getItemClass() == 'ninat:text'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
         assert newsitem.itemMeta.getProvider() == 'nprov:IPTC'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/provider/IPTC'
+        assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert newsitem.itemMeta.versionCreated.getDateTime() == '2020-06-22T12:00:00+03:00'
         assert newsitem.contentSet.inlineXML.attr_values['contenttype'] == 'application/nitf+xml'
 
     def test_example_1(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')
-        parser = NewsMLG2.NewsMLG2Parser(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
 
-        newsitem = parser.getNewsItem()
+        newsitem = g2doc.getNewsItem()
         assert newsitem.get_attr('guid') == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
@@ -133,36 +129,65 @@ class TestStringMethods(unittest.TestCase):
         rightsinfo = newsitem.rightsInfoArray[0]
         assert rightsinfo.copyrightHolder.attr_values['uri'] == 'http://www.example.com/about.html#copyright' 
         assert str(rightsinfo.copyrightHolder.names[0]) == 'Example Enews LLP'
+        assert str(rightsinfo.copyrightNoticeArray[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
         assert str(rightsinfo.copyrightNoticeArray) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
         assert str(rightsinfo.usageTermsArray) == 'Not for use outside the United States'
 
         itemmeta = newsitem.itemMeta
         assert newsitem.itemMeta.getItemClass() == 'ninat:text'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert newsitem.itemMeta.getItemClassURI() == 'http://cv.iptc.org/newscodes/ninature/text'
         assert newsitem.itemMeta.getProvider() == 'nprov:REUTERS'
-        # TODO convert qcode to URI
-        # assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert newsitem.itemMeta.getProviderURI() == 'http://cv.iptc.org/newscodes/newsprovider/REUTERS'
+        assert str(newsitem.itemMeta.versionCreated) == '2018-10-21T16:25:32-05:00'
+        assert str(newsitem.itemMeta.firstCreated) == '2016-10-18T13:12:21-05:00'
+        assert str(newsitem.itemMeta.embargoed) == '2018-10-23T12:00:00Z'
+        # TODO some test like isEmbargoed?? isPublishable??
+        assert newsitem.itemMeta.getPubStatus() == 'stat:usable'
+        assert newsitem.itemMeta.getPubStatusURI() == 'http://cv.iptc.org/newscodes/pubstatusg2/usable'
+        assert newsitem.itemMeta.getService() == 'svc:uknews'
+        # alias 'svc' is not in our catalog, so this raises an exception
+        with self.assertRaises(NewsMLG2.AliasNotFoundInCatalogs):
+            assert newsitem.itemMeta.getServiceURI() == ''
+        assert newsitem.itemMeta.service[0].names[0].name == 'UK News Service'
+        #assert newsitem.itemMeta.edNote == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
+        #assert newsitem.itemMeta.getSignal() == 'sig:update'
+        #assert newsitem.itemMeta.getSignalURI() == 'http://cv.iptc.org/newscodes/sig/update'
+        #assert newsitem.itemMeta.links[0].rel == 'irel:seeAlso'
+        #assert newsitem.itemMeta.links[0].getRelURI() == 'http://cv.iptc.org/newscodes/irel/seeAlso'
+        #assert newsitem.itemMeta.links[0].href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
 
     """
-    <itemMeta>
-        <itemClass qcode="ninat:text" />
-        <provider qcode="nprov:REUTERS" />
-        <versionCreated>2018-10-21T16:25:32-05:00</versionCreated>
-        <firstCreated>2016-10-18T13:12:21-05:00</firstCreated>
-        <embargoed>2018-10-23T12:00:00Z</embargoed>
-      <pubStatus qcode="stat:usable" />
-        <service qcode="svc:uknews">
-            <name>UK News Service</name>
-        </service>
-        <edNote>
-            Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon
-            on Friday, October 23, 2018.
-        </edNote>
-        <signal qcode="sig:update" />
-        <link rel="irel:seeAlso"
-            href="http://www.example.com/video/20081222-PNN-1517-407624/index.html"/>
-    </itemMeta>
+    TODO...
+    <contentMeta>
+        <contentCreated>2016-10-18T11:12:00-05:00</contentCreated>
+        <contentModified>2018-10-21T16:22:45-05:00</contentModified>
+        <located type="cptype:city" qcode="geo:345678">
+            <name>Berlin</name>
+            <broader type="cptype:statprov" qcode="prov:2365">
+                <name>Berlin</name>
+            </broader>
+            <broader type="cptype:country" qcode="iso3166-1a2:DE">
+                <name>Germany</name>
+            </broader>
+        </located>
+        <creator uri="http://www.example.com/staff/mjameson" >
+            <name>Meredith Jameson</name>
+        </creator>
+        <infoSource uri="http://www.example.com" />
+        <subject type="cpnat:abstract" qcode="medtop:04000000">
+            <name xml:lang="en-GB">economy, business and finance</name>
+        </subject>
+        <subject type="cpnat:abstract" qcode="medtop:20000523">
+            <name xml:lang="en-GB">labour market</name>
+            <name xml:lang="de">Arbeitsmarkt</name>
+            <broader qcode="medtop:04000000" />
+        </subject>
+        <genre qcode="genre:interview">
+            <name xml:lang="en-GB">Interview</name>
+        </genre>
+        <slugline>US-Finance-Fed</slugline>
+        <headline> Fed to halt QE to avert "bubble"</headline>
+    </contentMeta>
     """
 
 if __name__ == '__main__':

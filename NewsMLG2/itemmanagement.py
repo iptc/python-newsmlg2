@@ -4,36 +4,29 @@ import json
 import os
 from lxml import etree
 
-# properties from xs:group ItemManagementGroup
+"""
+Properties from xs:group ItemManagementGroup
+"""
 
 from .core import BaseObject, GenericArray
-
-from .newsmlg2 import (
-    BlockType, DateTimePropType, DateTimeOrNullPropType,
-    G2NormalizedString,
-    RightsBlockType, VersionedStringType
-)
-
-from .linktype import (
-    Link1Type
-)
-from .simpletypes import (
-    IRIType
-)
-from .complextypes import ( DateOptTimePropType )
-
-from .propertytypes import (
-    QCodePropType, QualPropType, QualRelPropType,
-)
-
-from .conceptgroups import (
-    Flex1PropType, FlexAuthorPropType, FlexPartyPropType
-)
-
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, NewsContentTypeAttributes,
     TimeValidityAttributes
 )
+from .complextypes import (
+    DateOptTimePropType, DateTimeOrNullPropType, DateTimePropType,
+    VersionedStringType
+)
+from .conceptgroups import (
+    Flex1PropType, FlexAuthorPropType, FlexPartyPropType
+)
+from .labeltypes import BlockType
+from .link import Link1Type
+from .propertytypes import (
+    QCodePropType, QualPropType, QualRelPropType
+)
+from .rights import RightsBlockType
+from .simpletypes import G2NormalizedString, IRIType
 
 class ItemClass(QualRelPropType):
     """
@@ -53,40 +46,37 @@ class VersionCreated(DateTimePropType):
     """
     The date and time on which the current version of the Item was created.
     """
-    pass
 
 
 class FirstCreated(DateTimePropType):
     """
     The date and time on which the first version of the Item was created.
     """
-    pass
 
 
 class Embargoed(DateTimeOrNullPropType):
     """
     The date and time on which the first version of the Item was created.
     """
-    pass
 
 
 class PubStatus(QualPropType):
     """
     The publishing status of the Item, its value is "usable" by default.
     """
-    pass
+
 
 class Role(QualPropType):
     """
     The role of the Item in the editorial workflow.
     """
-    pass
+
 
 class FileName(G2NormalizedString, CommonPowerAttributes):
     """
     The recommended file name for this Item.
     """
-    pass
+
 
 class GeneratorElement(VersionedStringType):
     """
@@ -99,15 +89,16 @@ class GeneratorElement(VersionedStringType):
         'roleuri' #  type="IRIType"
     }
 
+
 class Generator(GenericArray):
     element_class = GeneratorElement
+
 
 class Profile(VersionedStringType):
     """
     This property provides information about the structure of an Item,
     e.g. a simple package or an article with one picture.
     """
-    pass
 
 
 class TitleElement:
@@ -123,7 +114,7 @@ class EdNoteElement(BlockType):
     """
     A note addressed to the editorial people receiving the Item.
     """
-    pass
+
 
 class EdNote(GenericArray):
     element_class = EdNoteElement
@@ -133,7 +124,7 @@ class MemberOfElement(Flex1PropType):
     """
     A set of Items around the same theme that this Item is part of.
     """
-    pass
+
 
 class MemberOf(GenericArray):
     element_class = MemberOfElement
@@ -143,7 +134,7 @@ class InstanceOfElement(Flex1PropType):
     """
     A frequently updating information object that this Item is an instance of.
     """
-    pass
+
 
 class InstanceOf(GenericArray):
     element_class = InstanceOfElement
@@ -162,6 +153,7 @@ class SignalElement(Flex1PropType):
         'severityuri': 'severityuri' #  type="IRIType" 
     }
 
+
 class Signal(GenericArray):
     element_class = SignalElement
 
@@ -179,6 +171,7 @@ class AltRepElement(IRIType, CommonPowerAttributes, TimeValidityAttributes, News
         'size': 'size'# type="xs:nonNegativeInteger"
     }
 
+
 class AltRep(GenericArray):
     element_class = AltRepElement
 
@@ -187,7 +180,7 @@ class DeliverableOfElement(Link1Type):
     """
     A reference to the Planning Item under which this item has been published
     """
-    pass
+
 
 class DeliverableOf(GenericArray):
     element_class = DeliverableOfElement
@@ -213,6 +206,7 @@ class HashElement(CommonPowerAttributes):
         'scopeuri': 'scopeuri' # type="IRIType"
     }
 
+
 class Hash(GenericArray):
     element_class = HashElement
 
@@ -221,7 +215,7 @@ class ExpiresElement(DateOptTimePropType):
     """
     The date and time after which the NewsItem is no longer considered valid by its publisher
     """
-    pass
+
 
 class Expires(GenericArray):
     element_class = ExpiresElement
@@ -242,6 +236,7 @@ class OrigRepElement(IRIType, CommonPowerAttributes):
         'reposroleuri': 'reposroleuri' # type="IRIType">
     }
 
+
 class OrigRep(GenericArray):
     element_class = OrigRepElement
 
@@ -256,6 +251,7 @@ class IncomingFeedIdElement(QCodePropType):
         # A refinement of the semantics of the property - expressed by a URI
         'roleuri': 'roleuri' # type="IRIType"
     }
+
     
 class IncomingFeedId(GenericArray):
     element_class = IncomingFeedIdElement
@@ -265,7 +261,7 @@ class MetadataCreatorElement(FlexAuthorPropType):
     """
     Specifies the entity (person, organisation or system) which has edited the metadata properties of this Item; an individual metadata property’s creator may be explicitly overridden using the property's @creator attribute.
     """
-    pass
+
 
 class MetadataCreator(GenericArray):
     element_class = MetadataCreatorElement

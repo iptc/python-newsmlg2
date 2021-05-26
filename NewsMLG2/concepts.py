@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
-from lxml import etree
-import json
+"""
+Handle concepts, including concept names.
+"""
 
-from .core import NEWSMLG2, BaseObject, GenericArray
+from lxml import etree
+
+from .core import GenericArray
 from .attributegroups import (
     TimeValidityAttributes
 )
@@ -11,7 +14,8 @@ from .complextypes import IntlStringType
 
 class ConceptNameType(TimeValidityAttributes, IntlStringType):
     """
-    The type of a natural language name for the concept (Type defined in this XML Schema only)
+    The type of a natural language name for the concept (Type defined in this
+    XML Schema only)
     """
     name = None
     attributes = {
@@ -19,16 +23,18 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         'role': 'role',
         # A refinement of the semantics of the name - expressed by a URI
         'roleuri': 'roleuri',
-        # Specifies which part of a full name this property provides - expressed by a QCode
+        # Specifies which part of a full name this property provides - expressed
+        # by a QCode
         'part': 'part',
-        # Specifies which part of a full name this property provides - expressed by a URI
+        # Specifies which part of a full name this property provides - expressed
+        # by a URI
         'parturi': 'parturi'
     }
 
     def __init__(self, **kwargs):
-        super(ConceptNameType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
-        if type(xmlelement) == etree._Element:
+        if isinstance(xmlelement, etree._Element):
             self.name = xmlelement.text.strip()
 
     name_role_mappings = {
@@ -57,7 +63,7 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     }
 
     def as_dict(self):
-        super(ConceptNameType, self).as_dict()
+        super().as_dict()
         # the only place where we diverge from a direct match with the SportsML
         role = self.attr_values.get('role', None)
         part = self.attr_values.get('part', None)

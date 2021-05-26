@@ -1,4 +1,8 @@
-# NAR Label Types
+#!/usr/bin/env python
+
+"""
+NAR Label Types
+"""
 
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes
@@ -7,15 +11,16 @@ from .attributegroups import (
 
 class Label1Type(CommonPowerAttributes, I18NAttributes):
     """
-    The PCL-type for information about the content as natural language string with minimal markup
+    The PCL-type for information about the content as natural language string
+    with minimal markup
     """
     # TODO:
-    elements = {
-        'a': 'a',
-        'span': 'span',
-        'ruby': 'ruby',
-        'inline': 'inline'
-    }
+    #elements = {
+    #    'a': 'a',
+    #    'span': 'span',
+    #    'ruby': 'ruby',
+    #    'inline': 'inline'
+    #}
     attributes = {
         # A refinement of the semantics of the label - expressed by a QCode
         'role': 'role',  # type="QCodeListType" use="optional">
@@ -55,4 +60,3 @@ class BlockType(CommonPowerAttributes, I18NAttributes):
         'role': 'role',  # type="QCodeListType"
         'roleuri': 'roleuri'  # type="IRIType">
     }
-    pass

@@ -30,7 +30,7 @@ class DateTimePropType(CommonPowerAttributes):
     def __str__(self):
         return self.datetime
 
-    def getDateTime(self):
+    def get_datetime(self):
         return self.datetime
 
     # TODO add helper methods for date/time manipulation, timezone conversion etc

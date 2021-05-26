@@ -35,12 +35,12 @@ CATALOG_CACHE = {
 }
 
 class CatalogMixin(object):
-    def buildCatalog(self, xmlelement, **kwargs):
+    def build_catalog(self, xmlelement, **kwargs):
         catalogs = xmlelement.findall(NEWSMLG2+'catalog')
         catalogRefs = xmlelement.findall(NEWSMLG2+'catalogRef')
         for catalog in catalogs:
             # TODO inline catalogs are not yet tested
-            self.addCatalog(xmlelement=catalog)
+            self.add_catalog(xmlelement=catalog)
         for catalogRef in catalogRefs:
             href = catalogRef.get('href')
 
@@ -50,14 +50,14 @@ class CatalogMixin(object):
                 file = CATALOG_CACHE[href]
                 if DEBUG:
                     print("Loading built-in catalog {}".format(file))
-                self.addCatalog(uri=href, file=file)
+                self.add_catalog(uri=href, file=file)
             else:
                 ## TODO: load and cache catalog from href
                 if DEBUG:
                     print("WARNING: Remote catalog {} declared. Remote "
                           "loading of catalogs is not yet supported.".format(href))
 
-    def addCatalog(self, **kwargs):
+    def add_catalog(self, **kwargs):
         if 'file' in kwargs:
             dirname = os.path.dirname(os.path.realpath(__file__))
             filename = os.path.join(dirname, kwargs['file'])
@@ -71,7 +71,7 @@ class CatalogMixin(object):
             catalog = Catalog(xmlelement=xmlelement)
             CATALOG_STORE.append(catalog)
 
-    def getCatalogs(self):
+    def get_catalogs(self):
         return CATALOG_STORE
 
 class Catalog(CommonPowerAttributes):
@@ -128,9 +128,13 @@ class Catalog(CommonPowerAttributes):
         if DEBUG:
             print("Loaded scheme {} from catalog".format(scheme))
 
-    def getSchemeForAlias(self, alias):
+    def get_scheme_for_alias(self, alias):
         if alias in self._catalog_alias_lookup.keys():
             return self._catalog_alias_lookup[alias]
+
+    def get_scheme_for_uri(self, uri):
+        if uri in self._catalog_uri_lookup.keys():
+            return self._catalog_uri_lookup[uri]
 
     def __iter__(self):
         for key in self._catalog.keys():
@@ -152,21 +156,25 @@ class Catalog(CommonPowerAttributes):
             return '<Catalog>'
 
 
-class CatalogRef(CommonPowerAttributes):
+class CatalogRefElement(BaseObject):
     """
     A reference to a remote catalog. A hyperlink to a set of scheme alias declarations.
     """
     attributes = {
+        # A short natural language name for the catalog.
+        'title': 'title',
         # A hyperlink to a remote Catalog.
-        'href': 'href', # type="IRIType" use="required">
+        'href': 'href'
     }
+
+
+class CatalogRef(GenericArray):
     """
-            <xs:element ref="title" minOccurs="0" maxOccurs="unbounded">
-               <xs:annotation>
-                  <xs:documentation>A short natural language name for the catalog.</xs:documentation>
-               </xs:annotation>
-            </xs:element>
+    A reference to document(s) listing externally-supplied controlled vocabularies.
+    The catalog file can be in NewsML 1.
     """
+    element_class = CatalogRefElement
+
 
 class Scheme(CommonPowerAttributes):
     """

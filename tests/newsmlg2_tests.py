@@ -114,7 +114,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert item_meta.get_provider() == 'nprov:IPTC'
         assert item_meta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert item_meta.get_versioncreated() == '2020-06-22T12:00:00+03:00'
-        assert newsitem.contentSet.inlineXML.attr_values['contenttype'] == 'application/nitf+xml'
+        assert newsitem.get_contentset().get_inlinexml()[0].attr_values['contenttype'] == 'application/nitf+xml'
 
     def test_example_1_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')

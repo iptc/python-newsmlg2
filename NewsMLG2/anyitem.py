@@ -13,8 +13,9 @@ from .attributegroups import (
 from .catalog import CatalogMixin
 from .complextypes import DateTimeOrNullPropType, DateTimePropType
 from .rights import RightsBlockType, RightsInfo
-from .propertytypes import QualPropType, QualRelPropType
+from .propertytypes import QualPropType
 from .conceptgroups import FlexPartyPropType, Flex2ExtPropType
+from .conceptrelationships import QualRelPropType
 
 DEBUG = True
 
@@ -30,7 +31,7 @@ class Hop(CommonPowerAttributes):
     reflect the actions taken by a party.
     """
     elements = {
-        'party': { 'type': 'array', 'element_class': Party }
+        'party': { 'type': 'array', 'xml_name': 'party', 'element_class': Party }
         # TODO more: see XML below...
     }
     """
@@ -140,16 +141,14 @@ class ItemMeta(BaseObject):
     A set of properties directly associated with the Item
     """
 
-    single_elements = {
-        'itemClass': ItemClass,
-        'provider': Provider,
-        'versionCreated': VersionCreated,
-        'firstCreated': FirstCreated,
-        'embargoed': Embargoed,
-        'pubStatus': PubStatus,
-    }
-    array_elements = {
-        'service': Service
+    elements = {
+        'item_class': { 'type': 'single', 'xml_name': 'itemClass', 'element_class': ItemClass },
+        'provider': { 'type': 'single', 'xml_name': 'provider', 'element_class': Provider },
+        'version_created': { 'type': 'single', 'xml_name': 'versionCreated', 'element_class': VersionCreated },
+        'first_created': { 'type': 'single', 'xml_name': 'firstCreated', 'element_class': FirstCreated },
+        'embargoed': { 'type': 'single', 'xml_name': 'embargoed', 'element_class': Embargoed },
+        'pub_status': { 'type': 'single', 'xml_name': 'pubStatus', 'element_class': PubStatus },
+        'service': { 'type': 'array', 'xml_name': 'service', 'element_class': Service }
     }
     def __init__(self,  **kwargs):
         super(ItemMeta, self).__init__(**kwargs)
@@ -161,40 +160,40 @@ class ItemMeta(BaseObject):
             pass
 
     def get_itemclass(self):
-        return self.get_single_element_value('itemClass').get_qcode()
+        return self.get_element_value('item_class').get_qcode()
 
     def get_itemclass_uri(self):
-        return self.get_single_element_value('itemClass').get_uri()
+        return self.get_element_value('item_class').get_uri()
 
     def get_provider(self):
-        return self.get_single_element_value('provider').get_qcode()
+        return self.get_element_value('provider').get_qcode()
 
     def get_provider_uri(self):
-        return self.get_single_element_value('provider').get_uri()
+        return self.get_element_value('provider').get_uri()
 
     def get_versioncreated(self):
-        return str(self.get_single_element_value('versionCreated'))
+        return str(self.get_element_value('version_created'))
 
     def get_firstcreated(self):
-        return str(self.get_single_element_value('firstCreated'))
+        return str(self.get_element_value('first_created'))
 
     def get_embargoed(self):
-        return str(self.get_single_element_value('embargoed'))
+        return str(self.get_element_value('embargoed'))
 
     def get_pubstatus(self):
-        return self.get_single_element_value('pubStatus').get_qcode()
+        return self.get_element_value('pub_status').get_qcode()
 
     def get_pubstatus_uri(self):
-        return self.get_single_element_value('pubStatus').get_uri()
+        return self.get_element_value('pub_status').get_uri()
 
     def get_services(self):
-        return self.get_array_element_value('service')
+        return self.get_element_value('service')
 
     def get_service(self):
-        return self.get_array_element_value('service')[0].get_qcode()
+        return self.get_element_value('service')[0].get_qcode()
 
     def get_service_uri(self):
-        return self.get_array_element_value('service')[0].get_uri()
+        return self.get_element_value('service')[0].get_uri()
 
     """
          <xs:element ref="role" minOccurs="0"/>
@@ -254,14 +253,12 @@ class AnyItem(CatalogMixin, I18NAttributes):
         'dir': 'dir'
     }
 
-    single_elements = {
-        'itemMeta': ItemMeta
+    elements = {
+        'item_meta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta },
+        'hop_history': { 'type': 'array', 'xml_name': 'hopHistory', 'element_class': HopHistory },
+        'rights_info': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo }
     }
-    array_elements = {
-        'hopHistory': HopHistory,
-        'pubHistory': PubHistory,
-        'rightsInfo': RightsInfo
-    }
+
     def __init__(self,  **kwargs):
         super(AnyItem, self).__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
@@ -282,9 +279,7 @@ class AnyItem(CatalogMixin, I18NAttributes):
             # assert self.itemMeta is not None, "itemMeta is required in any NewsML-G2 Item"
 
     def get_itemmeta(self):
-        return self.get_single_element_value('itemMeta')
+        return self.get_element_value('item_meta')
 
     def get_rightsinfo(self):
-        return self.get_array_element_value('rightsInfo')
-
-
+        return self.get_element_value('rights_info')

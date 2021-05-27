@@ -20,10 +20,11 @@ from .complextypes import (
 from .conceptgroups import (
     Flex1PropType, FlexAuthorPropType, FlexPartyPropType
 )
+from .conceptrelationships import QualRelPropType
 from .labeltypes import BlockType
 from .link import Link1Type
 from .propertytypes import (
-    QCodePropType, QualPropType, QualRelPropType
+    QCodePropType, QualPropType
 )
 from .rights import RightsBlockType
 from .simpletypes import G2NormalizedString, IRIType

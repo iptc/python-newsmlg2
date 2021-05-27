@@ -12,7 +12,7 @@ from .attributegroups import (
     I18NAttributes, QualifyingAttributes, QuantifyAttributes,
     TimeValidityAttributes
 )
-from .concepts import Names
+from .concepts import Name
 from .complextypes import IntlStringType
 
 class ConceptDefinitionGroup(BaseObject):
@@ -30,7 +30,7 @@ class ConceptDefinitionGroup(BaseObject):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.names = Names(
+            self.names = Name(
                 xmlarray=xmlelement.findall(NEWSMLG2+'name')
             )
             self.definition = xmlelement.findtext(NEWSMLG2+'definition')

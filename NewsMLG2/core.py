@@ -20,12 +20,11 @@ NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
 class BaseObject():
     """
-    Implements `attributes`, `single_elements` and `array_elements`.
+    Implements `attributes` and `elements` handlers.
     """
     attr_values = {}
     attribute_types = {}
-    single_elements = {}
-    array_elements = {}
+    element_values = {}
     dict = {}
 
     @classmethod
@@ -58,28 +57,16 @@ class BaseObject():
         return self.attr_values.get(attr, None)
 
     @classmethod
-    def get_single_elements(cls):
+    def get_elements(cls):
         """
-        Load all single-valued elements declared in any class in the MRO
+        Load all element definitions declared in any class in the MRO
         inheritance chain
         """
-        all_single_elements = {}
+        all_elements = {}
         for otherclass in reversed(cls.__mro__):
-            single_elements = vars(otherclass).get('single_elements', {})
-            all_single_elements.update(single_elements)
-        return all_single_elements
-
-    @classmethod
-    def get_array_elements(cls):
-        """
-        Load all arrays (multi-valued elements) declared in any class in
-        the MRO inheritance chain
-        """
-        all_array_elements = {}
-        for otherclass in reversed(cls.__mro__):
-            array_elements = vars(otherclass).get('array_elements', {})
-            all_array_elements.update(array_elements)
-        return all_array_elements
+            elements = vars(otherclass).get('elements', {})
+            all_elements.update(elements)
+        return all_elements
 
     def __init__(self, **kwargs):
         """
@@ -87,32 +74,30 @@ class BaseObject():
         """
         self.dict = {}
         self.attr_values = {}
-        self.single_element_values = {}
-        self.array_element_values = {}
+        self.element_values = {}
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
             attrs = self.get_attributes()
             if attrs:
                 for xml_attribute, json_attribute in attrs.items():
                     self.attr_values[xml_attribute] = xmlelement.get(xml_attribute)
-            single_elements = self.get_single_elements()
-            if single_elements:
-                for element_name, element_class in single_elements.items():
-                    self.single_element_values[element_name] = element_class(
-                        xmlelement = xmlelement.find(NEWSMLG2+element_name)
-                    )
-            array_elements = self.get_array_elements()
-            if array_elements:
-                for element_name, element_class in array_elements.items():
-                    self.array_element_values[element_name] = element_class(
-                        xmlarray = xmlelement.findall(NEWSMLG2+element_name)
-                    )
 
-    def get_single_element_value(self, item):
-        return self.single_element_values[item]
-
-    def get_array_element_value(self, item):
-        return self.array_element_values[item]
+            elements = self.get_elements()
+            if elements:
+                for element_id, element_definition in elements.items():
+                    if element_definition['type'] == 'array':
+                        self.element_values[element_id] = element_definition['element_class'](
+                            xmlarray = xmlelement.findall(NEWSMLG2+element_definition['xml_name'])
+                        )
+                    else:
+                        self.element_values[element_id] = element_definition['element_class'](
+                            xmlelement = xmlelement.find(NEWSMLG2+element_definition['xml_name'])
+                        )
+            if xmlelement.text:
+                self.text = xmlelement.text
+                        
+    def get_element_value(self, item):
+        return self.element_values[item]
 
     def as_dict(self):
         """
@@ -138,6 +123,8 @@ class BaseObject():
         return False
 
     def __str__(self):
+        if self.text:
+            return self.text
         return '<'+self.__class__.__name__+'>'
 
 

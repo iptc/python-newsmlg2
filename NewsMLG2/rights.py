@@ -99,34 +99,26 @@ class RightsInfoElement(CommonPowerAttributes, I18NAttributes, TimeValidityAttri
         'aspecturi': 'aspecturi' # type="IRIListType" use="optional">
     }
 
-    def __init__(self,  **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self.accountable = Accountable(
-                xmlelement = xmlelement.find(NEWSMLG2+'accountable')
-            )
-            self.copyrightHolder = CopyrightHolder(
-                xmlelement = xmlelement.find(NEWSMLG2+'copyrightHolder')
-            )
-            self.copyrightNoticeArray = CopyrightNotice(
-                xmlarray = xmlelement.findall(NEWSMLG2+'copyrightNotice')
-            )
-            self.usageTermsArray = UsageTerms(
-                xmlarray = xmlelement.findall(NEWSMLG2+'usageTerms')
-            )
-            self.linkArray =Link(
-                xmlarray = xmlelement.findall(NEWSMLG2+'link')
-            )
-            self.rightsInfoExtPropertyArray = RightsInfoExtProperty(
-                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsInfoExtProperty')
-            )
-            self.rightsExpressionXMLArray = RightsExpressionXML(
-                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsExpressionXML')
-            )
-            self.rightsExpressionDataArray = RightsExpressionData(
-                xmlarray = xmlelement.findall(NEWSMLG2+'self.rightsExpressionData')
-            )
+    elements = {
+        'accountable': { 'type': 'single', 'xml_name': 'accountable', 'element_class': Accountable },
+        'copyright_holder': { 'type': 'single', 'xml_name': 'copyrightHolder', 'element_class': CopyrightHolder },
+        'copyright_notice': { 'type': 'array', 'xml_name': 'copyrightNotice', 'element_class': CopyrightNotice },
+        'usage_terms': { 'type': 'array', 'xml_name': 'usageTerms', 'element_class': UsageTerms },
+        'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
+        'rights_info_ext': { 'type': 'array', 'xml_name': 'rightsInfoExtProperty', 'element_class': RightsInfoExtProperty },
+        'rights_expression_xml': { 'type': 'array', 'xml_name': 'rightsExpressionXML', 'element_class': RightsExpressionXML },
+        'rights_expression_data': { 'type': 'array', 'xml_name': 'rightsExpressionData', 'element_class': RightsExpressionData }
+    }
+
+    def get_copyrightholder(self):
+        return self.get_element_value('copyright_holder')
+
+    def get_copyrightnotice(self):
+        return self.get_element_value('copyright_notice')
+
+    def get_usageterms(self):
+        return self.get_element_value('usage_terms')
+
 
 class RightsInfo(GenericArray):
     element_class = RightsInfoElement

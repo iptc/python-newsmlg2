@@ -4,15 +4,12 @@ from lxml import etree
 import json
 
 from .core import NEWSMLG2, BaseObject, GenericArray
-from .attributegroups import TimeValidityAttributes
-from .propertytypes import FlexPropType
-
-class SameAs(FlexPropType, TimeValidityAttributes):
-    """
-    The type for an identifier of an equivalent concept (Type defined in this XML Schema only)
-    """
-    pass
-
+from .attributegroups import (
+    ArbitraryValueAttributes, CommonPowerAttributes, FlexAttributes,
+    I18NAttributes, QuantifyAttributes, TimeValidityAttributes
+)
+from .concepts import HierarchyInfo, Name
+from .propertytypes import FlexPropType, QCodePropType
 
 class RelatedConceptType(BaseObject):
     """
@@ -39,3 +36,105 @@ class RelatedConceptType(BaseObject):
         </xs:annotation>
     </xs:element>
     """
+
+
+class SameAsType(FlexPropType, TimeValidityAttributes):
+    """
+    The type for an identifier of an equivalent concept (Type defined in this XML Schema only)
+    """
+    pass
+
+
+class SameAs(SameAsType):
+    """
+    An identifier of a concept with equivalent semantics
+    """
+
+
+class Broader(RelatedConceptType):
+    """
+    An identifier of a more generic concept.
+    """
+
+
+class Narrower(RelatedConceptType):
+    """
+    An identifier of a more specific concept.
+    """
+
+
+class Bag(QCodePropType, QuantifyAttributes):
+    """
+    A group of existing concepts which express a new concept.
+    """
+
+    attributes = {
+        # The type of the concept assigned as controlled property value - expressed by a QCode</xs:documentation>
+        'type': 'type',  # " type="QCodeType">
+        # The type of the concept assigned as controlled property value - expressed by a URI</xs:documentation>
+        'typeuri': 'typeuri',  # " type="IRIType">
+        # Indicates how significant the event expressed by a bit of event concept type is to the concept expressed by this bit The scope of this relationship is limited to the bits of a single bag. See also the note below the table.</xs:documentation>
+        'significance': 'significance'  # " type="Int100Type">
+    }
+
+
+class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
+    """
+    The type for identifying a related concept
+    """
+    elements = {
+        'bag': { 'type': 'single', 'xml_name': 'bag', 'element_class': Bag }
+    }
+
+
+class Related(FlexRelatedConceptType):
+    """
+    A related concept, where the relationship is different from 'sameAs',
+    'broader' or 'narrower'.
+    """
+
+
+class QualRelPropType(QCodePropType, I18NAttributes):
+    """
+    Type for a property with a  QCode value in a qcode attribute, a URI in
+    a uri attribute and optional names and related concepts
+    """
+
+    elements = {
+        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
+        'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo },
+        'related': { 'type': 'array', 'xml_name': 'related', 'element_class': Related },
+    }
+
+
+class FlexProp2Type(CommonPowerAttributes, FlexAttributes, I18NAttributes):
+    """
+    Flexible type for related concepts for both controlled and uncontrolled values
+    """
+
+    elements = {
+        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
+        'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo },
+        'sameAs': { 'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs },
+    }
+
+    # TODO move this to a generic method in BaseObject
+    def as_dict(self, **kwargs):
+        super(FlexProp2Type, self).as_dict()
+        if self.names:
+            self.dict.update({'names': self.names.as_dict()})
+        return self.dict
+
+class FlexRelatedPropType(FlexProp2Type):
+    """
+    Flexible generic type for both controlled and uncontrolled values of a related concept
+    """
+    attributes = {
+        # The identifier of the relationship between the concept containing the related property and the concept identified by the related value - expressed by a QCode
+        'rel': 'rel',  # type="QCodeType" use="optional">
+        # The identifier of the relationship between the concept containing the related property and the concept identified by the related value - expressed by a URI
+        'reluri': 'reluri',  # type="IRIType" use="optional">
+    }
+
+
+

@@ -129,11 +129,11 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.get_attr('version') == '11'
 
         rightsinfo = newsitem.get_rightsinfo()[0]
-        assert rightsinfo.copyrightHolder.attr_values['uri'] == 'http://www.example.com/about.html#copyright' 
-        assert str(rightsinfo.copyrightHolder.names[0]) == 'Example Enews LLP'
-        assert str(rightsinfo.copyrightNoticeArray[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
-        assert str(rightsinfo.copyrightNoticeArray) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
-        assert str(rightsinfo.usageTermsArray) == 'Not for use outside the United States'
+        assert rightsinfo.get_copyrightholder().attr_values['uri'] == 'http://www.example.com/about.html#copyright' 
+        assert str(rightsinfo.get_copyrightholder().names[0]) == 'Example Enews LLP'
+        assert str(rightsinfo.get_copyrightnotice()[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.get_copyrightnotice()[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.get_usageterms()) == 'Not for use outside the United States'
 
         item_meta = newsitem.get_itemmeta()
         assert item_meta.get_itemclass() == 'ninat:text'
@@ -150,7 +150,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         # alias 'svc' is not in our catalog, so this raises an exception
         with self.assertRaises(NewsMLG2.AliasNotFoundInCatalogs):
             assert item_meta.get_service_uri() == ''
-        assert item_meta.get_services()[0].names[0].name == 'UK News Service'
+        assert item_meta.get_services()[0].get_name()[0].name == 'UK News Service'
         #assert item_meta.ednote == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
         #assert item_meta.get_signal() == 'sig:update'
         #assert item_meta.get_signal_uri() == 'http://cv.iptc.org/newscodes/sig/update'

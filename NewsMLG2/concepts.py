@@ -8,7 +8,7 @@ from lxml import etree
 
 from .core import GenericArray
 from .attributegroups import (
-    TimeValidityAttributes
+    CommonPowerAttributes, TimeValidityAttributes
 )
 from .complextypes import IntlStringType
 
@@ -85,8 +85,16 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     def __str__(self):
         return self.name
 
-class Names(GenericArray):
+
+class Name(GenericArray):
     """
     Array of ConceptNameType objects.
     """
     element_class = ConceptNameType
+
+
+class HierarchyInfo(CommonPowerAttributes):
+    """
+    Represents the position of a concept in a hierarchical taxonomy tree by a
+    sequence of QCode tokens representing the ancestor concepts and this concept
+    """

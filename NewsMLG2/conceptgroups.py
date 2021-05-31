@@ -12,65 +12,29 @@ from .attributegroups import (
     I18NAttributes, QualifyingAttributes, QuantifyAttributes,
     TimeValidityAttributes
 )
-from .concepts import Name
-from .complextypes import IntlStringType
+from .concepts import Definition, Note, HierarchyInfo
+from .conceptrelationships import Bag, Facet, MainConcept, FacetConcept, ConceptRelationshipsGroup
+from .complextypes import IntlStringType, Name
+from .link import RemoteInfo
+from .parties import PersonDetails, OrganisationDetails
 
 class ConceptDefinitionGroup(BaseObject):
     """
     A group of properites required to define the concept
     """
-    names = None
-    definition = None
-    note = None
-    facet = None
-    remote_info = None
-    hierarchy_info = None
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self.names = Name(
-                xmlarray=xmlelement.findall(NEWSMLG2+'name')
-            )
-            self.definition = xmlelement.findtext(NEWSMLG2+'definition')
-            self.note = xmlelement.findtext(NEWSMLG2+'note')
-            self.facet = xmlelement.findtext(NEWSMLG2+'facet')
-            self.remote_info = xmlelement.findtext(NEWSMLG2+'remoteInfo')
-            self.hierarchy_info = xmlelement.findtext(NEWSMLG2+'hierarchyInfo')
+    elements = {
+        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
+        'definition': { 'type': 'array', 'xml_name': 'definition', 'element_class': Definition },
+        'note': { 'type': 'array', 'xml_name': 'note', 'element_class': Note },
+        'facet': { 'type': 'array', 'xml_name': 'facet', 'element_class': Facet },
+        'remoteinfo': { 'type': 'array', 'xml_name': 'remoteInfo', 'element_class': RemoteInfo },
+        'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo }
+    }
 
-    def as_dict(self):
-        self.dict = super().as_dict()
-        if self.names:
-            self.dict.update({'names': self.names.as_dict()})
-        if self.definition:
-            self.dict.update({'definition': self.definition})
-        if self.note:
-            self.dict.update({'note': self.note})
-        if self.facet:
-            self.dict.update({'facet': self.facet})
-        if self.remote_info:
-            self.dict.update({'remoteInfo': self.remote_info})
-        if self.hierarchy_info:
-            self.dict.update({'hierarchyInfo': self.hierarchy_info})
-        return self.dict
+    def get_name(self):
+        return self.element_values['name']
 
-
-class ConceptRelationshipsGroup(BaseObject):
-    """
-    A group of properites required to indicate relationships of the concept
-    to other concepts
-    """
-
-    """
-    TODO
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element ref="sameAs" />
-                <xs:element ref="broader" />
-                <xs:element ref="narrower" />
-                <xs:element ref="related" />
-            </xs:choice>
-    """
 
 class Flex1PropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
     CommonPowerAttributes, FlexAttributes, I18NAttributes):
@@ -123,22 +87,23 @@ class Flex1ConceptPropType(Flex1PropType, QuantifyAttributes):
     """
     Flexible generic PCL-type for both controlled and uncontrolled values, with
     optional attributes
-    TODO:
-    <xs:sequence>
-       <xs:element ref="bag" minOccurs="0"/>
-       <xs:element ref="mainConcept" minOccurs="0"/>
-       <xs:element ref="facetConcept" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
     """
 
+    elements = {
+        'bag': { 'type': 'single', 'xml_name': 'bag', 'element_class': Bag },
+        'main_concept': { 'type': 'single', 'xml_name': 'mainConcept', 'element_class': MainConcept },
+        'facet_concept': { 'type': 'array', 'xml_name': 'facetConcept', 'element_class': FacetConcept }
+    }
 
 class FlexPersonPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
     CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible person data type for both controlled and uncontrolled values
-    TODO:
-             <xs:element ref="personDetails" minOccurs="0"/>
     """
+
+    elements = {
+        'person_details': { 'type': 'single', 'xml_name': 'personDetails', 'element_class': PersonDetails }
+    }
 
 
 class FlexOrganisationPropType(ConceptDefinitionGroup,
@@ -146,31 +111,11 @@ class FlexOrganisationPropType(ConceptDefinitionGroup,
     I18NAttributes):
     """
     Flexible organisation data type for both controlled and uncontrolled values
-    TODO:
-             <xs:element ref="organisationDetails" minOccurs="0"/>
     """
 
-
-class FlexGeoAreaPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
-    """
-    Flexible geopolitical area data type for both controlled and uncontrolled
-    values
-
-    TODO
-             <xs:element ref="geoAreaDetails" minOccurs="0"/>
-    """
-
-
-class FlexPOIPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
-    """
-    Flexible point-of-intrerest data type for both controlled and uncontrolled
-    values
-
-    TODO
-             <xs:element ref="POIDetails" minOccurs="0"/>
-    """
+    elements = {
+        'organisation_details': { 'type': 'single', 'xml_name': 'organisationDetails', 'element_class': OrganisationDetails }
+    }
 
 
 class FlexPartyPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
@@ -178,28 +123,12 @@ class FlexPartyPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
     """
     Flexible party (person or organisation) PCL-type for both controlled and
     uncontrolled values
-  <xs:sequence>
-     <xs:group ref="ConceptDefinitionGroup" minOccurs="0"/>
-     <xs:group ref="ConceptRelationshipsGroup" minOccurs="0"/>
-     <xs:choice minOccurs="0">
-        <xs:element ref="personDetails"/>
-        <xs:element ref="organisationDetails"/>
-     </xs:choice>
-     <xs:any namespace="##other"
-             processContents="lax"
-             minOccurs="0"
-             maxOccurs="unbounded">
-        <xs:annotation>
-           <xs:documentation>Extension point for provider-defined
-            properties from other namespaces</xs:documentation>
-        </xs:annotation>
-     </xs:any>
-  </xs:sequence>
-  <xs:attributeGroup ref="commonPowerAttributes"/>
-  <xs:attributeGroup ref="flexAttributes"/>
-  <xs:attributeGroup ref="i18nAttributes"/>
-  <xs:anyAttribute namespace="##other" processContents="lax"/>
     """
+    elements = {
+        # TODO implement these classes
+        #'person_details': { 'type': 'single', 'xml_name': 'personDetails', 'element_class': PersonDetails },
+        #'organisation_details': { 'type': 'single', 'xml_name': 'organisationDetails', 'element_class': OrganisationDetails }
+    }
 
 class Flex1PartyPropType(FlexPartyPropType):
     """
@@ -242,59 +171,6 @@ class FlexAuthorPropType(FlexPartyPropType):
         'jobtitleuri': 'jobtitleuri', # type="IRIType" use="optional">
     }
 
-
-class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    FlexAttributes, CommonPowerAttributes, I18NAttributes):
-    """
-    Flexible location (geopolitical area of point-of-interest)
-    data type for both controlled and uncontrolled values
-    plus: <xs:anyAttribute namespace="##other" processContents="lax" />
-    """
-    geo_area_details = None
-    poi_details = None
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self.geo_area_details = GeoAreaDetails(
-                # note lowerCamelCase element name, this is correct
-                xmlelement=xmlelement.find(NEWSMLG2+'geoAreaDetails')
-            )
-            self.poi_details = POIDetails(
-                # note case of element name, this is correct
-                xmlelement=xmlelement.find(NEWSMLG2+'POIDetails')
-            )
-
-    def as_dict(self):
-        self.dict = super().as_dict()
-        if self.geo_area_details:
-            self.dict.update(
-                {'geoAreaDetails': self.geo_area_details.as_dict()})
-        if self.poi_details:
-            self.dict.update({'POIDetails': self.poi_details.as_dict()})
-        return self.dict
-
-    def __bool__(self):
-        return self.geo_area_details is not None or self.poi_details is not None
-
-    """
-    <xs:complexType name="FlexLocationPropType">
-        <xs:sequence>
-            <xs:choice minOccurs="0">
-                <xs:element ref="geoAreaDetails" />
-                <xs:element ref="POIDetails" />
-            </xs:choice>
-            <xs:any namespace="##other" processContents="lax" minOccurs="0"
-                maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation>Extension point for provider-defined
-                    properties from other namespaces</xs:documentation>
-                </xs:annotation>
-            </xs:any>
-        </xs:sequence>
-    </xs:complexType>
-    """
 
 class GeoAreaDetails(CommonPowerAttributes):
     """
@@ -382,7 +258,7 @@ class GeoAreaDetails(CommonPowerAttributes):
     def as_dict(self):
         return self.dict
 
-class Lines(BaseObject):
+class LineElement(BaseObject):
     """
     <xs:element name="line" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
@@ -407,6 +283,12 @@ class Lines(BaseObject):
     """
 
 
+class Line(GenericArray):
+    """
+    An array of LineElement objects.
+    """
+
+
 class AreaElement(Flex1RolePropType):
     """
     A subdivision of a country part of the address.
@@ -424,65 +306,6 @@ class PostalCode(IntlStringType):
     """
     A postal code part of the address.
     """
-
-class Address(CommonPowerAttributes):
-    """
-    A postal address for the location of a Point Of Interest
-    """
-    attributes = {
-        # A refinement of the semantics of the postal address - expressed by
-        # a QCode
-        'role': 'role',
-        # A refinement of the semantics of the postal address - expressed by
-        # a URI
-        'roleuri': 'roleuri'
-    }
-    # A line of address information, in the format expected by a recipient
-    # postal service. City, country area, country and postal code are expressed
-    # separately.
-    lines = None
-    localities = None
-    # A subdivision of a country part of the address.
-    areas = None
-    # A country part of the address.
-    country = None
-    # A postal code part of the address.
-    postal_code = None
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self.lines = Lines(
-                xmlarray=xmlelement.findall(NEWSMLG2+'line')
-            )
-            self.localities = Locality(
-                xmlarray=xmlelement.findall(NEWSMLG2+'locality')
-            )
-            self.areas = Area(
-                xmlarray=xmlelement.findall(NEWSMLG2+'area')
-            )
-            self.country = Country(
-                xmlelement=xmlelement.find(NEWSMLG2+'country')
-            )
-            self.postal_code = PostalCode(
-                xmlelement=xmlelement.find(NEWSMLG2+'postal-code')
-            )
-
-    def as_dict(self):
-        self.dict = super().as_dict()
-        if self.lines:
-            self.dict.update({'lines': self.lines.as_dict()})
-        if self.localities:
-            self.dict.update({'localities': self.localities.as_dict()})
-        if self.areas:
-            self.dict.update({'areas': self.areas.as_dict()})
-        if self.country:
-            self.dict.update({'country': self.country.as_dict()})
-        if self.postal_code:
-            self.dict.update({'postalCode': self.postal_code.as_dict()})
-        return self.dict
-
 
 class POIDetails(CommonPowerAttributes):
     """
@@ -556,38 +379,94 @@ class LocalityElement(Flex1RolePropType):
     A city/town/village etc. part of the address.
     """
 
-    """
-    address:
-    <xs:element name="locality" minOccurs="0" maxOccurs="unbounded"
-        type="Flex1RolePropType">
-        <xs:annotation>
-            <xs:documentation>A city/town/village etc. part of the address.
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    <xs:element name="area" minOccurs="0" maxOccurs="unbounded"
-        type="Flex1RolePropType">
-        <xs:annotation>
-            <xs:documentation>A subdivision of a country part of the
-            address.</xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    <xs:element name="country" minOccurs="0" type="Flex1PropType">
-        <xs:annotation>
-            <xs:documentation>A country part of the address.</xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    <xs:element name="postalCode" type="IntlStringType" minOccurs="0">
-        <xs:annotation>
-            <xs:documentation>A postal code part of the address.
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    """
-
 
 class Locality(GenericArray):
     """
     A set of LocalityElement objects.
     """
     element_class = LocalityElement
+
+
+class Address(CommonPowerAttributes):
+    """
+    A postal address for the location of a Point Of Interest
+    """
+    attributes = {
+        # A refinement of the semantics of the postal address - expressed by
+        # a QCode
+        'role': 'role',
+        # A refinement of the semantics of the postal address - expressed by
+        # a URI
+        'roleuri': 'roleuri'
+    }
+    elements = {
+        'line': { 'type': 'array', 'xml_name': 'line', 'element_class': Line },
+        'locality': { 'type': 'array', 'xml_name': 'locality', 'element_class': Locality },
+        'area': { 'type': 'array', 'xml_name': 'area', 'element_class': Area },
+        'country': { 'type': 'single', 'xml_name': 'country', 'element_class': Country },
+        'postal_code': { 'type': 'single', 'xml_name': 'postal-code', 'element_class': PostalCode }
+    }
+
+
+class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
+    FlexAttributes, CommonPowerAttributes, I18NAttributes):
+    """
+    Flexible location (geopolitical area of point-of-interest)
+    data type for both controlled and uncontrolled values
+    plus: <xs:anyAttribute namespace="##other" processContents="lax" />
+    """
+    geo_area_details = None
+    poi_details = None
+
+    elements = {
+        'geo_area_details': {
+            'type': 'single',
+            'xml_name': 'geoAreaDetails',
+            'element_class': GeoAreaDetails
+        },
+        'poi_details': {
+            'type': 'single',
+            'xml_name': 'POIDetails',
+            'element_class': POIDetails
+        }
+    }
+
+    def __bool__(self):
+        return self.geo_area_details is not None or self.poi_details is not None
+
+
+
+
+class FlexGeoAreaPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
+    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+    """
+    Flexible geopolitical area data type for both controlled and uncontrolled
+    values
+    """
+
+    elements = {
+        'geo_area_details': {
+            'type': 'single',
+            'xml_name': 'geoAreaDetails',
+            'element_class': GeoAreaDetails
+        }
+    }
+
+
+class FlexPOIPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
+    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+    """
+    Flexible point-of-intrerest data type for both controlled and uncontrolled
+    values
+    """
+
+    elements = {
+        'poi_details': {
+            'type': 'single',
+            'xml_name': 'POIDetails',
+            'element_class': POIDetails
+        }
+    }
+
+
+

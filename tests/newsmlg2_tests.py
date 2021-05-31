@@ -65,13 +65,13 @@ class TestNewsMLG2Strings(unittest.TestCase):
 """
         g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
 
-        newsitem = g2doc.get_newsitem()
-        assert newsitem.get_attr('guid') == 'simplest-test'
-        assert newsitem.get_attr('standard') == 'NewsML-G2'
-        assert newsitem.get_attr('standardversion') == '2.29'
-        assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.get_attr('version') == '1'
-        assert newsitem.get_attr(XML_NS+'lang') == 'en-GB'
+        newsitem = g2doc.newsitem
+        assert newsitem.guid == 'simplest-test'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
 
         catalogs = newsitem.get_catalogs()
         test_scheme = catalogs.get_scheme_for_alias('prov')
@@ -80,23 +80,23 @@ class TestNewsMLG2Strings(unittest.TestCase):
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert test_scheme.definition == 'Indicates a company, publication or service provider.'
 
-        item_meta = newsitem.get_itemmeta()
-        assert item_meta.get_itemclass() == 'ninat:text'
-        assert item_meta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert item_meta.get_provider() == 'nprov:IPTC'
-        assert item_meta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
-        assert item_meta.get_versioncreated() == '2020-06-22T12:00:00+03:00'
+        itemmeta = newsitem.itemmeta
+        assert itemmeta.get_itemclass() == 'ninat:text'
+        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.get_provider() == 'nprov:IPTC'
+        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
 class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '001_simplest_file.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
-        newsitem = g2doc.get_newsitem()
+        newsitem = g2doc.newsitem
         assert newsitem.get_attr('guid') == 'simplest-test-from-file'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
         assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.get_attr(XML_NS+'lang') == 'en-GB'
+        assert newsitem.xml_lang == 'en-GB'
 
         # catalog tests
         catalogs = newsitem.get_catalogs()
@@ -108,55 +108,55 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert test_scheme.definition == 'Indicates a News Provider registered with the IPTC.'
 
         # itemmeta tests
-        item_meta = newsitem.get_itemmeta()
-        assert item_meta.get_itemclass() == 'ninat:text'
-        assert item_meta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert item_meta.get_provider() == 'nprov:IPTC'
-        assert item_meta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
-        assert item_meta.get_versioncreated() == '2020-06-22T12:00:00+03:00'
-        assert newsitem.get_contentset().get_inlinexml()[0].attr_values['contenttype'] == 'application/nitf+xml'
+        itemmeta = newsitem.itemmeta
+        assert itemmeta.get_itemclass() == 'ninat:text'
+        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.get_provider() == 'nprov:IPTC'
+        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+        assert newsitem.contentset.inlinexml[0].contenttype == 'application/nitf+xml'
 
     def test_example_1_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
 
-        newsitem = g2doc.get_newsitem()
+        newsitem = g2doc.newsitem
         assert newsitem.get_attr('guid') == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
         assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.get_attr(XML_NS+'lang') == 'en-GB'
+        assert newsitem.xml_lang == 'en-GB'
         assert newsitem.get_attr('version') == '11'
 
-        rightsinfo = newsitem.get_rightsinfo()[0]
-        assert rightsinfo.get_copyrightholder().attr_values['uri'] == 'http://www.example.com/about.html#copyright' 
-        assert str(rightsinfo.get_copyrightholder().names[0]) == 'Example Enews LLP'
-        assert str(rightsinfo.get_copyrightnotice()[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
-        assert str(rightsinfo.get_copyrightnotice()[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
-        assert str(rightsinfo.get_usageterms()) == 'Not for use outside the United States'
+        rightsinfo = newsitem.rightsinfo[0]
+        assert rightsinfo.copyrightholder.uri == 'http://www.example.com/about.html#copyright' 
+        assert str(rightsinfo.copyrightholder.name[0]) == 'Example Enews LLP'
+        assert str(rightsinfo.copyrightnotice[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.copyrightnotice[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.usageterms) == 'Not for use outside the United States'
 
-        item_meta = newsitem.get_itemmeta()
-        assert item_meta.get_itemclass() == 'ninat:text'
-        assert item_meta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert item_meta.get_provider() == 'nprov:REUTERS'
-        assert item_meta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/REUTERS'
-        assert item_meta.get_versioncreated() == '2018-10-21T16:25:32-05:00'
-        assert item_meta.get_firstcreated() == '2016-10-18T13:12:21-05:00'
-        assert item_meta.get_embargoed() == '2018-10-23T12:00:00Z'
+        itemmeta = newsitem.itemmeta
+        assert itemmeta.get_itemclass() == 'ninat:text'
+        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.get_provider() == 'nprov:REUTERS'
+        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/REUTERS'
+        assert str(itemmeta.versioncreated) == '2018-10-21T16:25:32-05:00'
+        assert str(itemmeta.firstcreated) == '2016-10-18T13:12:21-05:00'
+        assert str(itemmeta.embargoed) == '2018-10-23T12:00:00Z'
         # TODO some test like isEmbargoed?? isPublishable??
-        assert item_meta.get_pubstatus() == 'stat:usable'
-        assert item_meta.get_pubstatus_uri() == 'http://cv.iptc.org/newscodes/pubstatusg2/usable'
-        assert item_meta.get_service() == 'svc:uknews'
+        assert itemmeta.get_pubstatus() == 'stat:usable'
+        assert itemmeta.get_pubstatus_uri() == 'http://cv.iptc.org/newscodes/pubstatusg2/usable'
+        assert itemmeta.get_service() == 'svc:uknews'
         # alias 'svc' is not in our catalog, so this raises an exception
         with self.assertRaises(NewsMLG2.AliasNotFoundInCatalogs):
-            assert item_meta.get_service_uri() == ''
-        assert item_meta.get_services()[0].get_name()[0].name == 'UK News Service'
-        #assert item_meta.ednote == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
-        #assert item_meta.get_signal() == 'sig:update'
-        #assert item_meta.get_signal_uri() == 'http://cv.iptc.org/newscodes/sig/update'
-        #assert item_meta.links[0].get_rel() == 'irel:seeAlso'
-        #assert item_meta.links[0].get_rel_uri() == 'http://cv.iptc.org/newscodes/irel/seeAlso'
-        #assert item_meta.links[0].href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
+            assert itemmeta.get_service_uri() == ''
+        assert str(itemmeta.service[0].name[0]) == 'UK News Service'
+        #assert itemmeta.ednote == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
+        #assert itemmeta.get_signal() == 'sig:update'
+        #assert itemmeta.get_signal_uri() == 'http://cv.iptc.org/newscodes/sig/update'
+        #assert itemmeta.links[0].get_rel() == 'irel:seeAlso'
+        #assert itemmeta.links[0].get_rel_uri() == 'http://cv.iptc.org/newscodes/irel/seeAlso'
+        #assert itemmeta.links[0].href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
 
     """
     TODO...

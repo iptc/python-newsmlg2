@@ -79,8 +79,8 @@ class BaseObject():
         if isinstance(xmlelement, etree._Element):
             attrs = self.get_attributes()
             if attrs:
-                for xml_attribute, json_attribute in attrs.items():
-                    self.attr_values[xml_attribute] = xmlelement.get(xml_attribute)
+                for xml_attribute, attribute_id in attrs.items():
+                    self.attr_values[attribute_id] = xmlelement.get(xml_attribute)
 
             elements = self.get_elements()
             if elements:
@@ -98,6 +98,17 @@ class BaseObject():
                         
     def get_element_value(self, item):
         return self.element_values[item]
+
+    def __getattr__(self, name):
+        """
+        Default getter for all methods where we don't have a defined 
+        """
+        if name in self.element_values:
+            return self.element_values[name]
+        elif name in self.attr_values:
+            return self.attr_values[name]
+        else:
+            raise AttributeError("'" + self.__class__.__name__ + "' has no element or attribute '" + name + "'")
 
     def as_dict(self):
         """

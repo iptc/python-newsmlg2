@@ -32,9 +32,9 @@ class NewsMLG2Document():
                 "Item types other than NewsItem are not yet supported."
             )
 
-    def get_newsitem(self):
-        """Return the main NewsItem object for this document."""
-        return self.newsitem
+    #def get_newsitem(self):
+    #    """Return the main NewsItem object for this document."""
+    #    return self.newsitem
 
     def to_xml(self):
         """Return this document in XML form."""

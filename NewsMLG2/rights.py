@@ -101,23 +101,14 @@ class RightsInfoElement(CommonPowerAttributes, I18NAttributes, TimeValidityAttri
 
     elements = {
         'accountable': { 'type': 'single', 'xml_name': 'accountable', 'element_class': Accountable },
-        'copyright_holder': { 'type': 'single', 'xml_name': 'copyrightHolder', 'element_class': CopyrightHolder },
-        'copyright_notice': { 'type': 'array', 'xml_name': 'copyrightNotice', 'element_class': CopyrightNotice },
-        'usage_terms': { 'type': 'array', 'xml_name': 'usageTerms', 'element_class': UsageTerms },
+        'copyrightholder': { 'type': 'single', 'xml_name': 'copyrightHolder', 'element_class': CopyrightHolder },
+        'copyrightnotice': { 'type': 'array', 'xml_name': 'copyrightNotice', 'element_class': CopyrightNotice },
+        'usageterms': { 'type': 'array', 'xml_name': 'usageTerms', 'element_class': UsageTerms },
         'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
-        'rights_info_ext': { 'type': 'array', 'xml_name': 'rightsInfoExtProperty', 'element_class': RightsInfoExtProperty },
-        'rights_expression_xml': { 'type': 'array', 'xml_name': 'rightsExpressionXML', 'element_class': RightsExpressionXML },
-        'rights_expression_data': { 'type': 'array', 'xml_name': 'rightsExpressionData', 'element_class': RightsExpressionData }
+        'rightsinfo_ext': { 'type': 'array', 'xml_name': 'rightsInfoExtProperty', 'element_class': RightsInfoExtProperty },
+        'rightsexpressionxml': { 'type': 'array', 'xml_name': 'rightsExpressionXML', 'element_class': RightsExpressionXML },
+        'rightsexpressiondata': { 'type': 'array', 'xml_name': 'rightsExpressionData', 'element_class': RightsExpressionData }
     }
-
-    def get_copyrightholder(self):
-        return self.get_element_value('copyright_holder')
-
-    def get_copyrightnotice(self):
-        return self.get_element_value('copyright_notice')
-
-    def get_usageterms(self):
-        return self.get_element_value('usage_terms')
 
 
 class RightsInfo(GenericArray):

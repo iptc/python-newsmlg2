@@ -8,16 +8,36 @@ from .attributegroups import (
     ArbitraryValueAttributes, CommonPowerAttributes, FlexAttributes,
     I18NAttributes, QuantifyAttributes, TimeValidityAttributes
 )
-from .concepts import HierarchyInfo, Name
-from .propertytypes import FlexPropType, QCodePropType
+from .complextypes import Name
+from .concepts import HierarchyInfo, Definition
+from .propertytypes import QCodePropType
+
+
+class FlexPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
+    """
+    Flexible generic type for both controlled and uncontrolled values
+    """
+
+    elements = {
+        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
+        'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo }
+    }
+
+    # TODO move this to a generic method in BaseObject
+    def as_dict(self, **kwargs):
+        super().as_dict()
+        if self.names:
+            self.dict.update({'names': self.names.as_dict()})
+        return self.dict
+
 
 class RelatedConceptType(BaseObject):
     """
     The type for an identifier of a related concept
     """
-    pass
 
     """
+    TODO
     <xs:element name="sameAs" type="SameAsType">
     </xs:element>
     <xs:element name="broader" type="RelatedConceptType">
@@ -35,6 +55,17 @@ class RelatedConceptType(BaseObject):
             <xs:documentation>A related concept, where the relationship is different from 'sameAs', 'broader' or 'narrower'.</xs:documentation>
         </xs:annotation>
     </xs:element>
+    """
+
+class MainConcept(RelatedConceptType):
+    """
+    The concept which is faceted by other concept(s) asserted by facetConcept
+    """
+
+
+class FacetConcept(RelatedConceptType):
+    """
+    The concept which is faceting another concept asserted by mainConcept
     """
 
 
@@ -76,6 +107,29 @@ class Bag(QCodePropType, QuantifyAttributes):
         # Indicates how significant the event expressed by a bit of event concept type is to the concept expressed by this bit The scope of this relationship is limited to the bits of a single bag. See also the note below the table.</xs:documentation>
         'significance': 'significance'  # " type="Int100Type">
     }
+
+
+class FacetElement(FlexPropType, TimeValidityAttributes):
+    """
+    In NAR 1.8 and later, facet is deprecated and SHOULD NOT (see RFC 2119) be
+    used, the "related" property should be used instead.
+    (was: An intrinsic property of the concept.)
+    """
+    attributes = {
+        # The identifier of the relationship between the current concept (containing the facet) and the concept identified by the facet value - expressed by a QCode</xs:documentation>
+        'rel': 'rel',  #  type="QCodeType" use="optional">
+        # The identifier of the relationship between the current concept (containing the facet) and the concept identified by the facet value - expressed by a URI</xs:documentation>
+        'reluri': 'reluri',  #  type="IRIType" use="optional">
+        # DO NOT USE this attribute, for G2 internal maintenance purposes only.</xs:documentation>
+        'g2flag': 'g2flag'  #  type="xs:string" use="optional" fixed="DEPR">
+    }
+
+
+class Facet(GenericArray):
+    """
+    Array of FacetElement objects.
+    """
+    element_class = FacetElement
 
 
 class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
@@ -137,4 +191,15 @@ class FlexRelatedPropType(FlexProp2Type):
     }
 
 
+class ConceptRelationshipsGroup(BaseObject):
+    """
+    A group of properites required to indicate relationships of the concept
+    to other concepts
+    """
 
+    elements = {
+        'same_as': { 'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs },
+        'broader': { 'type': 'array', 'xml_name': 'broader', 'element_class': Broader },
+        'narrower': { 'type': 'array', 'xml_name': 'broader', 'element_class': Narrower },
+        'related': { 'type': 'array', 'xml_name': 'related', 'element_class': Related }
+    }

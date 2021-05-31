@@ -142,12 +142,12 @@ class ItemMeta(BaseObject):
     """
 
     elements = {
-        'item_class': { 'type': 'single', 'xml_name': 'itemClass', 'element_class': ItemClass },
+        'itemclass': { 'type': 'single', 'xml_name': 'itemClass', 'element_class': ItemClass },
         'provider': { 'type': 'single', 'xml_name': 'provider', 'element_class': Provider },
-        'version_created': { 'type': 'single', 'xml_name': 'versionCreated', 'element_class': VersionCreated },
-        'first_created': { 'type': 'single', 'xml_name': 'firstCreated', 'element_class': FirstCreated },
+        'versioncreated': { 'type': 'single', 'xml_name': 'versionCreated', 'element_class': VersionCreated },
+        'firstcreated': { 'type': 'single', 'xml_name': 'firstCreated', 'element_class': FirstCreated },
         'embargoed': { 'type': 'single', 'xml_name': 'embargoed', 'element_class': Embargoed },
-        'pub_status': { 'type': 'single', 'xml_name': 'pubStatus', 'element_class': PubStatus },
+        'pubstatus': { 'type': 'single', 'xml_name': 'pubStatus', 'element_class': PubStatus },
         'service': { 'type': 'array', 'xml_name': 'service', 'element_class': Service }
     }
     def __init__(self,  **kwargs):
@@ -160,10 +160,10 @@ class ItemMeta(BaseObject):
             pass
 
     def get_itemclass(self):
-        return self.get_element_value('item_class').get_qcode()
+        return self.get_element_value('itemclass').get_qcode()
 
     def get_itemclass_uri(self):
-        return self.get_element_value('item_class').get_uri()
+        return self.get_element_value('itemclass').get_uri()
 
     def get_provider(self):
         return self.get_element_value('provider').get_qcode()
@@ -172,19 +172,19 @@ class ItemMeta(BaseObject):
         return self.get_element_value('provider').get_uri()
 
     def get_versioncreated(self):
-        return str(self.get_element_value('version_created'))
+        return str(self.get_element_value('versioncreated'))
 
     def get_firstcreated(self):
-        return str(self.get_element_value('first_created'))
+        return str(self.get_element_value('firstcreated'))
 
     def get_embargoed(self):
         return str(self.get_element_value('embargoed'))
 
     def get_pubstatus(self):
-        return self.get_element_value('pub_status').get_qcode()
+        return self.get_element_value('pubstatus').get_qcode()
 
     def get_pubstatus_uri(self):
-        return self.get_element_value('pub_status').get_uri()
+        return self.get_element_value('pubstatus').get_uri()
 
     def get_services(self):
         return self.get_element_value('service')
@@ -248,15 +248,16 @@ class AnyItem(CatalogMixin, I18NAttributes):
         # Specifies the language of this property and potentially all descendant
         # properties. xml:lang values of descendant properties override this
         # value. Values are determined by Internet BCP 47.
-        XML+'lang': 'xml:lang',
+        XML+'lang': 'xml_lang',
         # The directionality of textual content (enumeration: ltr, rtl)
         'dir': 'dir'
     }
 
     elements = {
-        'item_meta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta },
-        'hop_history': { 'type': 'array', 'xml_name': 'hopHistory', 'element_class': HopHistory },
-        'rights_info': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo }
+        'hophistory': { 'type': 'array', 'xml_name': 'hopHistory', 'element_class': HopHistory },
+        # TODO 'pubhistory': { 'type': 'array', 'xml_name': 'pubHistory', 'element_class': PubHistory },
+        'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },
+        'itemmeta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta }
     }
 
     def __init__(self,  **kwargs):
@@ -264,22 +265,4 @@ class AnyItem(CatalogMixin, I18NAttributes):
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
             self.build_catalog(xmlelement)
-            #self.hopHistory = HopHistory(
-            #    xmlarray = xmlelement.findall(NEWSMLG2+'hopHistory')
-            #)
-            #self.pubHistory = PubHistory(
-            #    xmlarray = xmlelement.findall(NEWSMLG2+'pubHistory')
-            #)
-            #self.rightsInfoArray = RightsInfo(
-            #    xmlarray = xmlelement.findall(NEWSMLG2+'rightsInfo')
-            #)
-            #self.itemMeta = ItemMeta(
-            #    xmlelement = xmlelement.find(NEWSMLG2+'itemMeta')
-            #)
-            # assert self.itemMeta is not None, "itemMeta is required in any NewsML-G2 Item"
-
-    def get_itemmeta(self):
-        return self.get_element_value('item_meta')
-
-    def get_rightsinfo(self):
-        return self.get_element_value('rights_info')
+            assert self.itemmeta is not None, "itemMeta is required in any NewsML-G2 Item"

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from .core import BaseObject
+from .core import BaseObject, XML, QCodeURIMixin
 
 
 class CommonPowerAttributes(BaseObject):
@@ -58,7 +58,7 @@ class I18NAttributes(BaseObject):
         # Specifies the language of this property and potentially all
         # descendant properties. xml:lang values of descendant properties
         # override this value. Values are determined by Internet BCP 47.
-        'xml:lang': 'xmlLang',
+        XML+'lang': 'xml_lang',
         # The directionality of textual content
         # (enumeration: ltr, rtl)
         'dir': 'dir'
@@ -91,15 +91,16 @@ class TimeValidityAttributes(BaseObject):
     }
 
 
-class FlexAttributes(BaseObject):
+class FlexAttributes(QCodeURIMixin):
     """
     A group of attributes associated with flexible properties
     """
     attributes = {
-        # A qualified code which identifies a concept.
-        'qcode': 'qcode',  # type="QCodeType"
-        # A URI which identifies a concept.
-        'uri': 'uri',  # type="IRIType"
+        # we now get qcode and uri from QCodeURIMixin
+        # # A qualified code which identifies a concept.
+        # 'qcode': 'qcode',  # type="QCodeType"
+        # # A URI which identifies a concept.
+        # 'uri': 'uri',  # type="IRIType"
         # A free-text value assigned as property value.
         'literal': 'literal',  # type="g2normalizedString"
         # The type of the concept assigned as controlled property value - expressed by a QCode
@@ -109,7 +110,7 @@ class FlexAttributes(BaseObject):
     }
 
 
-class RankingAttributes():
+class RankingAttributes(BaseObject):
     """
     A group of attributes for ranking properties of the same name
     """
@@ -167,6 +168,58 @@ class QualifyingAttributes(BaseObject):
         'role': 'role',  # type="QCodeType" use="optional">
         # A refinement of the semantics of the property - expressed by a URI</xs:documentation>
         'roleuri': 'roleuri',  # type="IRIType" use="optional">
+    }
+
+
+class NewsContentAttributes(BaseObject):
+    """
+    A group of typical attributes associated with a content rendition
+    """
+    attributes = {
+        # The local identifier of the element which MUST be persistent for all
+        # versions of the item, i.e. for its entire lifecycle.
+        'id': 'id', # type="xs:ID"
+        # If the attribute is empty, specifies which entity (person,
+        # organisation or system) will edit the property - expressed by a QCode.
+        # If the attribute is non-empty, specifies which entity (person,
+        # organisation or system) has edited the property.
+        'creator': 'creator', # type="QCodeType"
+        # If the attribute is empty, specifies which entity (person,
+        # organisation or system) will edit the property - expressed by a URI.
+        # If the attribute is non-empty, specifies which entity (person,
+        # organisation or system) has edited the property.
+        'creatoruri': 'creatoruri', # type="IRIType"
+        # The date (and, optionally, the time) when the property was last
+        # modified. The initial value is the date (and, optionally, the time) of
+        # creation of the property.
+        'modified': 'modified', # type="DateOptTimeType"
+        # If set to true the corresponding property was added to the G2 Item for
+        # a specific customer or group of customers only. The default value of
+        # this property is false which applies when this attribute is not used
+        # with the property.
+        'custom': 'custom', # type="xs:boolean"
+        # Indicates by which means the value was extracted from the content -
+        # expressed by a QCode
+        'how': 'how', # type="QCodeType"
+        # Indicates by which means the value was extracted from the content -
+        # expressed by a URI
+        'howuri': 'howuri', # type="IRIType"
+        # Why the metadata has been included - expressed by a QCode
+        'why': 'why', # type="QCodeType"
+        # Why the metadata has been included - expressed by a URI
+        'whyuri': 'whyuri', # type="IRIType"
+        # The specific rendition of content this component represents -
+        # expressed by a QCode
+        'rendition': 'rendition', # type="QCodeType"
+        # The specific rendition of content this component represents -
+        # expressed by a URI
+        'renditionuri': 'renditionuri', # type="IRIType"
+        # The name and version of the software tool used to generate the content
+        'generator': 'generator', # type="xs:string"
+        # The date (and, optionally, the time) when the content was generated
+        'generated': 'generated', # type="DateOptTimeType"
+        # Indicates if the digital data of this rendition is available or not.
+        'hascontent': 'hascontent' # type="xs:boolean"
     }
 
 

@@ -114,7 +114,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert itemmeta.get_provider() == 'nprov:IPTC'
         assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
-        assert newsitem.contentset.inlinexml[0].contenttype == 'application/nitf+xml'
+        assert newsitem.contentset.inlinexml.contenttype == 'application/nitf+xml'
 
     def test_example_1_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')
@@ -128,11 +128,11 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.xml_lang == 'en-GB'
         assert newsitem.get_attr('version') == '11'
 
-        rightsinfo = newsitem.rightsinfo[0]
+        rightsinfo = newsitem.rightsinfo
         assert rightsinfo.copyrightholder.uri == 'http://www.example.com/about.html#copyright' 
-        assert str(rightsinfo.copyrightholder.name[0]) == 'Example Enews LLP'
-        assert str(rightsinfo.copyrightnotice[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
-        assert str(rightsinfo.copyrightnotice[0]) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.copyrightholder.name) == 'Example Enews LLP'
+        assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
+        assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
         assert str(rightsinfo.usageterms) == 'Not for use outside the United States'
 
         itemmeta = newsitem.itemmeta
@@ -150,47 +150,46 @@ class TestNewsMLG2Files(unittest.TestCase):
         # alias 'svc' is not in our catalog, so this raises an exception
         with self.assertRaises(NewsMLG2.AliasNotFoundInCatalogs):
             assert itemmeta.get_service_uri() == ''
-        assert str(itemmeta.service[0].name[0]) == 'UK News Service'
-        #assert itemmeta.ednote == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
-        #assert itemmeta.get_signal() == 'sig:update'
-        #assert itemmeta.get_signal_uri() == 'http://cv.iptc.org/newscodes/sig/update'
-        #assert itemmeta.links[0].get_rel() == 'irel:seeAlso'
-        #assert itemmeta.links[0].get_rel_uri() == 'http://cv.iptc.org/newscodes/irel/seeAlso'
-        #assert itemmeta.links[0].href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
+        assert str(itemmeta.service.name) == 'UK News Service'
+        assert str(itemmeta.ednote) == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
+        assert itemmeta.get_signal() == 'sig:update'
+        assert itemmeta.get_signal_uri() == 'http://cv.iptc.org/newscodes/signal/update'
+        assert itemmeta.link.get_rel() == 'irel:seeAlso'
+        assert itemmeta.link.get_rel_uri() == 'http://cv.iptc.org/newscodes/itemrelation/seeAlso'
+        assert itemmeta.link.href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
 
-    """
-    TODO...
-    <contentMeta>
-        <contentCreated>2016-10-18T11:12:00-05:00</contentCreated>
-        <contentModified>2018-10-21T16:22:45-05:00</contentModified>
-        <located type="cptype:city" qcode="geo:345678">
-            <name>Berlin</name>
-            <broader type="cptype:statprov" qcode="prov:2365">
-                <name>Berlin</name>
-            </broader>
-            <broader type="cptype:country" qcode="iso3166-1a2:DE">
-                <name>Germany</name>
-            </broader>
-        </located>
-        <creator uri="http://www.example.com/staff/mjameson" >
-            <name>Meredith Jameson</name>
-        </creator>
-        <infoSource uri="http://www.example.com" />
-        <subject type="cpnat:abstract" qcode="medtop:04000000">
-            <name xml:lang="en-GB">economy, business and finance</name>
-        </subject>
-        <subject type="cpnat:abstract" qcode="medtop:20000523">
-            <name xml:lang="en-GB">labour market</name>
-            <name xml:lang="de">Arbeitsmarkt</name>
-            <broader qcode="medtop:04000000" />
-        </subject>
-        <genre qcode="genre:interview">
-            <name xml:lang="en-GB">Interview</name>
-        </genre>
-        <slugline>US-Finance-Fed</slugline>
-        <headline> Fed to halt QE to avert "bubble"</headline>
-    </contentMeta>
-    """
+        contentmeta = newsitem.contentmeta
+        assert str(contentmeta.contentcreated) == '2016-10-18T11:12:00-05:00'
+        assert str(contentmeta.contentmodified) == '2018-10-21T16:22:45-05:00'
+        assert contentmeta.located.type == 'cptype:city'
+        assert contentmeta.located.qcode == 'geo:345678'
+        assert str(contentmeta.located.name) == 'Berlin'
+        assert contentmeta.located.broader[0].type == 'cptype:statprov'
+        assert contentmeta.located.broader[0].qcode == 'prov:2365'
+        assert str(contentmeta.located.broader[0].name) == 'Berlin'
+        assert contentmeta.located.broader[1].type == 'cptype:country'
+        assert contentmeta.located.broader[1].qcode == 'iso3166-1a2:DE'
+        assert str(contentmeta.located.broader[1].name) == 'Germany'
+        assert contentmeta.creator.uri == 'http://www.example.com/staff/mjameson'
+        assert str(contentmeta.creator.name) == 'Meredith Jameson'
+        assert contentmeta.infosource.uri == 'http://www.example.com'
+        assert contentmeta.subject[0].type == 'cpnat:abstract'
+        assert contentmeta.subject[0].qcode == 'medtop:04000000'
+        assert str(contentmeta.subject[0].name) == 'economy, business and finance'
+        assert contentmeta.subject[0].name.xml_lang == 'en-GB'
+        assert contentmeta.subject[1].type == 'cpnat:abstract'
+        assert contentmeta.subject[1].qcode == 'medtop:20000523'
+        assert str(contentmeta.subject[1].name[0]) == 'labour market'
+        assert contentmeta.subject[1].name[0].xml_lang == 'en-GB'
+        assert str(contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
+        assert contentmeta.subject[1].name[1].xml_lang == 'de'
+        assert contentmeta.subject[1].broader.qcode == 'medtop:04000000'
+        assert contentmeta.genre.qcode == 'genre:interview'
+        assert str(contentmeta.genre.name) == 'Interview'
+        assert contentmeta.genre.name.xml_lang == 'en-GB'
+        assert str(contentmeta.slugline) == 'US-Finance-Fed'
+        assert str(contentmeta.headline) == 'Fed to halt QE to avert "bubble"'
+
 
 if __name__ == '__main__':
     unittest.main()

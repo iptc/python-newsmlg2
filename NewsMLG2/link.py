@@ -7,6 +7,7 @@ to avoid import loops.
 """
 
 from .core import BaseObject, GenericArray
+from .catalogstore import CATALOG_STORE
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes,
     TimeValidityAttributes
@@ -88,13 +89,43 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         'rank': 'rank',  # type="xs:nonNegativeInteger" use="optional">
     }
 
+    def get_rel(self):
+        """
+        Return the value of this property as a qcode
+        TODO - make this generic in BaseObject
+        """
+        qcode = self.get_attr('rel')
+        if qcode is not None:
+            return qcode
+        # convert URI to qcode:
+        uri = self.get_attr('reluri')
+        urimainpart, code = uri.rsplit('/', 1)
+        # get catalog
+        scheme = CATALOG_STORE.get_scheme_for_uri(urimainpart)
+        # look up catalog for URI, get prefix
+        alias = scheme.alias
+        return alias + ':' + code
+
+    def get_rel_uri(self):
+        """
+        Return the value of this property as a URI
+        """
+        uri = self.get_attr('reluri')
+        if uri:
+            return uri
+        # convert qcode to URI:
+        qcode = self.get_attr('rel')
+        alias, code = qcode.split(':')
+        # get catalog
+        scheme = CATALOG_STORE.get_scheme_for_alias(alias)
+        # look up catalog for alias, get URI
+        uri = scheme.uri
+        return uri + code
 
 class LinkElement(Link1Type):
     """
     A link from the current Item to a target Item or Web resource
     """
-    # TODO
-    pass
 
 
 class Link(GenericArray):

@@ -23,15 +23,8 @@ class FlexPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
         'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo }
     }
 
-    # TODO move this to a generic method in BaseObject
-    def as_dict(self, **kwargs):
-        super().as_dict()
-        if self.names:
-            self.dict.update({'names': self.names.as_dict()})
-        return self.dict
 
-
-class RelatedConceptType(BaseObject):
+class RelatedConceptType(FlexPropType):
     """
     The type for an identifier of a related concept
     """
@@ -63,10 +56,17 @@ class MainConcept(RelatedConceptType):
     """
 
 
-class FacetConcept(RelatedConceptType):
+class FacetConceptElement(RelatedConceptType):
     """
     The concept which is faceting another concept asserted by mainConcept
     """
+
+
+class FacetConcept(RelatedConceptType):
+    """
+    An array of FacetConceptElement objects.
+    """
+    element_class = FacetConceptElement
 
 
 class SameAsType(FlexPropType, TimeValidityAttributes):
@@ -76,22 +76,43 @@ class SameAsType(FlexPropType, TimeValidityAttributes):
     pass
 
 
-class SameAs(SameAsType):
+class SameAsElement(SameAsType):
     """
     An identifier of a concept with equivalent semantics
     """
 
 
-class Broader(RelatedConceptType):
+class SameAs(GenericArray):
+    """
+    An array of SameAsElement objects.
+    """
+    element_class = SameAsElement
+
+
+class BroaderElement(RelatedConceptType):
     """
     An identifier of a more generic concept.
     """
 
 
-class Narrower(RelatedConceptType):
+class Broader(GenericArray):
+    """
+    An array of BroaderElement objects.
+    """
+    element_class = BroaderElement
+
+
+class NarrowerElement(RelatedConceptType):
     """
     An identifier of a more specific concept.
     """
+
+
+class Narrower(GenericArray):
+    """
+    An array of NarrowerElement objects.
+    """
+    element_class = NarrowerElement
 
 
 class Bag(QCodePropType, QuantifyAttributes):
@@ -141,11 +162,18 @@ class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
     }
 
 
-class Related(FlexRelatedConceptType):
+class RelatedElement(FlexRelatedConceptType):
     """
     A related concept, where the relationship is different from 'sameAs',
     'broader' or 'narrower'.
     """
+
+
+class Related(GenericArray):
+    """
+    An array of RelatedElement objects.
+    """
+    element_class = RelatedElement
 
 
 class QualRelPropType(QCodePropType, I18NAttributes):

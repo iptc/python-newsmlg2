@@ -6,16 +6,17 @@ AnyItemType definitions
 
 from lxml import etree
 
-from .core import XML, NEWSMLG2, BaseObject, GenericArray
+from .core import GenericArray, QCodeURIMixin
 from .attributegroups import (
-    CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
+    CommonPowerAttributes, I18NAttributes
 )
 from .catalog import CatalogMixin
-from .complextypes import DateTimeOrNullPropType, DateTimePropType
-from .rights import RightsBlockType, RightsInfo
-from .propertytypes import QualPropType
+from .complextypes import Name, TruncatedDateTimePropType
 from .conceptgroups import FlexPartyPropType, Flex2ExtPropType
-from .conceptrelationships import QualRelPropType
+from .conceptrelationships import QualRelPropType, Related
+from .itemmanagement import ItemManagementGroup
+from .link import Link
+from .rights import RightsInfo
 
 DEBUG = True
 
@@ -25,45 +26,52 @@ class Party(FlexPartyPropType):
     A party involved this hop of  the Hop History
     """
 
+class ActionElement(QualRelPropType):
+    """
+    An action which is executed at this hop in the hop history.
+    """
+    attributes = {
+        # The target of the action in a content object - expressed by a QCode.
+        # If the target attribute is omitted the target of the action is the
+        # whole object.
+        'target': 'target',  # type="QCodeType">
+        # The target of the action in a content object - expressed by a URI.
+        # If the target attribute is omitted the target of the action is the
+        # whole object.
+        'targeturi': 'targeturi',  # type="IRIType">
+        # The date and optionally the time (with a time zone) when this action
+        # was performed on the target.
+        'timestamp': 'timestamp',  # type="DateOptTimeType">
+    }
+
+
+class Action(GenericArray):
+    """
+    An array of ActionElement objects.
+    """
+    element_class = ActionElement
+
+
 class Hop(CommonPowerAttributes):
     """
     A single hop of the Hop History. The details of the hop entry should
     reflect the actions taken by a party.
     """
     elements = {
-        'party': { 'type': 'array', 'xml_name': 'party', 'element_class': Party }
-        # TODO more: see XML below...
+        'party': {
+            'type': 'array', 'xml_name': 'party', 'element_class': Party
+        },
+        'action': {
+            'type': 'array',
+            'xml_name': 'action',
+            'element_class': Action
+        }
     }
-    """
-<xs:element name="action" minOccurs="0" maxOccurs="unbounded">
-<xs:annotation>
-   <xs:documentation>An action which is executed at this hop in the hop history.</xs:documentation>
-</xs:annotation>
-<xs:complexType>
-   <xs:complexContent>
-      <xs:extension base="QualRelPropType">
-         <xs:attribute name="target" type="QCodeType">
-            <xs:annotation>
-               <xs:documentation>The target of the action in a content object - expressed by a QCode. If the target attribute is omitted the target of the action is the whole object.</xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="targeturi" type="IRIType">
-            <xs:annotation>
-               <xs:documentation>The target of the action in a content object - expressed by a URI. If the target attribute is omitted the target of the action is the whole object.</xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-         <xs:attribute name="timestamp" type="DateOptTimeType">
-            <xs:annotation>
-               <xs:documentation>The date and optionally the time (with a time zone) when this action was performed on the target.</xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-      </xs:extension>
-   </xs:complexContent>
-</xs:complexType>
-    """
     attributes = {
-        # The sequential value of this Hop in a sequence of Hops of a Hop History.
-        # Values need not to be consecutive. The sequence starts with the lowest value.
+        # The sequential value of this Hop in a sequence of Hops of a Hop
+        # History.
+        # Values need not to be consecutive. The sequence starts with the lowest
+        # value.
         'seq': 'seq', # type="xs:nonNegativeInteger">
         # The date and optionally the time (with a time zone) when this item's
         # content object was forwarded.
@@ -73,160 +81,96 @@ class Hop(CommonPowerAttributes):
 
 class HopHistory(CommonPowerAttributes, GenericArray):
     """
-    A history of the creation and modifications of the content object of this item, expressed as a sequence of hops.
+    A history of the creation and modifications of the content object of this
+    item, expressed as a sequence of hops.
     """
     element_class = Hop
 
 
-class Published(BaseObject):
-    pass
+class Timestamp(TruncatedDateTimePropType):
+    """
+    Time stamp representing an optionally truncated date and time
+    """
+
+
+class PublishedExtProperty(Flex2ExtPropType):
+    """
+    Extension Property; the semantics are defined by the concept referenced by
+    the rel attribute. The semantics of the Extension Property must have the
+    same scope as the parent property.
+    """
+
+
+class Published(CommonPowerAttributes, QCodeURIMixin):
+    """
+    A step in the "pubHistory".
+    """
+    elements = {
+        'timestamp': {
+            'type': 'single',
+            'xml_name': 'timestamp',
+            'element_class': Timestamp
+        },
+        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
+        'related': {
+            'type': 'array', 'xml_name': 'related', 'element_class': Related
+        },
+        'publishedExtProperty': {
+            'type': 'array',
+            'xml_name': 'publishedExtProperty',
+            'element_class': PublishedExtProperty
+        },
+    }
+    attributes = {
+        # A free-text value assigned as property value.
+        'literal': 'literal'  # type="g2normalizedString">
+    }
 
 
 class PubHistory(GenericArray):
+    """
+    One to many datasets about publishing this item.
+    """
     element_class = Published
 
 
-
-class ItemClass(QualRelPropType):
-    """
-    The nature of the item, set in accordance with the structure of its content.
-    """
-
-
-class Provider(FlexPartyPropType):
-    """
-    The party (person or organisation) responsible for the management of the Item.
-    """
-
-
-class VersionCreated(DateTimePropType):
-    """
-    The date and time on which the current version of the Item was created.
-    """
-
-
-class FirstCreated(DateTimePropType):
-    """
-    The date and time on which the first version of the Item was created.
-    """
-
-
-class Embargoed(DateTimeOrNullPropType):
-    """
-    The date and time on which the first version of the Item was created.
-    """
-
-
-class PubStatus(QualPropType):
-    """
-    The publishing status of the Item, its value is "usable" by default.
-    """
-
-class Role(QualPropType):
-    """
-    The role of the Item in the editorial workflow.
-    """
-
-class ServiceElement(QualPropType):
-    """
-    An editorial service to which an item is assigned by its provider.
-    """
-
-class Service(GenericArray):
-    element_class = ServiceElement
-
-
-class ItemMeta(BaseObject):
-    """
-    A set of properties directly associated with the Item
-    """
-
-    elements = {
-        'itemclass': { 'type': 'single', 'xml_name': 'itemClass', 'element_class': ItemClass },
-        'provider': { 'type': 'single', 'xml_name': 'provider', 'element_class': Provider },
-        'versioncreated': { 'type': 'single', 'xml_name': 'versionCreated', 'element_class': VersionCreated },
-        'firstcreated': { 'type': 'single', 'xml_name': 'firstCreated', 'element_class': FirstCreated },
-        'embargoed': { 'type': 'single', 'xml_name': 'embargoed', 'element_class': Embargoed },
-        'pubstatus': { 'type': 'single', 'xml_name': 'pubStatus', 'element_class': PubStatus },
-        'service': { 'type': 'array', 'xml_name': 'service', 'element_class': Service }
-    }
-    def __init__(self,  **kwargs):
-        super(ItemMeta, self).__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            # assert self.itemclass is not None, "itemClass is required in any NewsML-G2 Item"
-            # assert self.provider is not None, "provider is required in any NewsML-G2 Item"
-            # assert self.versioncreated is not None, "versionCreated is required in any NewsML-G2 Item"
-            pass
-
-    def get_itemclass(self):
-        return self.get_element_value('itemclass').get_qcode()
-
-    def get_itemclass_uri(self):
-        return self.get_element_value('itemclass').get_uri()
-
-    def get_provider(self):
-        return self.get_element_value('provider').get_qcode()
-
-    def get_provider_uri(self):
-        return self.get_element_value('provider').get_uri()
-
-    def get_versioncreated(self):
-        return str(self.get_element_value('versioncreated'))
-
-    def get_firstcreated(self):
-        return str(self.get_element_value('firstcreated'))
-
-    def get_embargoed(self):
-        return str(self.get_element_value('embargoed'))
-
-    def get_pubstatus(self):
-        return self.get_element_value('pubstatus').get_qcode()
-
-    def get_pubstatus_uri(self):
-        return self.get_element_value('pubstatus').get_uri()
-
-    def get_services(self):
-        return self.get_element_value('service')
-
-    def get_service(self):
-        return self.get_element_value('service')[0].get_qcode()
-
-    def get_service_uri(self):
-        return self.get_element_value('service')[0].get_uri()
-
-    """
-         <xs:element ref="role" minOccurs="0"/>
-         <xs:element ref="fileName" minOccurs="0"/>
-         <xs:element ref="generator" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="profile" minOccurs="0"/>
-         <xs:element ref="service" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="title" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation>
-               <xs:documentation>A short natural language name for the Item.</xs:documentation>
-            </xs:annotation>
-         </xs:element>
-         <xs:element ref="edNote" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="memberOf" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="instanceOf" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="signal" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="altRep" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="deliverableOf" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="hash" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="expires" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="origRep" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="incomingFeedId" minOccurs="0" maxOccurs="unbounded"/>
-         <xs:element ref="metadataCreator" minOccurs="0"/>
-    """
-
-
-class ItemMetaExtProperty(Flex2ExtPropType):
+class ItemMetaExtPropertyElement(Flex2ExtPropType):
     """
     Extension Property: the semantics are defined by the concept referenced by
     the rel attribute.
     The semantics of the Extension Property must have the same scope as the
     parent property.
     """
+
+
+class ItemMetaExtProperty(GenericArray):
+    """
+    An array of ItemMetaExtPropertyElement objects.
+    """
+    element_class = ItemMetaExtPropertyElement
+
+
+class ItemMetadataType(ItemManagementGroup, CommonPowerAttributes,
+    I18NAttributes):
+    """
+    The type for a set of properties directly associated with the item
+    (Type defined in this XML Schema only)
+    """
+    elements = {
+        'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
+        'itemmetaextproperty': {
+            'type': 'array',
+            'xml_name': 'itemMetaExtProperty',
+            'element_class': ItemMetaExtProperty
+        }
+    }
+
+
+class ItemMeta(ItemMetadataType):
+    """
+    A set of properties directly associated with the Item
+    """
+
 
 class AnyItem(CatalogMixin, I18NAttributes):
     """
@@ -243,25 +187,18 @@ class AnyItem(CatalogMixin, I18NAttributes):
         # The persistent, universally unique identifier common for all versions of the Item.
         'guid': 'guid', # TODO enforce requiredness
         # The version of the Item.
-        'version': 'version', # TODO type positive integer, default "1"
-        # TODO: should be in a separate class "i18nattributes"
-        # Specifies the language of this property and potentially all descendant
-        # properties. xml:lang values of descendant properties override this
-        # value. Values are determined by Internet BCP 47.
-        XML+'lang': 'xml_lang',
-        # The directionality of textual content (enumeration: ltr, rtl)
-        'dir': 'dir'
+        'version': 'version'  # TODO type positive integer, default "1"
     }
 
     elements = {
         'hophistory': { 'type': 'array', 'xml_name': 'hopHistory', 'element_class': HopHistory },
-        # TODO 'pubhistory': { 'type': 'array', 'xml_name': 'pubHistory', 'element_class': PubHistory },
+        'pubhistory': { 'type': 'array', 'xml_name': 'pubHistory', 'element_class': PubHistory },
         'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },
         'itemmeta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta }
     }
 
     def __init__(self,  **kwargs):
-        super(AnyItem, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
             self.build_catalog(xmlelement)

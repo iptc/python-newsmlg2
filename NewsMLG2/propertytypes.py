@@ -30,16 +30,6 @@ class QualPropType(QCodePropType, I18NAttributes):
         'hierarchyinfo': { 'type': 'array', 'xml_name': 'hierarchyInfo', 'element_class': HierarchyInfo }
     }
 
-    def get_name(self):
-        return self.get_element_value('name')
-
-    # TODO move this to a generic method in BaseObject
-    def as_dict(self, **kwargs):
-        super().as_dict()
-        if self.names:
-            self.dict.update({'names': self.names.as_dict()})
-        return self.dict
-
 
 class TypedQualPropType(QualPropType):
     """

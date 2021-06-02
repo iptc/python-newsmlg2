@@ -35,8 +35,7 @@
             <name>UK News Service</name>
         </service>
         <edNote>
-            Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon 
-            on Friday, October 23, 2018.
+            Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.
         </edNote>
         <signal qcode="sig:update" />
         <link rel="irel:seeAlso" 

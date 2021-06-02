@@ -101,7 +101,7 @@ class Catalog(CommonPowerAttributes):
     }
 
     def __init__(self, **kwargs):
-        super(Catalog, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self._catalog = []
         self._catalog_titles = []
         self._catalog_uri_lookup = {}
@@ -244,6 +244,7 @@ class Scheme(CommonPowerAttributes):
             self.definition = xmlelement.findtext(NEWSMLG2+'definition', default='') # TODO: handle xml:lang
     def __str__(self):
         return "{} ({}, {})".format(self.name, self.alias, self.uri)
+
 
 class TitleElement(Label1Type):
     """

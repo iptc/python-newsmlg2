@@ -11,7 +11,6 @@ class DateOptTimeType(BaseObject):
     TODO:
     <xs:union memberTypes="xs:date xs:dateTime"/>
     """
-    pass
 
 
 class TruncatedDateTimeType(BaseObject):
@@ -26,17 +25,11 @@ class TruncatedDateTimeType(BaseObject):
     date_time = None
 
     def __init__(self, **kwargs):
-        super(TruncatedDateTimeType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.element_name = xmlelement.tag
             self.date_time = xmlelement.text.strip()
-
-    def as_dict(self):
-        super(TruncatedDateTimeType, self).as_dict()
-        # TODO maybe: convert tag name/element name into camelCase?
-        self.dict.update({self.element_name: self.date_time})
-        return self.dict
 
 
 class UnionDateTimeType(BaseObject):
@@ -55,14 +48,14 @@ class UnionDateTimeEmptyStringType(BaseObject):
     date_time = None
 
     def __init__(self, **kwargs):
-        super(UnionDateTimeEmptyStringType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.element_name = xmlelement.tag
             self.date_time = xmlelement.text.strip()
 
     def as_dict(self):
-        super(UnionDateTimeEmptyStringType, self).as_dict()
+        super().as_dict()
         self.dict.update({self.element_name: self.date_time})
         return self.dict
 
@@ -77,7 +70,7 @@ class EmptyStringType(BaseObject):
          <xs:length value="0"/>
       </xs:restriction>
     """
-    pass
+
 
 class Int1to9Type(BaseObject):
     """
@@ -88,7 +81,7 @@ class Int1to9Type(BaseObject):
          <xs:maxInclusive value="9"/>
       </xs:restriction>
     """
-    pass
+
 
 class Int100Type(BaseObject):
     """
@@ -99,7 +92,7 @@ class Int100Type(BaseObject):
          <xs:maxInclusive value="100"/>
       </xs:restriction>
     """
-    pass
+
 
 class IRIType(BaseObject):
     """
@@ -107,7 +100,7 @@ class IRIType(BaseObject):
     TODO:
           <xs:restriction base="xs:anyURI"/>
     """
-    pass
+
 
 class IRIListType(BaseObject):
     """
@@ -116,7 +109,7 @@ class IRIListType(BaseObject):
       <xs:list itemType="IRIType"/>
     </xs:simpleType>
     """
-    pass
+
 
 class QCodeType(BaseObject):
     """
@@ -130,14 +123,14 @@ class QCodeType(BaseObject):
       </xs:restriction>
    </xs:simpleType>
     """
-    pass
+
 
 class QCodeListType(BaseObject):
     """
     The type of space separated strings of QCodes.
     <xs:list itemType="QCodeType"/>
     """
-    pass
+
 
 class G2NormalizedString(BaseObject):
     """

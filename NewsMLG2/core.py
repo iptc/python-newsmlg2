@@ -18,6 +18,8 @@ XML_NS = 'http://www.w3.org/XML/1998/namespace'
 XML = '{%s}' % XML_NS
 NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
+DEBUG = True
+
 class BaseObject():
     """
     Implements `attributes` and `elements` handlers.
@@ -76,6 +78,8 @@ class BaseObject():
         self.attr_values = {}
         self.element_values = {}
         xmlelement = kwargs.get('xmlelement')
+        if DEBUG:
+            print("Initialising "+str(self.__class__))
         if isinstance(xmlelement, etree._Element):
             attrs = self.get_attributes()
             if attrs:
@@ -86,6 +90,7 @@ class BaseObject():
             if elements:
                 for element_id, element_definition in elements.items():
                     if element_definition['type'] == 'array':
+                        assert hasattr(element_definition['element_class'], 'element_class'), str(element_definition['element_class'])+" has no attribute 'element_class'. Defined in "+str(self.__class__)
                         self.element_values[element_id] = element_definition['element_class'](
                             xmlarray = xmlelement.findall(NEWSMLG2+element_definition['xml_name'])
                         )
@@ -94,7 +99,7 @@ class BaseObject():
                             xmlelement = xmlelement.find(NEWSMLG2+element_definition['xml_name'])
                         )
             if xmlelement.text:
-                self.text = xmlelement.text
+                self.text = xmlelement.text.strip()
                         
     def get_element_value(self, item):
         return self.element_values[item]
@@ -158,6 +163,7 @@ class GenericArray(BaseObject):
         xmlarray = kwargs.get('xmlarray')
         if isinstance(xmlarray, (list, etree._Element)):
             if not self.element_class:
+                assert getattr(self, 'element_class_name'), str(self.__class__)+" has no element 'element_class_name'"
                 self.element_class = getattr(
                     importlib.import_module(self.element_module_name),
                     self.element_class_name
@@ -179,9 +185,11 @@ class GenericArray(BaseObject):
         del self.array_contents[item]
 
     def __str__(self):
-        # Hack / "syntactic sugar": if an array has only one element,
-        # then requesting str() on the array returns the str() of the
-        # first element.
+        """
+        Hack / "syntactic sugar": if an array has only one element,
+        then requesting str() on the array returns the str() of the
+        first element.
+        """
         if len(self.array_contents) == 1:
             return str(self.array_contents[0])
         return (
@@ -202,6 +210,20 @@ class GenericArray(BaseObject):
         """
         return json.dumps(self.as_dict(), indent=4)
 
+    def __getattr__(self, name):
+        """
+        More "syntactic sugar": If a user tries to get a property or call a
+        method on the array, and the array only contains one element, then pass
+        the call on to the first element in the array.
+        """
+        if len(self.array_contents) == 1:
+            return getattr(self.array_contents[0], name)
+        else:
+            raise AttributeError(
+                "'" + self.__class__.__name__ + "'" +
+                " has more than one element, shortcut property accessor failed"
+            )
+ 
 
 class QCodeURIMixin(BaseObject):
     """

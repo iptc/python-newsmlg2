@@ -11,7 +11,7 @@ from .core import NEWSMLG2, BaseObject, GenericArray
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
 )
-from .conceptgroups import FlexPartyPropType
+from .conceptgroups import FlexPartyPropType, FlexPersonPropType, Flex2ExtPropType
 from .labeltypes import BlockType
 from .link import Link
 
@@ -48,24 +48,35 @@ class CopyrightNoticeElement(RightsBlockType):
 class CopyrightNotice(GenericArray):
     element_class = CopyrightNoticeElement
 
-class Accountable(BaseObject):
-    # TODO
-    pass
+
+class Accountable(FlexPersonPropType):
+    """
+    An individual accountable for the content in legal terms.
+    """
+
 
 class UsageTermsElement(RightsBlockType):
     """
     A natural-language statement about the usage terms pertaining to the content.
     """
 
+
 class UsageTerms(GenericArray):
     element_class = UsageTermsElement
 
-class RightsInfoExtProperty(BaseObject):
-    # TODO
-    pass
 
-class RightsInfoExtPropertyArray(GenericArray):
-    element_class = RightsInfoExtProperty
+class RightsInfoExtPropertyElement(Flex2ExtPropType):
+    """
+    Extension Property; the semantics are defined by the concept referenced by the rel attribute. The semantics of the Extension Property must have the same scope as the parent property.
+    """
+
+
+class RightsInfoExtProperty(GenericArray):
+    """
+    Array of RightsInfoExtPropertyElement objects.
+    """
+    element_class = RightsInfoExtPropertyElement
+
 
 class RightsExpressionXMLElement(BaseObject):
     # TODO

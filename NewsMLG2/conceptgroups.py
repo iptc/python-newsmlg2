@@ -245,42 +245,22 @@ class GeoAreaDetails(CommonPowerAttributes):
             </xs:complexType>
         </xs:element>
     </xs:choice>
-    <xs:any namespace="##other" processContents="lax" minOccurs="0"
-        maxOccurs="unbounded">
-        <xs:annotation>
-            <xs:documentation>Extension point for provider-defined properties
-            from other namespaces</xs:documentation>
-        </xs:annotation>
-    </xs:any>
 </xs:sequence>
     """
 
-    def as_dict(self):
-        return self.dict
 
-class LineElement(BaseObject):
+class LineElement(IntlStringType):
     """
-    <xs:element name="line" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:extension base="IntlStringType">
-                    'role': 'role', # type="QCodeType">
-                        <xs:annotation>
-                            <xs:documentation>Refines the semantics of line -
-                            expressed by a QCode</xs:documentation>
-                        </xs:annotation>
-                    </xs:attribute>
-                    'roleuri': 'roleuri', # type="IRIType">
-                        <xs:annotation>
-                            <xs:documentation>Refines the semantics of line -
-                            expressed by a URI</xs:documentation>
-                        </xs:annotation>
-                    </xs:attribute>
-                </xs:extension>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
+    A line of address information, in the format expected by a recipient postal
+    service. City, country area, country and postal code are expressed
+    separately.
     """
+    attributes = {
+        # Refines the semantics of line - expressed by a QCode
+        'role': 'role', # type="QCodeType">
+        # Refines the semantics of line - expressed by a URI
+        'roleuri': 'roleuri', # type="IRIType">
+    }
 
 
 class Line(GenericArray):
@@ -387,10 +367,23 @@ class Locality(GenericArray):
     element_class = LocalityElement
 
 
+class WorldRegion(Flex1PropType):
+    """
+    A concept or name only defining the world region part of an address.
+    """
+
 class Address(CommonPowerAttributes):
     """
     A postal address for the location of a Point Of Interest
     """
+    elements = {
+        'line': { 'type': 'array', 'xml_name': 'line', 'element_class': Line },
+        'worldregion': { 'type': 'single', 'xml_name': 'worldRegion', 'element_class': WorldRegion },
+        'locality': { 'type': 'array', 'xml_name': 'locality', 'element_class': Locality },
+        'area': { 'type': 'array', 'xml_name': 'area', 'element_class': Area },
+        'country': { 'type': 'single', 'xml_name': 'country', 'element_class': Country },
+        'postal_code': { 'type': 'single', 'xml_name': 'postalCode', 'element_class': PostalCode }
+    }
     attributes = {
         # A refinement of the semantics of the postal address - expressed by
         # a QCode
@@ -399,13 +392,6 @@ class Address(CommonPowerAttributes):
         # a URI
         'roleuri': 'roleuri'
     }
-    elements = {
-        'line': { 'type': 'array', 'xml_name': 'line', 'element_class': Line },
-        'locality': { 'type': 'array', 'xml_name': 'locality', 'element_class': Locality },
-        'area': { 'type': 'array', 'xml_name': 'area', 'element_class': Area },
-        'country': { 'type': 'single', 'xml_name': 'country', 'element_class': Country },
-        'postal_code': { 'type': 'single', 'xml_name': 'postal-code', 'element_class': PostalCode }
-    }
 
 
 class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
@@ -413,10 +399,7 @@ class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
     """
     Flexible location (geopolitical area of point-of-interest)
     data type for both controlled and uncontrolled values
-    plus: <xs:anyAttribute namespace="##other" processContents="lax" />
     """
-    geo_area_details = None
-    poi_details = None
 
     elements = {
         'geo_area_details': {
@@ -433,8 +416,6 @@ class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
 
     def __bool__(self):
         return self.geo_area_details is not None or self.poi_details is not None
-
-
 
 
 class FlexGeoAreaPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,

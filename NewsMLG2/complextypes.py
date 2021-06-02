@@ -26,7 +26,7 @@ class DateTimePropType(CommonPowerAttributes):
     """
 
     def __init__(self, **kwargs):
-        super(DateTimePropType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if type(xmlelement) == etree._Element:
             self.datetime = kwargs['xmlelement'].text.strip()

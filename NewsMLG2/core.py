@@ -6,6 +6,7 @@ Core functions for NewsMLG2 library.
 
 import importlib
 import json
+import re
 from lxml import etree
 
 from .catalogstore import CATALOG_STORE
@@ -78,8 +79,6 @@ class BaseObject():
         self.attr_values = {}
         self.element_values = {}
         xmlelement = kwargs.get('xmlelement')
-        if DEBUG:
-            print("Initialising "+str(self.__class__))
         if isinstance(xmlelement, etree._Element):
             attrs = self.get_attributes()
             if attrs:
@@ -99,8 +98,8 @@ class BaseObject():
                             xmlelement = xmlelement.find(NEWSMLG2+element_definition['xml_name'])
                         )
             if xmlelement.text:
-                self.text = xmlelement.text.strip()
-                        
+                self.text = re.sub(r"\s+", " ", xmlelement.text).strip()
+
     def get_element_value(self, item):
         return self.element_values[item]
 

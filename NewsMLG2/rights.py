@@ -25,15 +25,6 @@ class RightsBlockType(BlockType):
         'href': 'href',  # type="IRIType"
     }
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if xmlelement.text:
-            self.text = xmlelement.text.strip()
-
-    def __str__(self):
-        return self.text
-
 
 class CopyrightHolder(FlexPartyPropType):
     """

@@ -190,6 +190,76 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert str(contentmeta.slugline) == 'US-Finance-Fed'
         assert str(contentmeta.headline) == 'Fed to halt QE to avert "bubble"'
 
+        assert newsitem.contentset.inlinexml.contenttype == 'application/nitf+xml'
+
+    def test_example_3_file(self):
+        test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_3_Photo_in_NewsML-G2.xml')
+        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+
+        newsitem = g2doc.newsitem
+        assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
+        assert newsitem.version == '11'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.xml_lang == 'en-US'
+        # catalog tests??
+        # <catalogRef
+        #     href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
+        # <catalogRef href="http://cv.gettyimages.com/nml2catalog4customers-1.xml" />
+        assert newsitem.rightsinfo.copyrightholder.uri == 'http://www.gettyimages.com'
+        assert str(newsitem.rightsinfo.copyrightholder.name) == 'Getty Images North America'
+        assert newsitem.rightsinfo.copyrightnotice.href == 'http://www.gettyimages.com/Corporate/LicenseInfo.aspx'
+        assert str(newsitem.rightsinfo.copyrightnotice) == 'Copyright 2010 Getty Images. -- http://www.gettyimages.com/Corporate/LicenseInfo.aspx'
+        assert str(newsitem.rightsinfo.usageterms) == (
+                'Contact your local office for all commercial or '
+                'promotional uses. Full editorial rights UK, US, Ireland, Canada (not '
+                'Quebec). Restricted editorial rights for daily newspapers elsewhere, '
+                'please call.'
+        )
+        assert str(newsitem.contentmeta.creditline) == 'Getty Images'
+        assert newsitem.contentmeta.subject[0].type == 'cpnat:event'
+        assert newsitem.contentmeta.subject[0].qcode == 'gyimeid:104530187'
+        assert newsitem.contentmeta.subject[1].type == 'cpnat:abstract'
+        assert newsitem.contentmeta.subject[1].qcode == 'medtop:20000523'
+        assert newsitem.contentmeta.subject[1].name[0].xml_lang == 'en-GB'
+        assert str(newsitem.contentmeta.subject[1].name[0]) == 'labour market'
+        assert newsitem.contentmeta.subject[1].name[1].xml_lang == 'de'
+        assert str(newsitem.contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
+        assert newsitem.contentmeta.subject[2].type == 'cpnat:abstract'
+        assert newsitem.contentmeta.subject[2].qcode == 'medtop:20000533'
+        assert newsitem.contentmeta.subject[2].name[0].xml_lang == 'en-GB'
+        assert str(newsitem.contentmeta.subject[2].name[0]) == 'unemployment'
+        assert newsitem.contentmeta.subject[2].name[1].xml_lang == 'de'
+        assert str(newsitem.contentmeta.subject[2].name[1]) == 'Arbeitslosigkeit'
+        assert newsitem.contentmeta.subject[3].type == 'cpnat:geoArea'
+        assert str(newsitem.contentmeta.subject[3].name) == 'Las Vegas Boulevard'
+
+        assert newsitem.contentmeta.subject[4].type == 'cpnat:geoArea'
+        assert newsitem.contentmeta.subject[4].qcode == 'gycon:89109'
+        assert str(newsitem.contentmeta.subject[4].name) == 'Las Vegas'
+        assert newsitem.contentmeta.subject[4].broader[0].qcode == 'iso3166-1a2:US-NV'
+        assert str(newsitem.contentmeta.subject[4].broader[0].name) == 'Nevada'
+        assert newsitem.contentmeta.subject[4].broader[1].qcode == 'iso3166-1a3:USA'
+        assert str(newsitem.contentmeta.subject[4].broader[1].name) == 'United States'
+        [str(keyword) for keyword in newsitem.contentmeta.keyword] == [
+            'business', 'economic', 'economy', 'finance', 'poor', 'poverty', 'gamble'
+        ] 
+        assert str(newsitem.contentmeta.headline) == 'Variety Of Recessionary Forces Leave Las Vegas Economy Scarred'
+        assert newsitem.contentmeta.description.role == 'drol:caption'
+        assert str(newsitem.contentmeta.description) == (
+            'A general view of part of downtown, '
+            'including Las Vegas Boulevard, on October 20, 2010 in Las Vegas, '
+            'Nevada. Nevada once had among the lowest unemployment rates in the '
+            'United States at 3.8 percent but has since fallen on difficult times. '
+            'Las Vegas, the gaming capital of America, has been especially hard '
+            'hit with unemployment currently at 14.7 percent and the highest '
+            'foreclosure rate in the nation. Among the sparkling hotels and '
+            'casinos downtown are dozens of dormant construction projects and '
+            'hotels offering rock bottom rates. As the rest of the country slowly '
+            'begins to see some economic progress, Las Vegas is still in the midst '
+            'of the economic downturn. (Photo by Spencer Platt/Getty Images)'
+        )
 
 if __name__ == '__main__':
     unittest.main()

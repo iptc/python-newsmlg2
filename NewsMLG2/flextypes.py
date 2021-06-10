@@ -4,7 +4,7 @@
 Handle flex types. Should we merge this with something else?
 """
 
-from .conceptgroups import (
+from .concepts import (
     Flex1PropType
 )
 from .attributegroups import (

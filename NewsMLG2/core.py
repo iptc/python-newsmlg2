@@ -10,6 +10,7 @@ import re
 from lxml import etree
 
 from .catalogstore import CATALOG_STORE
+from .utils import import_string
 
 NEWSMLG2_NS = 'http://iptc.org/std/nar/2006-10-01/'
 NEWSMLG2 = '{%s}' % NEWSMLG2_NS
@@ -19,7 +20,6 @@ XML_NS = 'http://www.w3.org/XML/1998/namespace'
 XML = '{%s}' % XML_NS
 NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
-DEBUG = True
 
 class BaseObject():
     """
@@ -79,40 +79,58 @@ class BaseObject():
         self.attr_values = {}
         self.element_values = {}
         xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            attrs = self.get_attributes()
-            if attrs:
-                for xml_attribute, attribute_id in attrs.items():
-                    self.attr_values[attribute_id] = xmlelement.get(xml_attribute)
+        if xmlelement is None:
+            return
+        if not isinstance(xmlelement, etree._Element):
+            raise Exception("xmlelement should be an instance of _Element")
+        attrs = self.get_attributes()
+        for xml_attribute, attribute_id in attrs.items():
+            self.attr_values[attribute_id] = xmlelement.get(xml_attribute)
 
-            elements = self.get_elements()
-            if elements:
-                for element_id, element_definition in elements.items():
-                    if element_definition['type'] == 'array':
-                        assert hasattr(element_definition['element_class'], 'element_class'), str(element_definition['element_class'])+" has no attribute 'element_class'. Defined in "+str(self.__class__)
-                        self.element_values[element_id] = element_definition['element_class'](
-                            xmlarray = xmlelement.findall(NEWSMLG2+element_definition['xml_name'])
-                        )
-                    else:
-                        self.element_values[element_id] = element_definition['element_class'](
-                            xmlelement = xmlelement.find(NEWSMLG2+element_definition['xml_name'])
-                        )
-            if xmlelement.text:
-                self.text = re.sub(r"\s+", " ", xmlelement.text).strip()
+        elements = self.get_elements()
+        for element_id, element_definition in elements.items():
+            element_class = element_definition['element_class']
+            if isinstance(element_class, str):
+                # This will raise an exception if the class doesn't exist
+                element_class = import_string(element_class)
+            if element_definition['type'] == 'array':
+                assert hasattr(element_class, 'element_class'), (
+                    str(element_class) +
+                    " has no property 'element_class'. Defined in " +
+                    str(self.__class__)
+                )
+                self.element_values[element_id] = element_class(
+                    xmlarray = xmlelement.findall(
+                                    NEWSMLG2+element_definition['xml_name']
+                               )
+                )
+            else:
+                self.element_values[element_id] = element_class(
+                    xmlelement = xmlelement.find(
+                                    NEWSMLG2+element_definition['xml_name']
+                                 )
+                )
+        if xmlelement.text:
+            self.text = re.sub(r"\s+", " ", xmlelement.text).strip()
 
     def get_element_value(self, item):
+        """
+        Return value of the element as read from the XML.
+        """
         return self.element_values[item]
 
     def __getattr__(self, name):
         """
-        Default getter for all methods where we don't have a defined 
+        Default getter for all methods where we don't have a defined method
         """
         if name in self.element_values:
             return self.element_values[name]
-        elif name in self.attr_values:
+        if name in self.attr_values:
             return self.attr_values[name]
-        else:
-            raise AttributeError("'" + self.__class__.__name__ + "' has no element or attribute '" + name + "'")
+        raise AttributeError(
+            "'" + self.__class__.__name__ +
+            "' has no element or attribute '" + name + "'"
+              )
 
     def as_dict(self):
         """
@@ -162,7 +180,9 @@ class GenericArray(BaseObject):
         xmlarray = kwargs.get('xmlarray')
         if isinstance(xmlarray, (list, etree._Element)):
             if not self.element_class:
-                assert getattr(self, 'element_class_name'), str(self.__class__)+" has no element 'element_class_name'"
+                assert getattr(self, 'element_class_name'), (
+                    str(self.__class__)+" has no element 'element_class_name'"
+                )
                 self.element_class = getattr(
                     importlib.import_module(self.element_module_name),
                     self.element_class_name
@@ -217,12 +237,11 @@ class GenericArray(BaseObject):
         """
         if len(self.array_contents) == 1:
             return getattr(self.array_contents[0], name)
-        else:
-            raise AttributeError(
-                "'" + self.__class__.__name__ + "'" +
-                " has more than one element, shortcut property accessor failed"
-            )
- 
+        raise AttributeError(
+            "'" + self.__class__.__name__ + "'" +
+            " has more than one element, shortcut property accessor failed"
+        )
+
 
 class QCodeURIMixin(BaseObject):
     """
@@ -252,7 +271,7 @@ class QCodeURIMixin(BaseObject):
         scheme = CATALOG_STORE.get_scheme_for_uri(urimainpart)
         # look up catalog for URI, get prefix
         alias = scheme.alias
-        return alias + ':' + code 
+        return alias + ':' + code
 
     def get_uri(self):
         """

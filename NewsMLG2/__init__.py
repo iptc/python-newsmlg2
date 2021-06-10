@@ -5,9 +5,11 @@ Implementation of the NewsML-G2 standard for representing news and media
 content.
 """
 
-VERSION = 0.1
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document
+
+VERSION = 0.1
+DEBUG = True
 
 __version__ = VERSION
 __all__ = (

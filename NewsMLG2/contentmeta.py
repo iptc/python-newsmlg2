@@ -9,11 +9,12 @@ from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, MediaContentCharacteristics1,
     RankingAttributes
 )
-from .conceptgroups import (
+from .concepts import (
     FlexAuthorPropType, FlexLocationPropType, Flex1ConceptPropType,
-    Flex1PartyPropType, Flex2ExtPropType
+    Flex1PartyPropType
 )
 from .complextypes import IntlStringType, TruncatedDateTimePropType
+from .extensionproperties import Flex2ExtPropType
 from .flextypes import AudienceType
 from .ids import AltId
 from .labeltypes import BlockType, Label1Type

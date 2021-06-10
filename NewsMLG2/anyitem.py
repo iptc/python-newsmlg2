@@ -10,21 +10,14 @@ from .core import GenericArray, QCodeURIMixin
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes
 )
-from .catalog import CatalogMixin
+from .catalog import build_catalog, get_catalogs
 from .complextypes import Name, TruncatedDateTimePropType
-from .conceptgroups import FlexPartyPropType, Flex2ExtPropType
+from .extensionproperties import Flex2ExtPropType
 from .conceptrelationships import QualRelPropType, Related
 from .itemmanagement import ItemManagementGroup
 from .link import Link
 from .rights import RightsInfo
 
-DEBUG = True
-
-
-class Party(FlexPartyPropType):
-    """
-    A party involved this hop of  the Hop History
-    """
 
 class ActionElement(QualRelPropType):
     """
@@ -59,7 +52,7 @@ class Hop(CommonPowerAttributes):
     """
     elements = {
         'party': {
-            'type': 'array', 'xml_name': 'party', 'element_class': Party
+            'type': 'array', 'xml_name': 'party', 'element_class': 'concepts.Party'
         },
         'action': {
             'type': 'array',
@@ -79,7 +72,7 @@ class Hop(CommonPowerAttributes):
     }
 
 
-class HopHistory(CommonPowerAttributes, GenericArray):
+class HopHistory(GenericArray):
     """
     A history of the creation and modifications of the content object of this
     item, expressed as a sequence of hops.
@@ -172,7 +165,7 @@ class ItemMeta(ItemMetadataType):
     """
 
 
-class AnyItem(CatalogMixin, I18NAttributes):
+class AnyItem(I18NAttributes):
     """
     An abstract class. All G2 items are inherited from this class.
     """
@@ -201,5 +194,11 @@ class AnyItem(CatalogMixin, I18NAttributes):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.build_catalog(xmlelement)
+            build_catalog(xmlelement)
             assert self.itemmeta is not None, "itemMeta is required in any NewsML-G2 Item"
+
+    def get_catalogs(self):
+        """
+        Wrapper for global get_catalogs() function.
+        """
+        return get_catalogs()

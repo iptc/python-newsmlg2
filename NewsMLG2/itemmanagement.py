@@ -13,15 +13,13 @@ from .complextypes import (
     DateOptTimePropType, DateTimeOrNullPropType, DateTimePropType,
     VersionedStringType
 )
-from .conceptgroups import (
-    Flex1PropType, FlexAuthorPropType, FlexPartyPropType
+from .concepts import (
+    Flex1PropType, FlexAuthorPropType, FlexPartyPropType, QualPropType
 )
-from .conceptrelationships import QualRelPropType
+from .conceptrelationships import QualRelPropType, QCodePropType
+from .ids import Hash
 from .labeltypes import BlockType
 from .link import Link1Type
-from .propertytypes import (
-    QCodePropType, QualPropType
-)
 from .simpletypes import G2NormalizedString, IRIType
 
 class ItemClass(QualRelPropType):
@@ -222,39 +220,6 @@ class DeliverableOf(GenericArray):
     An array of DeliverableOf objects.
     """
     element_class = DeliverableOfElement
-
-
-class HashElement(CommonPowerAttributes):
-    """
-    Hash value of parts of an item as defined by the hashscope attribute
-    """
-    attributes = {
-        # The hash algorithm used for creating the hash value - expressed by
-        # a QCode
-        # either the hashtype or the hashtypeuri attribute MUST be used
-        'hashtype': 'hashtype', # type="QCodeType"
-        # The hash algorithm used for creating the hash value - expressed by
-        # a URI
-        # either the hashtype or the hashtypeuri attribute MUST be used
-        'hashtypeuri': 'hashtypeuri', # type="IRIType"
-        # The scope of a G2 item's content which is the reference for creating
-        # the hash value - expressed by a QCode.
-        # If the attribute is omitted
-        # http://cv.iptc.org/newscodes/hashscope/content is the default value.
-        'scope': 'scope', #  type="QCodeType"
-        # The scope of a G2 item's content which is the reference for creating
-        # the hash value - expressed by a URI.
-        # If the attribute is omitted
-        # http://cv.iptc.org/newscodes/hashscope/content is the default value.
-        'scopeuri': 'scopeuri' # type="IRIType"
-    }
-
-
-class Hash(GenericArray):
-    """
-    An array of HashElement objects.
-    """
-    element_class = HashElement
 
 
 class ExpiresElement(DateOptTimePropType):

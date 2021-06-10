@@ -4,14 +4,12 @@
 Elements for handling rights management
 """
 
-from lxml import etree
-import json
-
-from .core import NEWSMLG2, BaseObject, GenericArray
+from .core import GenericArray
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
 )
-from .conceptgroups import FlexPartyPropType, FlexPersonPropType, Flex2ExtPropType
+from .concepts import FlexPartyPropType, FlexPersonPropType
+from .extensionproperties import Flex2ExtPropType
 from .labeltypes import BlockType
 from .link import Link
 
@@ -37,6 +35,9 @@ class CopyrightNoticeElement(RightsBlockType):
     """
 
 class CopyrightNotice(GenericArray):
+    """
+    An array of CopyrightNoticeElement objects.
+    """
     element_class = CopyrightNoticeElement
 
 
@@ -53,12 +54,17 @@ class UsageTermsElement(RightsBlockType):
 
 
 class UsageTerms(GenericArray):
+    """
+    An array of UsageTermsElement objects.
+    """
     element_class = UsageTermsElement
 
 
 class RightsInfoExtPropertyElement(Flex2ExtPropType):
     """
-    Extension Property; the semantics are defined by the concept referenced by the rel attribute. The semantics of the Extension Property must have the same scope as the parent property.
+    Extension Property; the semantics are defined by the concept referenced by
+    the rel attribute. The semantics of the Extension Property must have the
+    same scope as the parent property.
     """
 
 
@@ -69,18 +75,41 @@ class RightsInfoExtProperty(GenericArray):
     element_class = RightsInfoExtPropertyElement
 
 
-class RightsExpressionXMLElement(BaseObject):
-    # TODO
-    pass
+class RightsExpressionXMLElement(CommonPowerAttributes):
+    """
+    Contains a rights expression as defined by a Rights Expression Language and
+    seralized using XML encoding.
+    """
+    attributes = {
+        # Identifier for the used Rights Expression language
+        'langid': 'langid'  # type="xs:anyURI" use="required">
+    }
+
 
 class RightsExpressionXML(GenericArray):
+    """
+    Array of RightsExpressionXMLElement objects.
+    """
     element_class = RightsExpressionXMLElement
 
-class RightsExpressionDataElement(BaseObject):
-    # TODO
-    pass
+
+class RightsExpressionDataElement(CommonPowerAttributes):
+    """
+    Contains a rights expression as defined by a Rights Expression Language and
+    seralized using any specific encoding except XML.
+    """
+    attributes = {
+        # Identifier for the used Rights Expression language
+        'langid': 'langid',  # type="xs:anyURI" use="required">
+        # Identifier of the used type of encoding, prefered are IANA Media Type identifiers.
+        'enctype': 'enctype'  # type="xs:string" use="required">
+    }
+
 
 class RightsExpressionData(GenericArray):
+    """
+    An array of RightsExpressionDataElement objects.
+    """
     element_class = RightsExpressionDataElement
 
 
@@ -89,29 +118,72 @@ class RightsInfoElement(CommonPowerAttributes, I18NAttributes, TimeValidityAttri
     A set of properties representing the rights associated with the Item
     """
     attributes = {
-        # Reference(s) to the part(s) of an Item to which the rightsInfo element applies. When referencing part(s) of the content of an Item, idrefs must include the partid value of a partMeta element which in turn references the part of the content.
+        # Reference(s) to the part(s) of an Item to which the rightsInfo element
+        # applies. When referencing part(s) of the content of an Item, idrefs
+        # must include the partid value of a partMeta element which in turn
+        # references the part of the content.
         'idrefs': 'idrefs', # type="xs:IDREFS"
-        # Indicates to which part(s) of an Item the rightsInfo element applies - expressed by a QCode. If the attribute does not exist then rightsInfo applies to all parts of the Item. Mandatory NewsCodes scheme for the values: http://cv.iptc.org/newscodes/riscope/
+        # Indicates to which part(s) of an Item the rightsInfo element applies -
+        # expressed by a QCode. If the attribute does not exist then rightsInfo
+        # applies to all parts of the Item.
+        # Mandatory NewsCodes scheme for the values:
+        # http://cv.iptc.org/newscodes/riscope/
         'scope': 'scope', # type="QCodeListType" use="optional">
-        # Indicates to which part(s) of an Item the rightsInfo element applies - expressed by a URI. If the attribute does not exist then rightsInfo applies to all parts of the Item. Mandatory NewsCodes scheme for the values: http://cv.iptc.org/newscodes/riscope/</xs:documentation>
+        # Indicates to which part(s) of an Item the rightsInfo element applies -
+        # expressed by a URI. If the attribute does not exist then rightsInfo
+        # applies to all parts of the Item.
+        # Mandatory NewsCodes scheme for the values:
+        # http://cv.iptc.org/newscodes/riscope/
         'scopeuri': 'scopeuri', # type="IRIListType" use="optional">
-        # Indicates to which rights-related aspect(s) of an Item or part(s) of an Item the rightsInfo element applies - expressed by a QCode. If the attribute does not exist then rightsInfo applies to all aspects. Mandatory NewsCodes scheme for the values: http://cv.iptc.org/newscodes/riaspect</xs:documentation>
+        # Indicates to which rights-related aspect(s) of an Item or part(s) of
+        # an Item the rightsInfo element applies - expressed by a QCode. If the
+        # attribute does not exist then rightsInfo applies to all aspects.
+        # Mandatory NewsCodes scheme for the values:
+        # http://cv.iptc.org/newscodes/riaspect
         'aspect': 'aspect', # type="QCodeListType" use="optional">
-        # Indicates to which rights-related aspect(s) of an Item or part(s) of an Item the rightsInfo element applies - expressed by a URI. If the attribute does not exist then rightsInfo applies to all aspects. Mandatory NewsCodes scheme for the values: http://cv.iptc.org/newscodes/riaspect</xs:documentation>
+        # Indicates to which rights-related aspect(s) of an Item or part(s) of
+        # an Item the rightsInfo element applies - expressed by a URI. If the
+        # attribute does not exist then rightsInfo applies to all aspects.
+        # Mandatory NewsCodes scheme for the values:
+        # http://cv.iptc.org/newscodes/riaspect
         'aspecturi': 'aspecturi' # type="IRIListType" use="optional">
     }
 
     elements = {
-        'accountable': { 'type': 'single', 'xml_name': 'accountable', 'element_class': Accountable },
-        'copyrightholder': { 'type': 'single', 'xml_name': 'copyrightHolder', 'element_class': CopyrightHolder },
-        'copyrightnotice': { 'type': 'array', 'xml_name': 'copyrightNotice', 'element_class': CopyrightNotice },
-        'usageterms': { 'type': 'array', 'xml_name': 'usageTerms', 'element_class': UsageTerms },
+        'accountable': {
+            'type': 'single', 'xml_name': 'accountable',
+            'element_class': Accountable
+        },
+        'copyrightholder': {
+            'type': 'single', 'xml_name': 'copyrightHolder',
+            'element_class': CopyrightHolder
+        },
+        'copyrightnotice': {
+            'type': 'array', 'xml_name': 'copyrightNotice',
+            'element_class': CopyrightNotice
+        },
+        'usageterms': {
+            'type': 'array', 'xml_name': 'usageTerms',
+            'element_class': UsageTerms
+        },
         'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
-        'rightsinfo_ext': { 'type': 'array', 'xml_name': 'rightsInfoExtProperty', 'element_class': RightsInfoExtProperty },
-        'rightsexpressionxml': { 'type': 'array', 'xml_name': 'rightsExpressionXML', 'element_class': RightsExpressionXML },
-        'rightsexpressiondata': { 'type': 'array', 'xml_name': 'rightsExpressionData', 'element_class': RightsExpressionData }
+        'rightsinfo_ext': {
+            'type': 'array', 'xml_name': 'rightsInfoExtProperty',
+            'element_class': RightsInfoExtProperty
+        },
+        'rightsexpressionxml': {
+            'type': 'array', 'xml_name': 'rightsExpressionXML',
+            'element_class': RightsExpressionXML
+        },
+        'rightsexpressiondata': {
+            'type': 'array', 'xml_name': 'rightsExpressionData',
+            'element_class': RightsExpressionData
+        }
     }
 
 
 class RightsInfo(GenericArray):
+    """
+    An array of RightsInfoElement objects.
+    """
     element_class = RightsInfoElement

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-import json
-from lxml import etree
-import os
+"""
+Handle NewsItems - one of the core NewsML-G2 Item types
+"""
 
-from .core import NSMAP, NEWSMLG2, BaseObject, GenericArray
+from .core import GenericArray
 from .anyitem import AnyItem
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, NewsContentAttributes,
@@ -12,10 +12,9 @@ from .attributegroups import (
     TimeValidityAttributes
 )
 from .contentmeta import ContentMetadataAfDType
+from .itemmanagement import Signal
 from .link import TargetResourceAttributes
 from .ids import AltId, Hash
-
-DEBUG = True
 
 
 class InlineXMLElement(NewsContentAttributes, NewsContentTypeAttributes,
@@ -57,20 +56,24 @@ class ChannelElement(CommonPowerAttributes, NewsContentCharacteristics):
     attributes = {
         # A logical identifier of the channel
         'chnlid': 'chnlid',  # type="xs:positiveInteger">
-        # The media type of the data conveyed by the channel - expressed by a QCode
+        # The media type of the data conveyed by the channel - expressed by
+        # a QCode
         'type': 'type',  # " type="QCodeType">
-        # The media type of the data conveyed by the channel - expressed by a URI
+        # The media type of the data conveyed by the channel - expressed by
+        # a URI
         'typeuri': 'typeuri',  # " type="IRIType">
-        # The role the data of this channel plays in the scope of  the full content - expressed by a QCode
+        # The role the data of this channel plays in the scope of the full
+        # content - expressed by a QCode
         'role': 'role',  # " type="QCodeType">
-        # The role the data of this channel plays in the scope of  the full content - expressed by a URI
+        # The role the data of this channel plays in the scope of the full
+        # content - expressed by a URI
         'roleuri': 'roleuri',  # " type="IRIType">
         # The  language associated with the content of the channel
         'language': 'language',  # " type="xs:language">
         # DO NOT USE this attribute, for G2 internal maintenance purposes only.
         'g2flag': 'g2flag'  # " type="xs:string" use="optional" fixed="RCONT">
     }
-    
+
 class Channel(GenericArray):
     """
     An array of ChannelElement objects
@@ -84,13 +87,27 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     A type representing the structure of the remoteContent property
     """
     elements = {
-        'channel': { 'type': 'array', 'xml_name': 'inlineXML', 'element_class': Channel },
-        'altid': { 'type': 'array', 'xml_name': 'altId', 'element_class': AltId },
-        # TODO 'altloc': { 'type': 'array', 'xml_name': 'altLoc', 'element_class': AltLoc },
-        'hash': { 'type': 'array', 'xml_name': 'hash', 'element_class': Hash },
-        # TODO    
-        #'signal': { 'type': 'array', 'xml_name': 'signal', 'element_class': Signal },
-        #'remotecontentextproperty': { 'type': 'array', 'xml_name': 'remoteContentExtProperty', 'element_class': RemoteContentExtProperty },
+        'channel': {
+            'type': 'array', 'xml_name': 'inlineXML', 'element_class': Channel
+        },
+        'altid': {
+            'type': 'array', 'xml_name': 'altId', 'element_class': AltId
+        },
+        # TODO
+        # 'altloc': {
+        #    'type': 'array', 'xml_name': 'altLoc', 'element_class': AltLoc
+        #},
+        'hash': {
+            'type': 'array', 'xml_name': 'hash', 'element_class': Hash
+        },
+        'signal': {
+            'type': 'array', 'xml_name': 'signal', 'element_class': Signal
+        #},
+        # TODO
+        # 'remotecontentextproperty': {
+        #    'type': 'array', 'xml_name': 'remoteContentExtProperty',
+        #    'element_class': RemoteContentExtProperty
+        }
     }
     attributes = {
         # The language of the remote content
@@ -118,19 +135,26 @@ class ContentSet(CommonPowerAttributes):
     """
 
     attributes = {
-        # A local reference to the original piece of content, from which all renditions have been derived
-        'original': 'original'  # TODO type="xs:IDREF"
+        # A local reference to the original piece of content, from which all
+        # renditions have been derived
+        'original': 'original'  # type="xs:IDREF"
     }
 
     elements = {
-        'inlinexml': { 'type': 'array', 'xml_name': 'inlineXML', 'element_class': InlineXML },
-        'inlinedata': { 'type': 'array', 'xml_name': 'inlineData', 'element_class': InlineData },
-        'remotecontent': { 'type': 'array', 'xml_name': 'remoteContent', 'element_class': RemoteContent }
+        'inlinexml': {
+            'type': 'array', 'xml_name': 'inlineXML',
+            'element_class': InlineXML
+        },
+        'inlinedata': {
+            'type': 'array', 'xml_name': 'inlineData',
+            'element_class': InlineData
+        },
+        'remotecontent': {
+            'type': 'array', 'xml_name': 'remoteContent',
+            'element_class': RemoteContent
+        }
     }
 
-    def get_inlinexml(self):
-        return self.get_element_value('inlinexml')
- 
 
 class NewsItemContentMeta(ContentMetadataAfDType):
     """
@@ -143,22 +167,29 @@ class NewsItem(AnyItem):
     """
 
     elements = {
-        'contentmeta': { 'type': 'single', 'xml_name': 'contentMeta', 'element_class': NewsItemContentMeta },
+        'contentmeta': {
+            'type': 'single', 'xml_name': 'contentMeta',
+            'element_class': NewsItemContentMeta
+        },
         # TODO - implement these classes!
-        #'partmeta': { 'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta },
-        #'assert': { 'type': 'array', 'xml_name': 'assert', 'element_class': Assert },
-        #'inlineref': { 'type': 'array', 'xml_name': 'inlineRef', 'element_class': InlineRef },
-        #'derivedfrom': { 'type': 'array', 'xml_name': 'derivedFrom', 'element_class': DerivedFrom },
-        #'derivedfromvalue': { 'type': 'array', 'xml_name': 'derivedFromValue', 'element_class': DerivedFromValue },
-        'contentset': { 'type': 'single', 'xml_name': 'contentSet', 'element_class': ContentSet }
+        #'partmeta': {
+        #    'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
+        #},
+        #'assert': {
+        #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
+        #},
+        #'inlineref': {
+        #    'type': 'array', 'xml_name': 'inlineRef', 'element_class': InlineRef
+        #},
+        #'derivedfrom': {
+        #    'type': 'array', 'xml_name': 'derivedFrom', 'element_class': DerivedFrom
+        #},
+        #'derivedfromvalue': {
+        #    'type': 'array', 'xml_name': 'derivedFromValue',
+        #    'element_class': DerivedFromValue
+        #},
+        'contentset': {
+            'type': 'single', 'xml_name': 'contentSet',
+            'element_class': ContentSet
+        }
     }
-
-    def get_contentset(self):
-        return self.get_element_value('contentset')
-
-    def to_xml(self):
-        xmlelem = etree.Element(NEWSMLG2+'newsItem', nsmap=NSMAP)
-        return xmlelem
-
-
-

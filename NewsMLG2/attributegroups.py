@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+Various attribute groups used throughout the schema.
+"""
+
 from .core import BaseObject, XML, QCodeURIMixin
 
 
@@ -70,11 +74,14 @@ class QuantifyAttributes(BaseObject):
     A group of attriubutes quantifying the property value
     """
     attributes = {
-        # The confidence with which the metadata has been assigned.</xs:documentation>
+        # The confidence with which the metadata has been assigned.
         'confidence': 'confidence', # type="Int100Type" use="optional">
-        # The relevance of the metadata to the news content to which it is attached.</xs:documentation>
+        # The relevance of the metadata to the news content to which it is
+        # attached.
         'relevance': 'relevance', # type="Int100Type" use="optional">
-        # A reference to the concept from which the concept identified by qcode was derived/inferred - use DEPRECATED in NewsML-G2 2.12 and higher, use the derivedFrom element</xs:documentation>
+        # A reference to the concept from which the concept identified by qcode
+        # was derived/inferred - use DEPRECATED in NewsML-G2 2.12 and higher,
+        # use the derivedFrom element
         'derivedfrom': 'derivedfrom', # type="QCodeListType" use="optional">
     }
 
@@ -84,9 +91,9 @@ class TimeValidityAttributes(BaseObject):
     A group of attributes expressing the time period of validity of a relationship
     """
     attributes = {
-        # The date (and, optionally, the time) before which a relationship is not valid.</xs:documentation>
+        # The date (and, optionally, the time) before which a relationship is not valid.
         'validfrom': 'validfrom', # type="DateOptTimeType" use="optional">
-        # The date (and, optionally, the time) after which a relationship is not valid.</xs:documentation>
+        # The date (and, optionally, the time) after which a relationship is not valid.
         'validto': 'validto', # type="DateOptTimeType" use="optional">
     }
 
@@ -122,29 +129,44 @@ class RankingAttributes(BaseObject):
 
 class PersistentEditAttributes(BaseObject):
     """
-    A group of attributes to keep track of by whom and when the property value was changed with a persistent ID
+    A group of attributes to keep track of by whom and when the property value
+    was changed with a persistent ID
     """
     attributes = {
-        # The local identifier of the element which MUST be persistent for all versions of the item, i.e. for its entire lifecycle.</xs:documentation>
+        # The local identifier of the element which MUST be persistent for all
+        # versions of the item, i.e. for its entire lifecycle.
         'id': 'id',  # type="xs:ID" use="optional">
-        # If the element is empty, specifies which entity (person, organisation or system) will edit the property - expressed by a QCode. If the element is non-empty, specifies which entity (person, organisation or system) has edited the property.</xs:documentation>
+        # If the element is empty, specifies which entity (person, organisation
+        # or system) will edit the property - expressed by a QCode. If the
+        # element is non-empty, specifies which entity (person, organisation or
+        # system) has edited the property.
         'creator': 'creator',  # type="QCodeType" use="optional">
-        # If the element is empty, specifies which entity (person, organisation or system) will edit the property - expressed by a URI. If the element is non-empty, specifies which entity (person, organisation or system) has edited the property.</xs:documentation>
+        # If the element is empty, specifies which entity (person, organisation
+        # or system) will edit the property - expressed by a URI. If the element
+        # is non-empty, specifies which entity (person, organisation or system)
+        # has edited the property.
         'creatoruri': 'creatoruri',  # type="IRIType" use="optional">
-        # The date (and, optionally, the time) when the property was last modified. The initial value is the date (and, optionally, the time) of creation of the property.</xs:documentation>
+        # The date (and, optionally, the time) when the property was last
+        # modified. The initial value is the date (and, optionally, the time) of
+        # creation of the property.
         'modified': 'modified',  # type="DateOptTimeType" use="optional">
     }
 
 
 class ArbitraryValueAttributes(BaseObject):
+    """
+    Attributes for properties that take an arbitrary value, optionally with a
+    value unit.
+    """
     attributes = {
-        # The related value (see more in the spec document)</xs:documentation>
+        # The related value (see more in the spec document)
         'value': 'value',  # type="xs:string" use="optional">
-         # The datatype of the value attribute – it MUST be one of the built-in datatypes defined by XML Schema version 1.0.</xs:documentation>
+         # The datatype of the value attribute – it MUST be one of the
+        # built-in datatypes defined by XML Schema version 1.0.
         'valuedatatype': 'valuedatatype',  # type="xs:QName" use="optional">
-         # The unit of the value attribute.</xs:documentation>
+         # The unit of the value attribute.
         'valueunit': 'valueunit',  # type="QCodeType" use="optional">
-         # The unit of the value attribute - expressed by a URI</xs:documentation>
+         # The unit of the value attribute - expressed by a URI
         'valueunituri': 'valueunituri',  # type="IRIType" use="optional">
     }
 
@@ -154,19 +176,21 @@ class QualifyingAttributes(BaseObject):
     A group of attributes used for a qualified expression of the property
     """
     attributes = {
-        # A qualified code assigned as a property value.</xs:documentation>
+        # A qualified code assigned as a property value.
         'qcode': 'qcode',  # type="QCodeType" use="optional">
-        # A URI which identifies a concept.</xs:documentation>
+        # A URI which identifies a concept.
         'uri': 'uri',  # type="IRIType" use="optional">
-        # A free-text value assigned as a property value.</xs:documentation>
+        # A free-text value assigned as a property value.
         'literal': 'literal',  # type="g2normalizedString" use="optional">
-        # The type of the concept assigned as a controlled or an uncontrolled property value - expressed by a QCode</xs:documentation>         'typeuri': 'typeuri',  # type="IRIType" use="optional">
+        # The type of the concept assigned as a controlled or an uncontrolled
+        # property value - expressed by a QCode
         'type': 'type',  # type="QCodeType" use="optional">
-        # The type of the concept assigned as a controlled or an uncontrolled property value - expressed by a URI</xs:documentation>         'role': 'role',  # type="QCodeType" use="optional">
+        # The type of the concept assigned as a controlled or an uncontrolled
+        # property value - expressed by a URI
         'typeuri': 'typeuri',  # type="IRIType" use="optional">
-        # A refinement of the semantics of the property - expressed by a QCode</xs:documentation>         'roleuri': 'roleuri',  # type="IRIType" use="optional">
+        # A refinement of the semantics of the property - expressed by a QCode
         'role': 'role',  # type="QCodeType" use="optional">
-        # A refinement of the semantics of the property - expressed by a URI</xs:documentation>
+        # A refinement of the semantics of the property - expressed by a URI
         'roleuri': 'roleuri',  # type="IRIType" use="optional">
     }
 
@@ -247,40 +271,53 @@ class NewsContentTypeAttributes(BaseObject):
 
 class MediaContentCharacteristics1(BaseObject):
     """
-    A group of typical physical characteristics of media content 
+    A group of typical physical characteristics of media content
     """
     attributes = {
-        # The width of visual content.</xs:documentation>
+        # The width of visual content.
         'width': 'width',  # type="xs:nonNegativeInteger" use="optional">
-        # If present defines the width unit for the width - expressed by a QCode</xs:documentation>
+        # If present defines the width unit for the width - expressed by a QCode
         'widthunit': 'widthunit',  # type="QCodeType" use="optional">
-        # If present defines the width unit for the width - expressed by a URI</xs:documentation>
+        # If present defines the width unit for the width - expressed by a URI
         'widthunituri': 'widthunituri',  # type="IRIType" use="optional">
-        # The height of visual content.</xs:documentation>
+        # The height of visual content.
         'height': 'height',  # type="xs:nonNegativeInteger" use="optional">
-        # If present defines the height unit for the heigth - expressed by a QCode</xs:documentation>
+        # If present defines the height unit for the heigth - expressed by a QCode
         'heightunit': 'heightunit',  # type="QCodeType" use="optional">
-        # If present defines the height unit for the heigth - expressed by a URI</xs:documentation>
+        # If present defines the height unit for the heigth - expressed by a URI
         'heightunituri': 'heightunituri',  # type="IRIType" use="optional">
-        # The orientation of the visual content of an image in regard to the standard rendition of the digital image data. Values in the range of 1 to 8 are compatible with the TIFF 6.0 and Exif 2.3 specifications. Applies to image content. </xs:documentation>
+        # The orientation of the visual content of an image in regard to the
+        # standard rendition of the digital image data. Values in the range of
+        # 1 to 8 are compatible with the TIFF 6.0 and Exif 2.3 specifications.
+        # Applies to image content.
         'orientation': 'orientation',  # type="xs:nonNegativeInteger" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a QCode</xs:documentation>
+        # Indicates whether the human interpretation of the top of the image is
+        # aligned to its short or long side - expressed by a QCode
         'layoutorientation': 'layoutorientation',  # type="QCodeType" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a URI</xs:documentation>
+        # Indicates whether the human interpretation of the top of the image is
+        # aligned to its short or long side - expressed by a URI
         'layoutorientationuri': 'layoutorientationuri',  # type="IRIType" use="optional">
-        # The colour space of an image. Applies to image icons - expressed by a QCode</xs:documentation>
+        # The colour space of an image. Applies to image icons - expressed by a QCode
         'colourspace': 'colourspace',  # type="QCodeType" use="optional">
-        # The colour space of an image. Applies to image icons - expressed by a URI</xs:documentation>
+        # The colour space of an image. Applies to image icons - expressed by a URI
         'colourspaceuri': 'colourspaceuri',  # type="IRIType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/ - expressed by a QCode</xs:documentation>
+        # Indicates whether the still or moving image is coloured or black and
+        # white. The recommended vocabulary is the IPTC Colour Indicator
+        # NewsCodes http://cv.iptc.org/newscodes/colourindicator/ - expressed
+        # by a QCode
         'colourindicator': 'colourindicator',  # type="QCodeType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/ - expressed by a URI</xs:documentation>
+        # Indicates whether the still or moving image is coloured or black and
+        # white. The recommended vocabulary is the IPTC Colour Indicator
+        # NewsCodes http://cv.iptc.org/newscodes/colourindicator/ - expressed
+        # by a URI
         'colourindicatoruri': 'colourindicatoruri',  # type="IRIType" use="optional">
-        # The applicable codec for video data. Applies to video icons - expressed by a QCode</xs:documentation>
+        # The applicable codec for video data. Applies to video icons -
+        # expressed by a QCode
         'videocodec': 'videocodec',  # type="QCodeType" use="optional">
-        # The applicable codec for video data. Applies to video icons - expressed by a URI</xs:documentation>
+        # The applicable codec for video data. Applies to video icons -
+        # expressed by a URI
         'videocodecuri': 'videocodecuri',  # type="IRIType" use="optional">
-        # The bit depth defining the spread of colour data within each sample.</xs:documentation>
+        # The bit depth defining the spread of colour data within each sample.
         'colourdepth': 'colourdepth',  # type="xs:nonNegativeInteger" use="optional">
     }
 
@@ -310,31 +347,45 @@ class NewsContentCharacteristics(BaseObject):
         'heightunit': 'heightunit', # type="QCodeType" use="optional">
         # If present defines the height unit for the heigth - expressed by a URI
         'heightunituri': 'heightunituri', # type="IRIType" use="optional">
-        # The orientation of the visual content of an image in regard to the standard rendition of the digital image data
+        # The orientation of the visual content of an image in regard to the
+        # standard rendition of the digital image data
         'orientation': 'orientation', # type="xs:nonNegativeInteger" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a QCode
+        # Indicates whether the human interpretation of the top of the image is
+        # aligned to its short or long side - expressed by a QCode
         'layoutorientation': 'layoutorientation', # type="QCodeType" use="optional">
-        # Indicates whether the human interpretation of the top of the image is aligned to its short or long side - expressed by a URI
+        # Indicates whether the human interpretation of the top of the image is
+        # aligned to its short or long side - expressed by a URI
         'layoutorientationuri': 'layoutorientationuri', # type="IRIType" use="optional">
         # The colour space of an image - expressed by a QCode
         'colourspace': 'colourspace', # type="QCodeType" use="optional">
         # The colour space of an image - expressed by a URI
         'colourspaceuri': 'colourspaceuri', # type="IRIType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/  - expressed by a QCode
+        # Indicates whether the still or moving image is coloured or black and
+        # white. The recommended vocabulary is the IPTC Colour Indicator
+        # NewsCodes http://cv.iptc.org/newscodes/colourindicator/
+        # - expressed by a QCode
         'colourindicator': 'colourindicator', # type="QCodeType" use="optional">
-        # Indicates whether the still or moving image is coloured or black and white. The recommended vocabulary is the IPTC Colour Indicator NewsCodes http://cv.iptc.org/newscodes/colourindicator/  - expressed by a URI
+        # Indicates whether the still or moving image is coloured or black and
+        # white. The recommended vocabulary is the IPTC Colour Indicator
+        # NewsCodes http://cv.iptc.org/newscodes/colourindicator/
+        # - expressed by a URI
         'colourindicatoruri': 'colourindicatoruri', # type="IRIType" use="optional">
-        # The bit depth defining the spread of colour data within each sample.
-        'colourdepth': 'colourdepth', # type="xs:nonNegativeInteger" use="optional">
         # The bit depth defining the spread of colour data within each sample.
         'colourdepth': 'colourdepth', # type="xs:nonNegativeInteger" use="optional">
         # The recommended printing resolution for an image in dots per inch
         'resolution': 'resolution', # type="xs:positiveInteger" use="optional">
-        # The clip duration in time units defined by durationUnit. The default time unit is seconds. Applies to audio-visual content.
+        # The clip duration in time units defined by durationUnit. The default
+        # time unit is seconds. Applies to audio-visual content.
         'duration': 'duration', # type="xs:string" use="optional">
-        # If present it defines the time unit for the duration attribute. Only codes for integer value time units of the recommended CV (available at http://cv.iptc.org/newscodes/timeunit/ )  must be applied - expressed by a QCode
+        # If present it defines the time unit for the duration attribute. Only
+        # codes for integer value time units of the recommended CV (available at
+        # http://cv.iptc.org/newscodes/timeunit/ ) must be applied
+        # - expressed by a QCode
         'durationunit': 'durationunit', # type="QCodeType" use="optional">
-        # If present it defines the time unit for the duration attribute. Only codes for integer value time units of the recommended CV (available at http://cv.iptc.org/newscodes/timeunit/ )  must be applied - expressed by a URI
+        # If present it defines the time unit for the duration attribute. Only
+        # codes for integer value time units of the recommended CV (available at
+        # http://cv.iptc.org/newscodes/timeunit/ ) must be applied
+        # - expressed by a URI
         'durationunituri': 'durationunituri', # type="IRIType" use="optional">
         # The applicable codec for audio data - expressed by a QCode
         'audiocodec': 'audiocodec', # type="QCodeType" use="optional">
@@ -360,21 +411,35 @@ class NewsContentCharacteristics(BaseObject):
         'videoavgbitrate': 'videoavgbitrate', # type="xs:positiveInteger" use="optional">
         # An indication that video data is encoded with a variable bit rate
         'videovbr': 'videovbr', # type="xs:boolean" use="optional">
-        # The number of video frames per second, i.e. the rate at which the material should be shown in order to achieve the intended visual effect
+        # The number of video frames per second, i.e. the rate at which the
+        # material should be shown in order to achieve the intended visual effect
         'videoframerate': 'videoframerate', # type="xs:decimal" use="optional">
         # The video scan technique, progressive or interlaced
-        'videoscan': 'videoscan', # <xs:enumeration value="progressive"/> <xs:enumeration value="interlaced"/>
+        # TODO <xs:enumeration value="progressive"/> <xs:enumeration value="interlaced"/>
+        'videoscan': 'videoscan',
         # The video aspect ratio
         'videoaspectratio': 'videoaspectratio', # type="g2normalizedString" use="optional">
         # The video sampling method
         'videosampling': 'videosampling', # type="g2normalizedString" use="optional">
-        # Indicates how the original content was scaled to this format - expressed by a QCode. The recommended vocabulary is the IPTC Video Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/ 
+        # Indicates how the original content was scaled to this format
+        # - expressed by a QCode. The recommended vocabulary is the IPTC Video
+        # Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/
         'videoscaling': 'videoscaling', # type="QCodeType" use="optional">
-        # Indicates how the original content was scaled to this format - expressed by a URI. The recommended vocabulary is the IPTC Video Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/
+        # Indicates how the original content was scaled to this format
+        # - expressed by a URI. The recommended vocabulary is the IPTC Video
+        # Scaling NewsCodes http://cv.iptc.org/newscodes/videoscaling/
         'videoscalinguri': 'videoscalinguri', # type="IRIType" use="optional">
-        # Indicates which video definition is applied to this rendition of video content - expressed by a QCode - but it does not imply any particular technical characteristics of the video.The recommended vocabulary is the IPTC Video Definition NewsCodes http://cv.iptc.org/newscodes/videodefinition/
+        # Indicates which video definition is applied to this rendition of video
+        # content - expressed by a QCode - but it does not imply any particular
+        # technical characteristics of the video. The recommended vocabulary is
+        # the IPTC Video Definition NewsCodes
+        # http://cv.iptc.org/newscodes/videodefinition/
         'videodefinition': 'videodefinition', # type="QCodeType" use="optional">
-        # Indicates which video definition is applied to this rendition of video content - expressed by a URI - but it does not imply any particular technical characteristics of the video.The recommended vocabulary is the IPTC Video Definition NewsCodes http://cv.iptc.org/newscodes/videodefinition/ 
+        # Indicates which video definition is applied to this rendition of video
+        # content - expressed by a URI - but it does not imply any particular
+        # technical characteristics of the video.The recommended vocabulary is
+        # the IPTC Video Definition NewsCodes
+        # http://cv.iptc.org/newscodes/videodefinition/
         'videodefinitionuri': 'videodefinitionuri', # type="IRIType" use="optional">
     }
 
@@ -384,10 +449,12 @@ class ConfirmationStatusAttributes(BaseObject):
     A group of attributes reflecting the confirmation status of a date.
     """
     attributes = {
-        # Indicates the confirmation status of the date/period/duration. The recommended vocabulary is the IPTC Event Date Confirmation NewsCodes - http://cv.iptc.org/newscodes/eventdateconfirm/ - expressed by a QCode.</xs:documentation>
+        # Indicates the confirmation status of the date/period/duration. The
+        # recommended vocabulary is the IPTC Event Date Confirmation NewsCodes
+        # - http://cv.iptc.org/newscodes/eventdateconfirm/ - expressed by a QCode.
         'confirmationstatus': 'confirmationstatus',  # type="QCodeType" use="optional">
-        # Indicates the confirmation status of the date/period/duration. The recommended vocabulary is the IPTC Event Date Confirmation NewsCodes - http://cv.iptc.org/newscodes/eventdateconfirm/ - expressed by a URI.</xs:documentation>
+        # Indicates the confirmation status of the date/period/duration. The
+        # recommended vocabulary is the IPTC Event Date Confirmation NewsCodes
+        # - http://cv.iptc.org/newscodes/eventdateconfirm/ - expressed by a URI.
         'confirmationstatusuri': 'confirmationstatusuri',  # type="IRIType" use="optional">
     }
-
-

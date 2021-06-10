@@ -78,7 +78,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
-        assert test_scheme.definition == 'Indicates a company, publication or service provider.'
+        assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = newsitem.itemmeta
         assert itemmeta.get_itemclass() == 'ninat:text'
@@ -105,7 +105,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
-        assert test_scheme.definition == 'Indicates a News Provider registered with the IPTC.'
+        assert str(test_scheme.definition) == 'Indicates a News Provider registered with the IPTC.'
 
         # itemmeta tests
         itemmeta = newsitem.itemmeta

@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
-# Catalog information
+"""
+Handle catalogs (lists of controlled vocabularies with their
+aliases and locations)
+"""
 
-import json
 import os
-
 from lxml import etree
-
-DEBUG = True
 
 from .core import NEWSMLG2, BaseObject, GenericArray
 from .attributegroups import CommonPowerAttributes
+from .complextypes import Name
+from .concepts import Definition, Note
+from .conceptrelationships import SameAs
 from .labeltypes import Label1Type
 from .simpletypes import IRIType
 from .catalogstore import CATALOG_STORE
@@ -34,45 +36,52 @@ CATALOG_CACHE = {
         'catalogs/catalog.IPTC-G2-Standards_36.xml'
 }
 
-class CatalogMixin(object):
-    def build_catalog(self, xmlelement, **kwargs):
-        catalogs = xmlelement.findall(NEWSMLG2+'catalog')
-        catalogRefs = xmlelement.findall(NEWSMLG2+'catalogRef')
-        for catalog in catalogs:
-            # TODO inline catalogs are not yet tested
-            self.add_catalog(xmlelement=catalog)
-        for catalogRef in catalogRefs:
-            href = catalogRef.get('href')
+def build_catalog(xmlelement):
+    """
+    Load all CVs referenced in local and remote catalogs.
+    TODO:
+    - inline catalogs are not yet tested
+    - load and cache catalog from catalogRef href
+    """
+    catalogs = xmlelement.findall(NEWSMLG2+'catalog')
+    catalog_refs = xmlelement.findall(NEWSMLG2+'catalogRef')
+    for catalog in catalogs:
+        add_catalog(xmlelement=catalog)
+    for catalog_ref in catalog_refs:
+        href = catalog_ref.get('href')
 
-            if href in CATALOG_CACHE:
-                # IPTC standard catalogs are built in, to avoid network traffic
-                # (and load on IPTC servers)
-                file = CATALOG_CACHE[href]
-                if DEBUG:
-                    print("Loading built-in catalog {}".format(file))
-                self.add_catalog(uri=href, file=file)
-            else:
-                ## TODO: load and cache catalog from href
-                if DEBUG:
-                    print("WARNING: Remote catalog {} declared. Remote "
-                          "loading of catalogs is not yet supported.".format(href))
+        if href in CATALOG_CACHE:
+            # IPTC standard catalogs are built in, to avoid network traffic
+            # (and load on IPTC servers)
+            file = CATALOG_CACHE[href]
+            add_catalog(uri=href, file=file)
+        else:
+            print("WARNING: Remote catalog {} declared. Remote "
+                  "loading of catalogs is not yet supported.".format(href))
 
-    def add_catalog(self, **kwargs):
-        if 'file' in kwargs:
-            dirname = os.path.dirname(os.path.realpath(__file__))
-            filename = os.path.join(dirname, kwargs['file'])
-            if DEBUG:
-                print("Loading catalog from file {}".format(filename))
-            xmltree = etree.parse(filename)
-            catalog_element = xmltree.getroot()
-            catalog = Catalog(xmlelement=catalog_element)
-            CATALOG_STORE.append(catalog)
-        elif 'xmlelement' in kwargs:
-            catalog = Catalog(xmlelement=xmlelement)
-            CATALOG_STORE.append(catalog)
 
-    def get_catalogs(self):
-        return CATALOG_STORE
+def add_catalog(**kwargs):
+    """
+    Load an individual catalog from a local file.
+    """
+    if 'file' in kwargs:
+        dirname = os.path.dirname(os.path.realpath(__file__))
+        filename = os.path.join(dirname, kwargs['file'])
+        xmltree = etree.parse(filename)
+        catalog_element = xmltree.getroot()
+        catalog = Catalog(xmlelement=catalog_element)
+        CATALOG_STORE.append(catalog)
+    elif 'xmlelement' in kwargs:
+        catalog = Catalog(xmlelement=kwargs['xmlelement'])
+        CATALOG_STORE.append(catalog)
+
+
+def get_catalogs():
+    """
+    Return all currently known catalogs.
+    """
+    return CATALOG_STORE
+
 
 class Catalog(CommonPowerAttributes):
     """
@@ -107,7 +116,7 @@ class Catalog(CommonPowerAttributes):
         self._catalog_uri_lookup = {}
         self._catalog_alias_lookup = {}
         xmlelement = kwargs.get('xmlelement')
-        assert type(xmlelement) == etree._Element
+        assert isinstance(xmlelement, etree._Element)
         assert xmlelement.tag == NEWSMLG2+'catalog'
         titles = xmlelement.findall(NEWSMLG2+'title')
         for title in titles:
@@ -120,24 +129,27 @@ class Catalog(CommonPowerAttributes):
             self.add_scheme_to_catalog(scheme)
 
     def add_scheme_to_catalog(self, scheme):
+        """Add a given scheme to our catalog"""
         self._catalog.append(scheme)
         if hasattr(scheme, 'uri'):
             self._catalog_uri_lookup[scheme.uri] = scheme
         if hasattr(scheme, 'alias'):
             self._catalog_alias_lookup[scheme.alias] = scheme
-        if DEBUG:
-            print("Loaded scheme {} from catalog".format(scheme))
 
     def get_scheme_for_alias(self, alias):
+        """Return the scheme matching a given alias string"""
         if alias in self._catalog_alias_lookup.keys():
             return self._catalog_alias_lookup[alias]
+        return None
 
     def get_scheme_for_uri(self, uri):
+        """Return the scheme matching a given URI"""
         if uri in self._catalog_uri_lookup.keys():
             return self._catalog_uri_lookup[uri]
+        return None
 
     def __iter__(self):
-        for key in self._catalog.keys():
+        for key in self._catalog:
             yield key
 
     def __getitem__(self,index):
@@ -150,10 +162,10 @@ class Catalog(CommonPowerAttributes):
     #    return dict(self._catalog)
 
     def str(self):
+        """String representation of the catalog object."""
         if self.catalog_titles:
             return '<Catalog '+self.catalog_titles[0]+'>'
-        else:
-            return '<Catalog>'
+        return '<Catalog>'
 
 
 class CatalogRefElement(BaseObject):
@@ -176,46 +188,57 @@ class CatalogRef(GenericArray):
     element_class = CatalogRefElement
 
 
+class TitleElement(Label1Type):
+    """
+    A short, natural-language name
+    NOTE part of "more shared elements" section - might need to move this into newsmlg2.py
+    """
+
+
+class Title(GenericArray):
+    """
+    An array of TitleElement objects.
+    """
+    element_class = TitleElement
+
+
+class SameAsSchemeElement(IRIType, CommonPowerAttributes):
+    """
+    A URI which identifies another scheme with concepts that use the
+    same codes and are semantically equivalent to the concepts of this scheme
+    """
+
+
+class SameAsScheme(GenericArray):
+    """
+    An array of SameAsSchemeElement objects.
+    """
+    element_class = SameAsSchemeElement
+
+
 class Scheme(CommonPowerAttributes):
     """
     A scheme alias-to-URI mapping.
-
-                <xs:choice minOccurs="0" maxOccurs="unbounded">
-                     <xs:element ref="sameAsScheme"/>
-                     <xs:element ref="name">
-                        <xs:annotation>
-                           <xs:documentation>A natural language name for the scheme.</xs:documentation>
-                        </xs:annotation>
-                     </xs:element>
-                     <xs:element ref="definition">
-                        <xs:annotation>
-                           <xs:documentation>A natural language definition of the semantics of the scheme. This definition is normative only for the scope of the use of this scheme.</xs:documentation>
-                        </xs:annotation>
-                     </xs:element>
-                     <xs:element ref="note">
-                        <xs:annotation>
-                           <xs:documentation>Additional natural language information about the scheme.</xs:documentation>
-                        </xs:annotation>
-                     </xs:element>
-                     <xs:element name="sameAs">
-                        <xs:annotation>
-                           <xs:documentation>Use is DEPRECATED - use sameAsScheme instead. (A URI which identifies another scheme with concepts that use the same codes and are semantically equivalent to the concepts of this scheme)</xs:documentation>
-                        </xs:annotation>
-                        <xs:complexType>
-                           <xs:simpleContent>
-                              <xs:extension base="IRIType">
-                                 <xs:attributeGroup ref="commonPowerAttributes"/>
-                                 <xs:attribute name="g2flag" type="xs:string" use="optional" fixed="DEPR-SCH">
-                                    <xs:annotation>
-                                       <xs:documentation>DO NOT USE this attribute, for G2 internal maintenance purposes only.</xs:documentation>
-                                    </xs:annotation>
-                                 </xs:attribute>
-                              </xs:extension>
-                           </xs:simpleContent>
-                        </xs:complexType>
-                     </xs:element>
-
     """
+
+    elements = {
+        'sameasscheme': {
+            'type': 'array', 'xml_name': 'sameAsScheme', 'element_class': SameAsScheme
+        },
+        'name': {
+            'type': 'array', 'xml_name': 'name', 'element_class': Name
+        },
+        'definition': {
+            'type': 'array', 'xml_name': 'definition', 'element_class': Definition
+        },
+        'note': {
+            'type': 'array', 'xml_name': 'note', 'element_class': Note
+        },
+        'sameas': {
+            'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
+        }
+    }
+
     attributes = {
         # A short string used by the provider as a replacement for a scheme URI.
         'alias': 'alias', # type="xs:NCName" use="required">
@@ -234,31 +257,6 @@ class Scheme(CommonPowerAttributes):
         # (identified by the scheme @uri) must also be retired.
         'schemeretired': 'schemeretired' # type="DateOptTimeType" use="optional">
     }
-    def __init__(self, xmlelement=None, **kwargs):
-        if xmlelement is not None:
-            self.alias = xmlelement.get('alias', '')
-            self.uri = xmlelement.get('uri', '')
-            self.authority = xmlelement.get('authority', '')
-            self.modified = xmlelement.get('modified', '')
-            self.name = xmlelement.findtext(NEWSMLG2+'name', default='') # TODO: handle xml:lang
-            self.definition = xmlelement.findtext(NEWSMLG2+'definition', default='') # TODO: handle xml:lang
+
     def __str__(self):
         return "{} ({}, {})".format(self.name, self.alias, self.uri)
-
-
-class TitleElement(Label1Type):
-    """
-    A short, natural-language name
-    NOTE part of "more shared elements" section - might need to move this into newsmlg2.py
-    """
-    pass
-
-class TItle(GenericArray):
-    element_class = TitleElement
-
-class SameAsScheme(IRIType, CommonPowerAttributes):
-    """
-    A URI which identifies another scheme with concepts that use the
-    same codes and are semantically equivalent to the concepts of this scheme
-    """
-    pass

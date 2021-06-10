@@ -65,7 +65,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
 """
         g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
 
-        newsitem = g2doc.newsitem
+        newsitem = g2doc.get_newsitem()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
         assert newsitem.standardversion == '2.29'
@@ -91,7 +91,7 @@ class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '001_simplest_file.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
-        newsitem = g2doc.newsitem
+        newsitem = g2doc.get_newsitem()
         assert newsitem.get_attr('guid') == 'simplest-test-from-file'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
@@ -120,7 +120,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
 
-        newsitem = g2doc.newsitem
+        newsitem = g2doc.get_newsitem()
         assert newsitem.get_attr('guid') == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
@@ -196,7 +196,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_3_Photo_in_NewsML-G2.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
 
-        newsitem = g2doc.newsitem
+        newsitem = g2doc.get_newsitem()
         assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
         assert newsitem.version == '11'
         assert newsitem.standard == 'NewsML-G2'

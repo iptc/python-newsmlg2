@@ -8,13 +8,14 @@ from lxml import etree
 
 from .core import NEWSMLG2
 from .newsitem import NewsItem
+from .knowledgeitem import KnowledgeItem
 
 class NewsMLG2Document():
     """
     Parent class to paarse a NewsMLG2 document.
     """
     _root_element = None
-    newsitem = None
+    item = None
 
     def __init__(self, filename=None, string=None):
         if isinstance(filename, str):
@@ -24,19 +25,24 @@ class NewsMLG2Document():
             self._root_element = etree.fromstring(string)
 
         if self._root_element.tag == NEWSMLG2+'newsItem':
-            self.newsitem = NewsItem(
+            self.item = NewsItem(
+                xmlelement = self._root_element
+            )
+        elif self._root_element.tag == NEWSMLG2+'knowledgeItem':
+            self.item = KnowledgeItem(
                 xmlelement = self._root_element
             )
         else:
             raise Exception(
-                "Item types other than NewsItem are not yet supported."
+                "Item types other than NewsItem and KnowledgeItem "
+                "are not yet supported."
             )
 
     def get_newsitem(self):
         """Return the main NewsItem object for this document."""
-        return self.newsitem
+        return self.item
 
     def to_xml(self):
         """Return this document in XML form."""
-        elem = self.newsitem.to_xml()
+        elem = self.item.to_xml()
         return etree.tostring(elem, pretty_print=True).decode()

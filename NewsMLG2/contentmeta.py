@@ -7,15 +7,14 @@ contentMeta classes
 from .core import BaseObject, GenericArray
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, MediaContentCharacteristics1,
-    RankingAttributes
+    RankingAttributes, QuantifyAttributes
 )
 from .concepts import (
     FlexAuthorPropType, FlexLocationPropType, Flex1ConceptPropType,
-    Flex1PartyPropType
+    Flex1PartyPropType, Flex1PropType
 )
 from .complextypes import IntlStringType, TruncatedDateTimePropType
 from .extensionproperties import Flex2ExtPropType
-from .flextypes import AudienceType
 from .ids import AltId
 from .labeltypes import BlockType, Label1Type
 from .link import TargetResourceAttributes
@@ -117,6 +116,17 @@ class Contributor(GenericArray):
     An array of ContributorElement objects.
     """
     element_class = ContributorElement
+
+
+class AudienceType(Flex1PropType, QuantifyAttributes):
+    """
+    The type to cover all qualifers for an audience property
+    """
+    attributes = {
+        # A qualifier which indicates the expected significance of the content
+        # for this specific audience.
+        'significance': 'significance' # type="Int1to9Type" use="optional">
+    }
 
 
 class AudienceElement(AudienceType):

@@ -160,6 +160,11 @@ class BaseObject():
             return self.text
         return '<'+self.__class__.__name__+'>'
 
+    def to_xml(self):
+        root = etree.Element("p")
+        root.text = "to_xml() placeholder"
+        return root
+
 
 class GenericArray(BaseObject):
     """

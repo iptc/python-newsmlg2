@@ -372,7 +372,7 @@ class FlexPOIPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
         'poi_details': {
             'type': 'single',
             'xml_name': 'POIDetails',
-            'element_class': 'POIDetails'
+            'element_class': 'concepts.POIDetails'
         }
     }
 
@@ -540,11 +540,11 @@ class EntityDetailsGroup(BaseObject):
         },
         'geoareadetails': {
             'type': 'single', 'xml_name': 'geoAreaDetails',
-            'element_class': 'entities.GeoAreaDetails'
+            'element_class': GeoAreaDetails
          },
         'poidetails': {
             'type': 'single', 'xml_name': 'POIDetails',
-            'element_class': 'entities.POIDetails'
+            'element_class': POIDetails
         },
         'objectdetails': {
             'type': 'single', 'xml_name': 'objectDetails',
@@ -558,7 +558,7 @@ class EntityDetailsGroup(BaseObject):
     }
 
 
-class Concept(ConceptRelationshipsGroup, EntityDetailsGroup,
+class ConceptElement(ConceptRelationshipsGroup, EntityDetailsGroup,
     CommonPowerAttributes, I18NAttributes):
     """
     A set of properties defining a concept
@@ -590,3 +590,9 @@ class Concept(ConceptRelationshipsGroup, EntityDetailsGroup,
             'element_class': 'extensionproperties.ConceptExtProperty'
         }
     }
+
+class Concept(GenericArray):
+    """
+    An array of ConceptElement objects.
+    """
+    element_class = ConceptElement

@@ -272,8 +272,8 @@ class QCodeURIMixin(BaseObject):
         # convert URI to qcode:
         uri = self.get_attr('uri')
         urimainpart, code = uri.rsplit('/', 1)
-        # get catalog
-        scheme = CATALOG_STORE.get_scheme_for_uri(urimainpart)
+        # get catalog - we need to put the slash back!
+        scheme = CATALOG_STORE.get_scheme_for_uri(urimainpart+'/')
         # look up catalog for URI, get prefix
         alias = scheme.alias
         return alias + ':' + code

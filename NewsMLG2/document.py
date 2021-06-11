@@ -42,6 +42,10 @@ class NewsMLG2Document():
         """Return the main NewsItem object for this document."""
         return self.item
 
+    def get_knowledgeitem(self):
+        """Return the main Item object for this document."""
+        return self.item
+
     def to_xml(self):
         """Return this document in XML form."""
         elem = self.item.to_xml()

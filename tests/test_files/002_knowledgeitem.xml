@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532" version="1">
+  <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml"/>
+  <rightsInfo>
+    <copyrightHolder uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
+      <name>IPTC - International Press Telecommunications Council</name>
+    </copyrightHolder>
+    <copyrightNotice>Copyright 2021, IPTC, www.iptc.org, Rights Reserved</copyrightNotice>
+    <usageTerms href="http://creativecommons.org/licenses/by/4.0/">the Creative Commons Attribution (CC BY) 4.0 license applies to all NewsCodes</usageTerms>
+  </rightsInfo>
+  <itemMeta>
+    <itemClass qcode="cinat:scheme"/>
+    <provider uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
+      <name>IPTC</name>
+    </provider>
+    <versionCreated>2021-04-21T12:00:00+00:00</versionCreated>
+    <firstCreated>2008-02-29T12:00:00+00:00</firstCreated>
+    <pubStatus qcode="stat:usable"/>
+  </itemMeta>
+  <contentMeta>
+    <contentCreated>2021-02-09T12:00:00+00:00</contentCreated>
+    <name xml:lang="en-GB">News Provider</name>
+    <description xml:lang="en-GB">Indicates a News Provider registered with the IPTC.</description>
+  </contentMeta>
+  <partMeta partid="pi0" contentrefs="nprovAFP nprovAMB nprovANA nprovANI nprovANL nprovANM nprovANSA nprovAP nprovAPA nprovAPS nprovBN nprovBNA nprovBW nprovCP nprovCTK nprovDIRECT nprovDMGT nprovdpa nprovFOOL nprovGLOBE nprovGNA nprovHNA nprovIHT nprovINA nprovIPTC nprovIRNA nprovKUNA nprovKYODO nprovLUSA nprovMTI nprovNTR nprovNYTBG nprovNYTIMES nprovNYTRNG nprovPA nprovPC nprovPETRA nprovPRN nprovPRNE nprovQNA nprovREUTERS nprovSABA nprovSPA nprovSPX nprovSTA nprovSUNA nprovTT nprovUPI nprovUSATF nprovWAFA nprovWAM">
+    <contentModified>2008-07-02T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi1" contentrefs="nprovGYI">
+    <contentModified>2010-12-15T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi2" contentrefs="nprovEFE">
+    <contentModified>2011-02-22T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi3" contentrefs="nprovKNA">
+    <contentModified>2013-09-18T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi4" contentrefs="nprovNTB">
+    <contentModified>2014-08-13T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi5" contentrefs="nprovNA.DE">
+    <contentModified>2015-01-09T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi6" contentrefs="nprovBLOOMBERG">
+    <contentModified>2015-05-12T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi7" contentrefs="nprovBBC nprovCNS nprovSANA">
+    <contentModified>2015-08-27T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi8" contentrefs="nprovEPD">
+    <contentModified>2016-03-11T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi9" contentrefs="nprovKSDA">
+    <contentModified>2019-12-06T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi10" contentrefs="nprovXHA">
+    <contentModified>2020-06-17T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi11" contentrefs="nprovACCESSWIRE">
+    <contentModified>2021-02-09T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi12" contentrefs="nprovNEWSDIRECT">
+    <contentModified>2021-02-17T12:00:00+00:00</contentModified>
+  </partMeta>
+  <partMeta partid="pi13" contentrefs="nprovETXSTUDIO nprovMEDIAOUTREACH">
+    <contentModified>2021-04-21T12:00:00+00:00</contentModified>
+  </partMeta>
+  <conceptSet>
+    <concept id="nprovACCESSWIRE" modified="2021-02-09T12:00:00+00:00">
+      <conceptId qcode="nprov:ACCESSWIRE" created="2021-02-09T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">ACCESSWIRE</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovAFP" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:AFP" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Agence France-Presse</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovAMB" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:AMB" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Associated MediaBase, Associated Newspapers Limited</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovANA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:ANA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Athens News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovANI" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:ANI" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Lebanese News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovANL" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:ANL" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Associated Newspapers Limited</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovANM" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:ANM" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Associated News Media, Associated Newspapers Limited</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovANSA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:ANSA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Italian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovAP" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:AP" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">The Associated Press</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovAPA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:APA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Austria Presse Agentur e.G.</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovAPS" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:APS" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Algerian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovBBC" modified="2015-08-27T12:00:00+00:00">
+      <conceptId qcode="nprov:BBC" created="2015-08-27T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">BBC - British Broadcasting Corporation</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovBLOOMBERG" modified="2015-05-12T12:00:00+00:00">
+      <conceptId qcode="nprov:BLOOMBERG" created="2015-05-12T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Bloomberg LP</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovBN" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:BN" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Broadcast News</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovBNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:BNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Bahrain News Agency  (used to be called the Gulf News Agency)</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovBW" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:BW" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Business Wire</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovCNS" modified="2015-08-27T12:00:00+00:00">
+      <conceptId qcode="nprov:CNS" created="2015-08-27T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">CNS - Catholic News Service</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovCP" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:CP" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">The Canadian Press</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovCTK" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:CTK" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Czech News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovDIRECT" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:DIRECT" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Directnews press release distributor, [Leipzig,Germany]</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovDMGT" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:DMGT" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Daily Mail and General Trust, Associated Newspapers Limited</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovdpa" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:dpa" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Deutsche Presse-Agentur GmbH</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovEFE" modified="2011-02-22T12:00:00+00:00">
+      <conceptId qcode="nprov:EFE" created="2011-02-22T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Agencia EFE</name>
+      <name xml:lang="es">Agencia EFE</name>
+      <definition xml:lang="en-GB">EFE News - Spanish news agency</definition>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovEPD" modified="2016-03-11T12:00:00+00:00">
+      <conceptId qcode="nprov:EPD" created="2016-03-11T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Evangelischer Pressedienst (epd)</name>
+      <name xml:lang="de">Evangelischer Pressedienst (epd)</name>
+      <note xml:lang="en-GB">http://www.epd.de</note>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovETXSTUDIO" modified="2021-04-12T12:00:00+00:00">
+      <conceptId qcode="nprov:ETXSTUDIO" created="2021-04-12T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">ETX STUDIO</name>
+      <note xml:lang="en-GB">http://www.etxstudio.com</note>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovFOOL" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:FOOL" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Foolpix.com</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovGLOBE" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:GLOBE" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Boston Globe</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovGNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:GNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Gulf News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovGYI" modified="2010-12-15T12:00:00+00:00">
+      <conceptId qcode="nprov:GYI" created="2010-12-15T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Getty Images Inc.</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovHNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:HNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Croatian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovIHT" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:IHT" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">The International Herald Tribune</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovINA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:INA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Iraq News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovIPTC" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:IPTC" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">IPTC - International Press Telecommunications Council</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovIRNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:IRNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Iranian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovKNA" modified="2013-09-18T12:00:00+00:00">
+      <conceptId qcode="nprov:KNA" created="2013-09-18T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">KNA News Agency</name>
+      <definition xml:lang="en-GB">Katholische Nachrichten-Agentur GmbH, Germany - www.kna.de</definition>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovKSDA" modified="2019-12-06T12:00:00+00:00">
+      <conceptId qcode="nprov:KSDA" created="2019-12-06T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Keystone-SDA-ATS AG</name>
+      <definition xml:lang="en-GB">National news agency of Switzerland</definition>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovKUNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:KUNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Kuwait News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovKYODO" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:KYODO" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Kyodo news service</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovLUSA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:LUSA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Lusa News Agency</name>
+      <definition xml:lang="en-GB">Lusa – Agência de Notícias de Portugal, S.A. </definition>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovMEDIAOUTREACH" modified="2021-04-21T12:00:00+00:00">
+      <conceptId qcode="nprov:MEDIAOUTREACH" created="2021-04-2102T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Media Outreach</name>
+      <note xml:lang="en-GB">http://www.media-outreach.com</note>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovMTI" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:MTI" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Magyar Tavirati Iroda</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNA.DE" modified="2015-01-09T12:00:00+00:00">
+      <conceptId qcode="nprov:NA.DE" created="2015-01-09T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="de">news aktuell GmbH (Deutschland)</name>
+      <name xml:lang="en-GB">news aktuell GmbH (Germany)</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNEWSDIRECT" modified="2021-02-17T12:00:00+00:00">
+      <conceptId qcode="nprov:NEWSDIRECT" created="2021-02-17T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">News Direct</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNTB" modified="2014-08-13T12:00:00+00:00">
+      <conceptId qcode="nprov:NTB" created="2014-08-13T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="nb-NO">Norsk Telegrambyrå</name>
+      <name xml:lang="en-GB">Norwegian News Agency</name>
+      <definition xml:lang="en-GB">National news agency of Norway</definition>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNTR" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:NTR" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Nouvelles tele-radio</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNYTBG" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:NYTBG" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">New York Times Broadcasting Group</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNYTIMES" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:NYTIMES" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">The New York Times</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovNYTRNG" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:NYTRNG" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">New York Times Regional Newspaper Group</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovPA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:PA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">The Press Association</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovPC" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:PC" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">La Presse Canadienne</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovPETRA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:PETRA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Jordanian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovPRN" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:PRN" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">PR NewsWire</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovPRNE" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:PRNE" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">PR NewsWire Europe</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovQNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:QNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Quatar News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovREUTERS" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:REUTERS" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Reuters</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSABA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:SABA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Yemen News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSANA" modified="2015-08-27T12:00:00+00:00">
+      <conceptId qcode="nprov:SANA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Syrian Arab News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSPA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:SPA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Saudi Press Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSPX" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:SPX" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Space Daily [Gerroa, NSW, Australia]</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSTA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:STA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Slovenska Tiskovna Agencija</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovSUNA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:SUNA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Sudan News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovTT" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:TT" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Tidningarnas Telegrambyra</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovUPI" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:UPI" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">United Press International</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovUSATF" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:USATF" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">USA Track and Field</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovWAFA" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:WAFA" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Palestanian News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovWAM" modified="2008-07-02T12:00:00+00:00">
+      <conceptId qcode="nprov:WAM" created="2008-07-02T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Emirates News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+    <concept id="nprovXHA" modified="2020-06-17T12:00:00+00:00">
+      <conceptId qcode="nprov:XHA" created="2020-06-17T12:00:00+00:00"/>
+      <type qcode="cpnat:abstract"/>
+      <name xml:lang="en-GB">Xinhua News Agency</name>
+      <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
+    </concept>
+  </conceptSet>
+  <schemeMeta uri="http://cv.iptc.org/newscodes/newsprovider/" authority="http://www.iptc.org" preferredalias="nprov">
+    <definition xml:lang="en-GB">Indicates a News Provider registered with the IPTC.</definition>
+    <name xml:lang="en-GB">News Provider</name>
+    <note xml:lang="en-GB">See also the News Product NewsCodes </note>
+    <related qcode="nprov:ACCESSWIRE" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:AFP" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:AMB" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:ANA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:ANI" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:ANL" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:ANM" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:ANSA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:AP" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:APA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:APS" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:BBC" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:BLOOMBERG" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:BN" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:BNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:BW" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:CNS" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:CP" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:CTK" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:DIRECT" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:DMGT" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:dpa" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:EFE" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:EPD" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:FOOL" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:GLOBE" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:GNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:GYI" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:HNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:IHT" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:INA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:IPTC" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:IRNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:KNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:KSDA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:KUNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:KYODO" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:LUSA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:MTI" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NA.DE" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NEWSDIRECT" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NTB" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NTR" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NYTBG" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NYTIMES" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:NYTRNG" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:PA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:PC" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:PETRA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:PRN" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:PRNE" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:QNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:REUTERS" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:SABA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:SANA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:SPA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:SPX" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:STA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:SUNA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:TT" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:UPI" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:USATF" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:WAFA" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:WAM" rel="skos:hasTopConcept"/>
+    <related qcode="nprov:XHA" rel="skos:hasTopConcept"/>
+    <schemeMetaExtProperty rel="ikos:availLang" value="en-GB"/>
+	</schemeMeta>
+</knowledgeItem>

@@ -25,30 +25,32 @@ class BaseObject():
     """
     Implements `attributes` and `elements` handlers.
     """
-    attr_values = {}
+    attribute_definitions = None
+    element_definitions = None
+    attribute_values = {}
     attribute_types = {}
     element_values = {}
     dict = {}
 
-    @classmethod
-    def get_attributes(cls):
+    def get_attributes(self):
         """
         Load all 'attributes' from any class in the MRO inheritance chain
         """
-        all_attrs = {}
-        for otherclass in reversed(cls.__mro__):
+        if self.attribute_definitions:
+            return self.attribute_definitions
+        self.attribute_definitions = {}
+        for otherclass in reversed(self.__class__.__mro__):
             attrs = vars(otherclass).get('attributes', {})
-            all_attrs.update(attrs)
-        return all_attrs
+            self.attribute_definitions.update(attrs)
+        return self.attribute_definitions
 
-    @classmethod
-    def get_attribute_types(cls):
+    def get_attribute_types(self):
         """
         Load all 'attribute_types' declared in  any class in the MRO
         inheritance chain
         """
         all_attr_types = {}
-        for otherclass in reversed(cls.__mro__):
+        for otherclass in reversed(self.__class__.__mro__):
             attr_types = vars(otherclass).get('attribute_types', {})
             all_attr_types.update(attr_types)
         return all_attr_types
@@ -57,26 +59,27 @@ class BaseObject():
         """
         Get value of the given XML attribute.
         """
-        return self.attr_values.get(attr, None)
+        return self.attribute_values.get(attr, None)
 
-    @classmethod
-    def get_elements(cls):
+    def get_elements(self):
         """
         Load all element definitions declared in any class in the MRO
         inheritance chain
         """
-        all_elements = {}
-        for otherclass in reversed(cls.__mro__):
+        if self.element_definitions:
+            return self.element_definitions
+        self.element_definitions = {}
+        for otherclass in reversed(self.__class__.__mro__):
             elements = vars(otherclass).get('elements', {})
-            all_elements.update(elements)
-        return all_elements
+            self.element_definitions.update(elements)
+        return self.element_definitions
 
     def __init__(self, **kwargs):
         """
         This is our base object, we don't call super() from here
         """
         self.dict = {}
-        self.attr_values = {}
+        self.attribute_values = {}
         self.element_values = {}
         xmlelement = kwargs.get('xmlelement')
         if xmlelement is None:
@@ -85,7 +88,7 @@ class BaseObject():
             raise Exception("xmlelement should be an instance of _Element")
         attrs = self.get_attributes()
         for xml_attribute, attribute_id in attrs.items():
-            self.attr_values[attribute_id] = xmlelement.get(xml_attribute)
+            self.attribute_values[attribute_id] = xmlelement.get(xml_attribute)
 
         elements = self.get_elements()
         for element_id, element_definition in elements.items():
@@ -125,8 +128,8 @@ class BaseObject():
         """
         if name in self.element_values:
             return self.element_values[name]
-        if name in self.attr_values:
-            return self.attr_values[name]
+        if name in self.attribute_values:
+            return self.attribute_values[name]
         raise AttributeError(
             "'" + self.__class__.__name__ +
             "' has no element or attribute '" + name + "'"
@@ -141,8 +144,8 @@ class BaseObject():
         attr_types = self.get_attribute_types()
         if attrs:
             for xml_attribute, json_property in attrs.items():
-                if xml_attribute in self.attr_values and self.attr_values[xml_attribute]:
-                    property_value =  self.attr_values[xml_attribute]
+                if xml_attribute in self.attribute_values and self.attribute_values[xml_attribute]:
+                    property_value =  self.attribute_values[xml_attribute]
                     property_type = attr_types.get(xml_attribute, None)
                     if property_type == "integer":
                         property_value = int(property_value)
@@ -150,8 +153,9 @@ class BaseObject():
         return self.dict
 
     def __bool__(self):
-        asdict = self.as_dict()
-        if asdict != {}:
+        if any(self.attribute_values.values()):
+            return True
+        if [bool(elem) for elem in self.element_values.values()]:
             return True
         return False
 
@@ -161,9 +165,28 @@ class BaseObject():
         return '<'+self.__class__.__name__+'>'
 
     def to_xml(self):
-        root = etree.Element("p")
-        root.text = "to_xml() placeholder"
-        return root
+        if hasattr(self, 'xml_element_name'):
+            xml_element_name = self.xml_element_name
+        else:
+            xml_element_name = self.__class__.__name__
+            xml_element_name = (xml_element_name[0].lower()
+                + xml_element_name[1:])
+        elem = etree.Element(xml_element_name)
+        if hasattr(self, 'text') and self.text != '':
+            elem.text = self.text
+        for attr_name, attr_value in self.attribute_values.items():
+            # TODO handle '{http://www.w3.org/XML/1998/namespace}lang' as a key
+            if attr_value is not None:
+                elem.set(attr_name, attr_value)
+        for child_element_id, child_element in self.element_values.items():
+            if child_element:
+                child_elem_xml = child_element.to_xml()
+                if isinstance(child_elem_xml, list):
+                    for child in child_elem_xml:
+                        elem.append(child)
+                else:
+                    elem.append(child_elem_xml)
+        return elem
 
 
 class GenericArray(BaseObject):
@@ -222,9 +245,6 @@ class GenericArray(BaseObject):
             self.element_class_name +' objects>'
         )
 
-    def __bool__(self):
-        return len(self.array_contents) != 0
-
     def as_dict(self):
         return [ elem.as_dict() for elem in self.array_contents ]
 
@@ -246,6 +266,17 @@ class GenericArray(BaseObject):
             "'" + self.__class__.__name__ + "'" +
             " has more than one element, shortcut property accessor failed"
         )
+
+    def __bool__(self):
+        if self.array_contents != []:
+            return any([bool(item) for item in self.array_contents])
+        return False
+
+    def to_xml(self):
+        xml_array = []
+        for elem in self.array_contents:
+            xml_array.append(elem.to_xml())
+        return xml_array
 
 
 class QCodeURIMixin(BaseObject):

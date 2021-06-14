@@ -172,6 +172,7 @@ class CatalogRefElement(BaseObject):
     """
     A reference to a remote catalog. A hyperlink to a set of scheme alias declarations.
     """
+    xml_element_name = 'catalogRef'
     attributes = {
         # A short natural language name for the catalog.
         'title': 'title',

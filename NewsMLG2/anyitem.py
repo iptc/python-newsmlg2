@@ -6,7 +6,7 @@ AnyItemType definitions
 
 from lxml import etree
 
-from .core import GenericArray, QCodeURIMixin
+from .core import BaseObject, GenericArray, QCodeURIMixin
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes
 )
@@ -45,7 +45,7 @@ class Action(GenericArray):
     element_class = ActionElement
 
 
-class Hop(CommonPowerAttributes):
+class HopElement(CommonPowerAttributes):
     """
     A single hop of the Hop History. The details of the hop entry should
     reflect the actions taken by a party.
@@ -72,12 +72,21 @@ class Hop(CommonPowerAttributes):
     }
 
 
-class HopHistory(GenericArray):
+class Hop(GenericArray):
+    """
+    An array of HopElement objects.
+    """
+    element_class = HopElement
+
+
+class HopHistory(BaseObject):
     """
     A history of the creation and modifications of the content object of this
     item, expressed as a sequence of hops.
     """
-    element_class = Hop
+    elements = {
+        'hop': { 'type': 'array', 'xml_name': 'hop', 'element_class': Hop }
+    }
 
 
 class Timestamp(TruncatedDateTimePropType):
@@ -184,8 +193,8 @@ class AnyItem(I18NAttributes):
     }
 
     elements = {
-        'hophistory': { 'type': 'array', 'xml_name': 'hopHistory', 'element_class': HopHistory },
-        'pubhistory': { 'type': 'array', 'xml_name': 'pubHistory', 'element_class': PubHistory },
+        'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
+        'pubhistory': { 'type': 'single', 'xml_name': 'pubHistory', 'element_class': PubHistory },
         'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },
         'itemmeta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta }
     }

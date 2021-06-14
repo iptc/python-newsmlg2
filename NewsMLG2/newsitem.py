@@ -23,6 +23,7 @@ class InlineXMLElement(NewsContentAttributes, NewsContentTypeAttributes,
     A rendition of the content using an XML language
     """
 
+
 class InlineXML(GenericArray):
     """
     An array of InlineXMLElement objects
@@ -35,6 +36,7 @@ class InlineDataElement(NewsContentAttributes, NewsContentTypeAttributes,
     """
     A rendition of the content using plain-text or encoded inline data
     """
+    xml_element_name = 'inlineData'
     attributes = {
         # The encoding applied to the content before inclusion - expressed by a QCode
         'encoding': 'encoding',  # " type="QCodeType">
@@ -88,7 +90,7 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     """
     elements = {
         'channel': {
-            'type': 'array', 'xml_name': 'inlineXML', 'element_class': Channel
+            'type': 'array', 'xml_name': 'channel', 'element_class': Channel
         },
         'altid': {
             'type': 'array', 'xml_name': 'altId', 'element_class': AltId
@@ -160,6 +162,8 @@ class NewsItemContentMeta(ContentMetadataAfDType):
     """
     A set of properties about the content
     """
+    xml_element_name = 'contentMeta'
+
 
 class NewsItem(AnyItem):
     """

@@ -108,6 +108,7 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     The type of a natural language name for the concept (Type defined in this
     XML Schema only)
     """
+    xml_element_name = 'name'
     name = None
     attributes = {
         # A refinement of the semantics of the name - expressed by a QCode

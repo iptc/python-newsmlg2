@@ -6,7 +6,7 @@ so it needs to live in its own file
 to avoid import loops.
 """
 
-from .core import BaseObject, GenericArray
+from .core import BaseObject
 from .catalogstore import CATALOG_STORE
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes,
@@ -122,27 +122,15 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         uri = scheme.uri
         return uri + code
 
-class LinkElement(Link1Type):
+
+class Link(Link1Type):
     """
     A link from the current Item to a target Item or Web resource
     """
 
 
-class Link(GenericArray):
-    """
-    An array of LinkElement objects
-    """
-    element_class = LinkElement
-
-
-class RemoteInfoElement(Link1Type):
+class RemoteInfo(Link1Type):
     """
     A link to an item or a web resource which provides information about the
     concept
     """
-
-class RemoteInfo(GenericArray):
-    """
-    An array of RemoteInfoElement objects
-    """
-    element_class = RemoteInfoElement

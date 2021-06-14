@@ -8,7 +8,7 @@ aliases and locations)
 import os
 from lxml import etree
 
-from .core import NEWSMLG2, BaseObject, GenericArray
+from .core import NEWSMLG2NSPREFIX, BaseObject
 from .attributegroups import CommonPowerAttributes
 from .complextypes import Name
 from .concepts import Definition, Note
@@ -43,8 +43,8 @@ def build_catalog(xmlelement):
     - inline catalogs are not yet tested
     - load and cache catalog from catalogRef href
     """
-    catalogs = xmlelement.findall(NEWSMLG2+'catalog')
-    catalog_refs = xmlelement.findall(NEWSMLG2+'catalogRef')
+    catalogs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalog')
+    catalog_refs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalogRef')
     for catalog in catalogs:
         add_catalog(xmlelement=catalog)
     for catalog_ref in catalog_refs:
@@ -83,138 +83,17 @@ def get_catalogs():
     return CATALOG_STORE
 
 
-class Catalog(CommonPowerAttributes):
-    """
-    A local or remote catalog.
-    """
-
-    _catalog = []
-    catalog_titles = []
-
-    attributes = {
-        # A pointer to some additional information about
-        # the Catalog, and especially its evolution and latest version.
-        'additionalInfo': 'additionalInfo', # type="IRIType">
-        # Defines the location of the catalog as remote resource.
-        # (Should be the same as the URL which is used with the href
-        # attribute of a catalogRef in an item.)
-        'url': 'url', # type="IRIType">
-        # Defines the authority controlling this catalog
-        'authority': 'authority', # type="IRIType">
-        # Globally Unique Identifier for this kind of catalog as
-        # managed by a provider. A version attribute should be used with it.
-        'guid': 'guid', # type="xs:anyURI">
-        # Version corresponding to the guid of the catalog.
-        # If a version attribute exists a guid attribute must exist too
-        'version': 'version', # type="xs:nonNegativeInteger">
-    }
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self._catalog = []
-        self._catalog_titles = []
-        self._catalog_uri_lookup = {}
-        self._catalog_alias_lookup = {}
-        xmlelement = kwargs.get('xmlelement')
-        assert isinstance(xmlelement, etree._Element)
-        assert xmlelement.tag == NEWSMLG2+'catalog'
-        titles = xmlelement.findall(NEWSMLG2+'title')
-        for title in titles:
-            title = Title(xmlelement=title)
-            self.catalog_titles.append(title)
-
-        schemes = xmlelement.findall(NEWSMLG2+'scheme')
-        for scheme in schemes:
-            scheme = Scheme(xmlelement=scheme)
-            self.add_scheme_to_catalog(scheme)
-
-    def add_scheme_to_catalog(self, scheme):
-        """Add a given scheme to our catalog"""
-        self._catalog.append(scheme)
-        if hasattr(scheme, 'uri'):
-            self._catalog_uri_lookup[scheme.uri] = scheme
-        if hasattr(scheme, 'alias'):
-            self._catalog_alias_lookup[scheme.alias] = scheme
-
-    def get_scheme_for_alias(self, alias):
-        """Return the scheme matching a given alias string"""
-        if alias in self._catalog_alias_lookup.keys():
-            return self._catalog_alias_lookup[alias]
-        return None
-
-    def get_scheme_for_uri(self, uri):
-        """Return the scheme matching a given URI"""
-        if uri in self._catalog_uri_lookup.keys():
-            return self._catalog_uri_lookup[uri]
-        return None
-
-    def __iter__(self):
-        for key in self._catalog:
-            yield key
-
-    def __getitem__(self,index):
-        return self._catalog[index]
-
-    def __len__(self):
-        return len(self._catalog)
-
-    #def __dict__(self):
-    #    return dict(self._catalog)
-
-    def str(self):
-        """String representation of the catalog object."""
-        if self.catalog_titles:
-            return '<Catalog '+self.catalog_titles[0]+'>'
-        return '<Catalog>'
-
-
-class CatalogRefElement(BaseObject):
-    """
-    A reference to a remote catalog. A hyperlink to a set of scheme alias declarations.
-    """
-    xml_element_name = 'catalogRef'
-    attributes = {
-        # A short natural language name for the catalog.
-        'title': 'title',
-        # A hyperlink to a remote Catalog.
-        'href': 'href'
-    }
-
-
-class CatalogRef(GenericArray):
-    """
-    A reference to document(s) listing externally-supplied controlled vocabularies.
-    The catalog file can be in NewsML 1.
-    """
-    element_class = CatalogRefElement
-
-
-class TitleElement(Label1Type):
+class Title(Label1Type):
     """
     A short, natural-language name
-    NOTE part of "more shared elements" section - might need to move this into newsmlg2.py
     """
 
 
-class Title(GenericArray):
-    """
-    An array of TitleElement objects.
-    """
-    element_class = TitleElement
-
-
-class SameAsSchemeElement(IRIType, CommonPowerAttributes):
+class SameAsScheme(IRIType, CommonPowerAttributes):
     """
     A URI which identifies another scheme with concepts that use the
     same codes and are semantically equivalent to the concepts of this scheme
     """
-
-
-class SameAsScheme(GenericArray):
-    """
-    An array of SameAsSchemeElement objects.
-    """
-    element_class = SameAsSchemeElement
 
 
 class Scheme(CommonPowerAttributes):
@@ -261,3 +140,99 @@ class Scheme(CommonPowerAttributes):
 
     def __str__(self):
         return "{} ({}, {})".format(self.name, self.alias, self.uri)
+
+
+class Catalog(CommonPowerAttributes):
+    """
+    A local or remote catalog.
+    """
+
+    _catalog = []
+    elements = {
+        'title': {
+            'type': 'array', 'xml_name': 'title', 'element_class': Title
+        },
+        'scheme': {
+            'type': 'array', 'xml_name': 'scheme', 'element_class': Scheme
+        }
+    }
+
+    attributes = {
+        # A pointer to some additional information about
+        # the Catalog, and especially its evolution and latest version.
+        'additionalInfo': 'additionalInfo', # type="IRIType">
+        # Defines the location of the catalog as remote resource.
+        # (Should be the same as the URL which is used with the href
+        # attribute of a catalogRef in an item.)
+        'url': 'url', # type="IRIType">
+        # Defines the authority controlling this catalog
+        'authority': 'authority', # type="IRIType">
+        # Globally Unique Identifier for this kind of catalog as
+        # managed by a provider. A version attribute should be used with it.
+        'guid': 'guid', # type="xs:anyURI">
+        # Version corresponding to the guid of the catalog.
+        # If a version attribute exists a guid attribute must exist too
+        'version': 'version', # type="xs:nonNegativeInteger">
+    }
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._catalog = []
+        self._catalog_titles = []
+        self._catalog_uri_lookup = {}
+        self._catalog_alias_lookup = {}
+        xmlelement = kwargs.get('xmlelement')
+        assert isinstance(xmlelement, etree._Element)
+        assert xmlelement.tag == NEWSMLG2NSPREFIX+'catalog'
+
+        for scheme in self.get_element_value('scheme'):
+            self.add_scheme_to_catalog(scheme)
+
+    def add_scheme_to_catalog(self, scheme):
+        """Add a given scheme to our catalog"""
+        self._catalog.append(scheme)
+        if hasattr(scheme, 'uri'):
+            self._catalog_uri_lookup[scheme.uri] = scheme
+        if hasattr(scheme, 'alias'):
+            self._catalog_alias_lookup[scheme.alias] = scheme
+
+    def get_scheme_for_alias(self, alias):
+        """Return the scheme matching a given alias string"""
+        if alias in self._catalog_alias_lookup.keys():
+            return self._catalog_alias_lookup[alias]
+        return None
+
+    def get_scheme_for_uri(self, uri):
+        """Return the scheme matching a given URI"""
+        if uri in self._catalog_uri_lookup.keys():
+            return self._catalog_uri_lookup[uri]
+        return None
+
+    def __iter__(self):
+        for key in self._catalog:
+            yield key
+
+    def __getitem__(self,index):
+        return self._catalog[index]
+
+    def __len__(self):
+        return len(self._catalog)
+
+    def str(self):
+        """String representation of the catalog object."""
+        if self.title:
+            return '<Catalog '+self.title[0]+'>'
+        return '<Catalog>'
+
+
+class CatalogRef(BaseObject):
+    """
+    A reference to a remote catalog. A hyperlink to a set of scheme alias
+    declarations.
+    """
+    attributes = {
+        # A short natural language name for the catalog.
+        'title': 'title',
+        # A hyperlink to a remote Catalog.
+        'href': 'href'
+    }

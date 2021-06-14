@@ -4,11 +4,10 @@
 id related elements
 """
 
-from .core import GenericArray
 from .complextypes import IntlStringType2
 from .attributegroups import CommonPowerAttributes
 
-class AltIdElement(IntlStringType2):
+class AltId(IntlStringType2):
     """
     An alternative identifier assigned to the content.
     """
@@ -42,14 +41,7 @@ class AltIdElement(IntlStringType2):
     }
 
 
-class AltId(GenericArray):
-    """
-    An array of AltIdElement objects.
-    """
-    element_class = AltIdElement
-
-
-class HashElement(CommonPowerAttributes):
+class Hash(CommonPowerAttributes):
     """
     Hash value of parts of an item as defined by the hashscope attribute
     """
@@ -71,10 +63,3 @@ class HashElement(CommonPowerAttributes):
         # http://cv.iptc.org/newscodes/hashscope/content is the default value.
         'scopeuri': 'scopeuri'  # type="IRIType">
     }
-
-
-class Hash(GenericArray):
-    """
-    An array of HashElement objects.
-    """
-    element_class = HashElement

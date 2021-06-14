@@ -4,7 +4,7 @@
 Various attribute groups used throughout the schema.
 """
 
-from .core import BaseObject, XML, QCodeURIMixin
+from .core import BaseObject, XMLNSPREFIX, QCodeURIMixin
 
 
 class CommonPowerAttributes(BaseObject):
@@ -62,7 +62,7 @@ class I18NAttributes(BaseObject):
         # Specifies the language of this property and potentially all
         # descendant properties. xml:lang values of descendant properties
         # override this value. Values are determined by Internet BCP 47.
-        XML+'lang': 'xml_lang',
+        XMLNSPREFIX+'lang': 'xml_lang',
         # The directionality of textual content
         # (enumeration: ltr, rtl)
         'dir': 'dir'

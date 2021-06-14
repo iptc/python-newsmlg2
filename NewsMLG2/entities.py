@@ -4,7 +4,6 @@
 Party details - Person and Organisation
 """
 
-from .core import GenericArray
 from .attributegroups import CommonPowerAttributes, TimeValidityAttributes
 from .complextypes import IntlStringType, TruncatedDateTimePropType
 from .concepts import (
@@ -32,17 +31,10 @@ class PersonAffiliationType(FlexOrganisationPropType, TimeValidityAttributes):
     """
 
 
-class PersonAffiliationElement(PersonAffiliationType):
+class PersonAffiliation(PersonAffiliationType):
     """
     An affiliation of the person with an organisation.
     """
-
-
-class PersonAffiliation(GenericArray):
-    """
-    An array of PersonAffiliationElement objects.
-    """
-    element_class = PersonAffiliationElement
 
 
 class ElectronicAddressType(CommonPowerAttributes):
@@ -74,58 +66,31 @@ class ElectronicAddressTechType(CommonPowerAttributes):
     }
 
 
-class EmailElement(ElectronicAddressType):
+class Email(ElectronicAddressType):
     """
     An email address.
     """
 
-class Email(GenericArray):
-    """
-    An array of EmailElement objects.
-    """
-    element_class = EmailElement
 
-
-class IMElement(ElectronicAddressTechType):
+class IM(ElectronicAddressTechType):
     """
     An instant messaging address.
     """
 
 
-class IM(GenericArray):
-    """
-    An array of IMElement objects.
-    """
-    element_class = IMElement
-
-
-class PhoneElement(ElectronicAddressTechType):
+class Phone(ElectronicAddressTechType):
     """
     A phone number, preferred in an international format.
     """
 
 
-class Phone(GenericArray):
-    """
-    An array of PhoneElement objects.
-    """
-    element_class = PhoneElement
-
-
-class FaxElement(ElectronicAddressType):
+class Fax(ElectronicAddressType):
     """
     A fax number, preferred in an international format.
     """
 
 
-class Fax(GenericArray):
-    """
-    An array of FaxElement objects.
-    """
-    element_class = FaxElement
-
-
-class WebElement(IRIType, CommonPowerAttributes):
+class Web(IRIType, CommonPowerAttributes):
     """
     A web address.
     """
@@ -137,14 +102,7 @@ class WebElement(IRIType, CommonPowerAttributes):
     }
 
 
-class Web(GenericArray):
-    """
-    An array of WebElement objects.
-    """
-    element_class = WebElement
-
-
-class AddressLineElement(IntlStringType):
+class AddressLine(IntlStringType):
     """
     A line of address information, in the format expected by a recipient postal
     service. City, country area, country and postal code are expressed
@@ -158,23 +116,10 @@ class AddressLineElement(IntlStringType):
     }
 
 
-class AddressLine(GenericArray):
-    """
-    An array of AddressLineElement objects.
-    """
-
-
-class AreaElement(Flex1RolePropType):
+class Area(Flex1RolePropType):
     """
     A subdivision of a country part of the address.
     """
-
-
-class Area(GenericArray):
-    """
-    A set of AreaElement objects
-    """
-    element_class = AreaElement
 
 
 class PostalCode(IntlStringType):
@@ -189,17 +134,10 @@ class Country(Flex1PropType):
     """
 
 
-class LocalityElement(Flex1RolePropType):
+class Locality(Flex1RolePropType):
     """
     A city/town/village etc. part of the address.
     """
-
-
-class Locality(GenericArray):
-    """
-    A set of LocalityElement objects.
-    """
-    element_class = LocalityElement
 
 
 class WorldRegion(Flex1PropType):
@@ -207,7 +145,7 @@ class WorldRegion(Flex1PropType):
     A concept or name only defining the world region part of an address.
     """
 
-class AddressElement(CommonPowerAttributes):
+class Address(CommonPowerAttributes):
     """
     A postal address for the location of a Point Of Interest
     """
@@ -243,13 +181,6 @@ class AddressElement(CommonPowerAttributes):
     }
 
 
-class Address(GenericArray):
-    """
-    An array of AddressElement objects.
-    """
-    element_class = AddressElement
-
-
 class ContactInfoType(CommonPowerAttributes):
     """
     The type for information to get in contact with a party
@@ -272,17 +203,10 @@ class ContactInfoType(CommonPowerAttributes):
     }
 
 
-class ContactInfoElement(ContactInfoType):
+class ContactInfo(ContactInfoType):
     """
     Information how to contact the person.
     """
-
-
-class ContactInfo(GenericArray):
-    """
-    An array of ContactInfoElement objects.
-    """
-    element_class = ContactInfoElement
 
 
 class PersonDetails(CommonPowerAttributes):
@@ -315,16 +239,10 @@ class OrganisationDissolved(TruncatedDateTimePropType):
     """
 
 
-class OrganisationLocationElement(FlexLocationPropType):
+class OrganisationLocation(FlexLocationPropType):
     """
     A place where the organisation is located.
     """
-
-class OrganisationLocation(GenericArray):
-    """
-    An array of OrganisationLocationElement objects.
-    """
-    element_class = OrganisationLocationElement
 
 
 class OrganisationAffiliationType(FlexOrganisationPropType, TimeValidityAttributes):
@@ -334,17 +252,10 @@ class OrganisationAffiliationType(FlexOrganisationPropType, TimeValidityAttribut
     """
 
 
-class OrganisationAffiliationElement(OrganisationAffiliationType):
+class OrganisationAffiliation(OrganisationAffiliationType):
     """
     An affiliation of the organisation with another organisation.
     """
-
-
-class OrganisationAffiliation(GenericArray):
-    """
-    An array of OrganisationAffiliationElement objects.
-    """
-    element_class = OrganisationAffiliationElement
 
 
 class HasInstrument(CommonPowerAttributes):

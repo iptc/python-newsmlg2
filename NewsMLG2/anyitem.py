@@ -6,11 +6,11 @@ AnyItemType definitions
 
 from lxml import etree
 
-from .core import BaseObject, GenericArray, QCodeURIMixin
+from .core import BaseObject, QCodeURIMixin
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes
 )
-from .catalog import build_catalog, get_catalogs
+from .catalog import build_catalog, get_catalogs, CatalogRef, Catalog
 from .complextypes import Name, TruncatedDateTimePropType
 from .extensionproperties import Flex2ExtPropType
 from .conceptrelationships import QualRelPropType, Related
@@ -19,7 +19,7 @@ from .link import Link
 from .rights import RightsInfo
 
 
-class ActionElement(QualRelPropType):
+class Action(QualRelPropType):
     """
     An action which is executed at this hop in the hop history.
     """
@@ -38,14 +38,7 @@ class ActionElement(QualRelPropType):
     }
 
 
-class Action(GenericArray):
-    """
-    An array of ActionElement objects.
-    """
-    element_class = ActionElement
-
-
-class HopElement(CommonPowerAttributes):
+class Hop(CommonPowerAttributes):
     """
     A single hop of the Hop History. The details of the hop entry should
     reflect the actions taken by a party.
@@ -70,13 +63,6 @@ class HopElement(CommonPowerAttributes):
         # content object was forwarded.
         'timestamp': 'timestamp', # type="DateOptTimeType">
     }
-
-
-class Hop(GenericArray):
-    """
-    An array of HopElement objects.
-    """
-    element_class = HopElement
 
 
 class HopHistory(BaseObject):
@@ -129,27 +115,26 @@ class Published(CommonPowerAttributes, QCodeURIMixin):
     }
 
 
-class PubHistory(GenericArray):
+class PubHistory(BaseObject):
     """
     One to many datasets about publishing this item.
     """
-    element_class = Published
+    elements = {
+        'published': {
+            'type': 'array',
+            'xml_name': 'published',
+            'element_class': Published
+        }
+    }
 
 
-class ItemMetaExtPropertyElement(Flex2ExtPropType):
+class ItemMetaExtProperty(Flex2ExtPropType):
     """
     Extension Property: the semantics are defined by the concept referenced by
     the rel attribute.
     The semantics of the Extension Property must have the same scope as the
     parent property.
     """
-
-
-class ItemMetaExtProperty(GenericArray):
-    """
-    An array of ItemMetaExtPropertyElement objects.
-    """
-    element_class = ItemMetaExtPropertyElement
 
 
 class ItemMetadataType(ItemManagementGroup, CommonPowerAttributes,
@@ -192,7 +177,12 @@ class AnyItem(I18NAttributes):
         'version': 'version'  # TODO type positive integer, default "1"
     }
 
-    elements = {
+    elements = {\
+        # TODO implement xs:choice either "catalogRef" or "catalog"
+        # (but unlimited number of whichever one exists)
+        'catalogref': { 'type': 'array', 'xml_name': 'catalogRef', 'element_class': CatalogRef },
+        'catalog': { 'type': 'array', 'xml_name': 'catalog', 'element_class': Catalog },
+        'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
         'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
         'pubhistory': { 'type': 'single', 'xml_name': 'pubHistory', 'element_class': PubHistory },
         'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },

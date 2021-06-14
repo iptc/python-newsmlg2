@@ -4,7 +4,6 @@
 Handle NewsItems - one of the core NewsML-G2 Item types
 """
 
-from .core import GenericArray
 from .anyitem import AnyItem
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, NewsContentAttributes,
@@ -17,21 +16,14 @@ from .link import TargetResourceAttributes
 from .ids import AltId, Hash
 
 
-class InlineXMLElement(NewsContentAttributes, NewsContentTypeAttributes,
+class InlineXML(NewsContentAttributes, NewsContentTypeAttributes,
         NewsContentCharacteristics, I18NAttributes):
     """
     A rendition of the content using an XML language
     """
 
 
-class InlineXML(GenericArray):
-    """
-    An array of InlineXMLElement objects
-    """
-    element_class = InlineXMLElement
-
-
-class InlineDataElement(NewsContentAttributes, NewsContentTypeAttributes,
+class InlineData(NewsContentAttributes, NewsContentTypeAttributes,
         NewsContentCharacteristics, I18NAttributes):
     """
     A rendition of the content using plain-text or encoded inline data
@@ -44,14 +36,8 @@ class InlineDataElement(NewsContentAttributes, NewsContentTypeAttributes,
         'encodinguri': 'encodinguri'  # " type="IRIType">
     }
 
-class InlineData(GenericArray):
-    """
-    An array of InlineDataElement objects
-    """
-    element_class = InlineDataElement
 
-
-class ChannelElement(CommonPowerAttributes, NewsContentCharacteristics):
+class Channel(CommonPowerAttributes, NewsContentCharacteristics):
     """
     Information about a specific content channel.
     """
@@ -75,12 +61,6 @@ class ChannelElement(CommonPowerAttributes, NewsContentCharacteristics):
         # DO NOT USE this attribute, for G2 internal maintenance purposes only.
         'g2flag': 'g2flag'  # " type="xs:string" use="optional" fixed="RCONT">
     }
-
-class Channel(GenericArray):
-    """
-    An array of ChannelElement objects
-    """
-    element_class = ChannelElement
 
 
 class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
@@ -117,18 +97,11 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     }
 
 
-class RemoteContentElement(RemoteContentPropType):
+class RemoteContent(RemoteContentPropType):
     """
     A rendition of the content using a reference/link to a resource representing
     the content data at a remote location
     """
-
-
-class RemoteContent(RemoteContentPropType):
-    """
-    An array of RemoteContentElement objects.
-    """
-    element_class = RemoteContentElement
 
 
 class ContentSet(CommonPowerAttributes):

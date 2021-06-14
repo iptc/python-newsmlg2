@@ -4,7 +4,7 @@
 Properties from xs:group ItemManagementGroup
 """
 
-from .core import BaseObject, GenericArray
+from .core import BaseObject
 from .attributegroups import (
     CommonPowerAttributes, NewsContentTypeAttributes,
     TimeValidityAttributes
@@ -70,7 +70,7 @@ class FileName(G2NormalizedString, CommonPowerAttributes):
     """
 
 
-class GeneratorElement(VersionedStringType):
+class Generator(VersionedStringType):
     """
     The name and version of the software tool used to generate the Item.
     """
@@ -82,13 +82,6 @@ class GeneratorElement(VersionedStringType):
     }
 
 
-class Generator(GenericArray):
-    """
-    An array of GeneratorElement objects.
-    """
-    element_class = GeneratorElement
-
-
 class Profile(VersionedStringType):
     """
     This property provides information about the structure of an Item,
@@ -96,70 +89,37 @@ class Profile(VersionedStringType):
     """
 
 
-class ServiceElement(QualPropType):
+class Service(QualPropType):
     """
     An editorial service to which an item is assigned by its provider.
     """
 
-class Service(GenericArray):
-    """
-    An array of ServiceElement objects.
-    """
-    element_class = ServiceElement
 
-
-class TitleElement(BaseObject):
+class Title(BaseObject):
     """
     A short natural language name for the Item.
     """
 
-class Title(GenericArray):
-    """
-    An array of TitleElement objects.
-    """
-    element_class = TitleElement
 
-
-class EdNoteElement(BlockType):
+class EdNote(BlockType):
     """
     A note addressed to the editorial people receiving the Item.
     """
 
 
-class EdNote(GenericArray):
-    """
-    An array of EdNoteElement objects.
-    """
-    element_class = EdNoteElement
-
-
-class MemberOfElement(Flex1PropType):
+class MemberOf(Flex1PropType):
     """
     A set of Items around the same theme that this Item is part of.
     """
 
 
-class MemberOf(GenericArray):
-    """
-    An array of MemberOfElement objects.
-    """
-    element_class = MemberOfElement
-
-
-class InstanceOfElement(Flex1PropType):
+class InstanceOf(Flex1PropType):
     """
     A frequently updating information object that this Item is an instance of.
     """
 
 
-class InstanceOf(GenericArray):
-    """
-    An array of InstanceOfElement objects.
-    """
-    element_class = InstanceOfElement
-
-
-class SignalElement(Flex1PropType):
+class Signal(Flex1PropType):
     """
     An instruction to the processor that the content requires special handling.
     """
@@ -177,14 +137,7 @@ class SignalElement(Flex1PropType):
     }
 
 
-class Signal(GenericArray):
-    """
-    An array of SignalElement objects.
-    """
-    element_class = SignalElement
-
-
-class AltRepElement(IRIType, CommonPowerAttributes, TimeValidityAttributes,
+class AltRep(IRIType, CommonPowerAttributes, TimeValidityAttributes,
     NewsContentTypeAttributes):
     """
     An IRI which, upon dereferencing provides an alternative representation of
@@ -202,40 +155,19 @@ class AltRepElement(IRIType, CommonPowerAttributes, TimeValidityAttributes,
     }
 
 
-class AltRep(GenericArray):
-    """
-    An array of AltRepElement objects.
-    """
-    element_class = AltRepElement
-
-
-class DeliverableOfElement(Link1Type):
+class DeliverableOf(Link1Type):
     """
     A reference to the Planning Item under which this item has been published
     """
 
 
-class DeliverableOf(GenericArray):
-    """
-    An array of DeliverableOf objects.
-    """
-    element_class = DeliverableOfElement
-
-
-class ExpiresElement(DateOptTimePropType):
+class Expires(DateOptTimePropType):
     """
     The date and time after which the NewsItem is no longer considered valid by its publisher
     """
 
 
-class Expires(GenericArray):
-    """
-    An array of ExpiresElement objects.
-    """
-    element_class = ExpiresElement
-
-
-class OrigRepElement(IRIType, CommonPowerAttributes):
+class OrigRep(IRIType, CommonPowerAttributes):
     """
     An IRI which, upon dereferencing provides the original representation of the
     Item, the IRI should be persistent.
@@ -256,14 +188,7 @@ class OrigRepElement(IRIType, CommonPowerAttributes):
     }
 
 
-class OrigRep(GenericArray):
-    """
-    An array of OrigRepElement objects.
-    """
-    element_class = OrigRepElement
-
-
-class IncomingFeedIdElement(QCodePropType):
+class IncomingFeedId(QCodePropType):
     """
     The identifier of an incoming feed. A feed identifier may be defined by
     i/ the provider of the feed and/or
@@ -277,27 +202,13 @@ class IncomingFeedIdElement(QCodePropType):
     }
 
 
-class IncomingFeedId(GenericArray):
-    """
-    An array of IncomingFeedIdElement objects.
-    """
-    element_class = IncomingFeedIdElement
-
-
-class MetadataCreatorElement(FlexAuthorPropType):
+class MetadataCreator(FlexAuthorPropType):
     """
     Specifies the entity (person, organisation or system) which has edited the
     metadata properties of this Item; an individual metadata property’s
     creator may be explicitly overridden using the property's @creator
     attribute.
     """
-
-
-class MetadataCreator(GenericArray):
-    """
-    An array of MetadataCreatorElement objects.
-    """
-    element_class = MetadataCreatorElement
 
 
 class ItemManagementGroup(BaseObject):

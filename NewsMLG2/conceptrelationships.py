@@ -4,7 +4,7 @@
 Concept relationship classes - move merge with concepts.py
 """
 
-from .core import BaseObject, GenericArray, QCodeURIMixin
+from .core import BaseObject, QCodeURIMixin
 from .attributegroups import (
     ArbitraryValueAttributes, CommonPowerAttributes, FlexAttributes,
     I18NAttributes, QuantifyAttributes, TimeValidityAttributes
@@ -12,18 +12,11 @@ from .attributegroups import (
 from .complextypes import Name
 
 
-class HierarchyInfoElement(CommonPowerAttributes):
+class HierarchyInfo(CommonPowerAttributes):
     """
     Represents the position of a concept in a hierarchical taxonomy tree by a
     sequence of QCode tokens representing the ancestor concepts and this concept
     """
-
-class HierarchyInfo(GenericArray):
-    """
-    Array of HierarchyInfoElement objects.
-    """
-    element_class = HierarchyInfoElement
-
 
 class FlexPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
@@ -46,17 +39,10 @@ class SameAsType(FlexPropType, TimeValidityAttributes):
     """
 
 
-class SameAsElement(SameAsType):
+class SameAs(SameAsType):
     """
     An identifier of a concept with equivalent semantics
     """
-
-
-class SameAs(GenericArray):
-    """
-    An array of SameAsElement objects.
-    """
-    element_class = SameAsElement
 
 
 class QCodePropType(QCodeURIMixin, CommonPowerAttributes):
@@ -85,7 +71,7 @@ class Bag(QCodePropType, QuantifyAttributes):
     }
 
 
-class FacetElement(FlexPropType, TimeValidityAttributes):
+class Facet(FlexPropType, TimeValidityAttributes):
     """
     In NAR 1.8 and later, facet is deprecated and SHOULD NOT (see RFC 2119) be
     used, the "related" property should be used instead.
@@ -105,14 +91,7 @@ class FacetElement(FlexPropType, TimeValidityAttributes):
     }
 
 
-class Facet(GenericArray):
-    """
-    Array of FacetElement objects.
-    """
-    element_class = FacetElement
-
-
-class RelatedConceptRelatedElement(FlexPropType, TimeValidityAttributes,
+class RelatedConceptRelated(FlexPropType, TimeValidityAttributes,
     ArbitraryValueAttributes):
     """
     A related concept, where the relationship is different from 'sameAs',
@@ -120,6 +99,7 @@ class RelatedConceptRelatedElement(FlexPropType, TimeValidityAttributes,
     (for some reason RelatedConceptType defines this separately rather than
     re-using the Related class)
     """
+    xml_element_name = 'related'
     attributes = {
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a QCode
@@ -131,13 +111,6 @@ class RelatedConceptRelatedElement(FlexPropType, TimeValidityAttributes,
         # to the target concept.
         'rank': 'rank'  # type="xs:nonNegativeInteger">
     }
-
-
-class RelatedConceptRelated(GenericArray):
-    """
-    An array of RelatedConceptRelatedElement objects.
-    """
-    element_class = RelatedConceptRelatedElement
 
 
 class RelatedConceptType(FlexPropType, TimeValidityAttributes):
@@ -176,44 +149,22 @@ class MainConcept(RelatedConceptType):
     """
 
 
-class FacetConceptElement(RelatedConceptType):
+class FacetConcept(RelatedConceptType):
     """
     The concept which is faceting another concept asserted by mainConcept
     """
 
 
-class FacetConcept(RelatedConceptType):
-    """
-    An array of FacetConceptElement objects.
-    """
-    element_class = FacetConceptElement
-
-
-
-class BroaderElement(RelatedConceptType):
+class Broader(RelatedConceptType):
     """
     An identifier of a more generic concept.
     """
 
 
-class Broader(GenericArray):
-    """
-    An array of BroaderElement objects.
-    """
-    element_class = BroaderElement
-
-
-class NarrowerElement(RelatedConceptType):
+class Narrower(RelatedConceptType):
     """
     An identifier of a more specific concept.
     """
-
-
-class Narrower(GenericArray):
-    """
-    An array of NarrowerElement objects.
-    """
-    element_class = NarrowerElement
 
 
 class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
@@ -225,18 +176,11 @@ class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
     }
 
 
-class RelatedElement(FlexRelatedConceptType):
+class Related(FlexRelatedConceptType):
     """
     A related concept, where the relationship is different from 'sameAs',
     'broader' or 'narrower'.
     """
-
-
-class Related(GenericArray):
-    """
-    An array of RelatedElement objects.
-    """
-    element_class = RelatedElement
 
 
 class QualRelPropType(QCodePropType, I18NAttributes):
@@ -306,7 +250,7 @@ class ConceptRelationshipsGroup(BaseObject):
             'type': 'array', 'xml_name': 'broader', 'element_class': Broader
         },
         'narrower': {
-            'type': 'array', 'xml_name': 'broader', 'element_class': Narrower
+            'type': 'array', 'xml_name': 'narrower', 'element_class': Narrower
         },
         'related': {
             'type': 'array', 'xml_name': 'related', 'element_class': Related

@@ -4,7 +4,7 @@
 contentMeta classes
 """
 
-from .core import BaseObject, GenericArray
+from .core import BaseObject
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, MediaContentCharacteristics1,
     RankingAttributes, QuantifyAttributes
@@ -38,7 +38,7 @@ class ContentModified(TruncatedDateTimePropType):
     """
 
 
-class IconElement(TargetResourceAttributes, CommonPowerAttributes,
+class Icon(TargetResourceAttributes, CommonPowerAttributes,
     MediaContentCharacteristics1):
     """
     An iconic visual identification of the content
@@ -56,27 +56,13 @@ class IconElement(TargetResourceAttributes, CommonPowerAttributes,
     }
 
 
-class Icon(GenericArray):
-    """
-    An array of IconElement objects.
-    """
-    element_class = IconElement
-
-
-class LocatedElement(FlexLocationPropType):
+class Located(FlexLocationPropType):
     """
     The location from which the content originates.
     """
 
 
-class Located(GenericArray):
-    """
-    An array of Located objects.
-    """
-    element_class = LocatedElement
-
-
-class InfoSourceElement(Flex1PartyPropType):
+class InfoSource(Flex1PartyPropType):
     """
     A party (person or organisation) which originated, distributed, aggregated
     or supplied the content or provided some information used to create or
@@ -84,38 +70,17 @@ class InfoSourceElement(Flex1PartyPropType):
     """
 
 
-class InfoSource(GenericArray):
-    """
-    An array of InfoSource objects.
-    """
-    element_class = InfoSourceElement
-
-
-class CreatorElement(FlexAuthorPropType):
+class Creator(FlexAuthorPropType):
     """
     A party (person or organisation) which created the resource.
     """
 
 
-class Creator(GenericArray):
-    """
-    An array of CreatorElement objects.
-    """
-    element_class = CreatorElement
-
-
-class ContributorElement(FlexAuthorPropType):
+class Contributor(FlexAuthorPropType):
     """
     A party (person or organisation) which modified or enhanced the content,
     preferably the name of a person.
     """
-
-
-class Contributor(GenericArray):
-    """
-    An array of ContributorElement objects.
-    """
-    element_class = ContributorElement
 
 
 class AudienceType(Flex1PropType, QuantifyAttributes):
@@ -129,33 +94,19 @@ class AudienceType(Flex1PropType, QuantifyAttributes):
     }
 
 
-class AudienceElement(AudienceType):
+class Audience(AudienceType):
     """
     An intended audience for the content.
     """
 
 
-class Audience(GenericArray):
-    """
-    An array of AudienceElement objects.
-    """
-    element_class = AudienceElement
-
-
-class ExclAudienceElement(AudienceType):
+class ExclAudience(AudienceType):
     """
     An excluded audience for the content.
     """
 
 
-class ExclAudience(GenericArray):
-    """
-    An array of ExclAudienceElement objects.
-    """
-    element_class = AudienceElement
-
-
-class RatingElement(CommonPowerAttributes):
+class Rating(CommonPowerAttributes):
     """
     Expresses the rating of the content of this item by a party.
     """
@@ -193,14 +144,7 @@ class RatingElement(CommonPowerAttributes):
     }
 
 
-class Rating(GenericArray):
-    """
-    An array of RatingElement objects.
-    """
-    element_class = RatingElement
-
-
-class UserInteractionElement(CommonPowerAttributes):
+class UserInteraction(CommonPowerAttributes):
     """
     Reflects a specific kind of user interaction with the content of this item.
     """
@@ -218,27 +162,13 @@ class UserInteractionElement(CommonPowerAttributes):
     }
 
 
-class UserInteraction(GenericArray):
-    """
-    An array of UserInteractionElement objects.
-    """
-    element_class = UserInteractionElement
-
-
-class LanguageNameElement(IntlStringType):
+class LanguageName(IntlStringType):
     """
     A name for a concept assigned as property value.
     """
 
 
-class LanguageName(GenericArray):
-    """
-    An array of LanguageNameElement objects.
-    """
-    element_class = LanguageNameElement
-
-
-class LanguageElement(CommonPowerAttributes, RankingAttributes):
+class Language(CommonPowerAttributes, RankingAttributes):
     """
     A language used by the news content
     """
@@ -255,27 +185,13 @@ class LanguageElement(CommonPowerAttributes, RankingAttributes):
     }
 
 
-class Language(GenericArray):
-    """
-    An array of LanguageElement objects.
-    """
-    element_class = LanguageElement
-
-
-class GenreElement(Flex1ConceptPropType, RankingAttributes):
+class Genre(Flex1ConceptPropType, RankingAttributes):
     """
     A nature, intellectual or journalistic form of the content
     """
 
 
-class Genre(GenericArray):
-    """
-    An array of GenreElement objects
-    """
-    element_class = GenreElement
-
-
-class KeywordElement(IntlStringType, RankingAttributes):
+class Keyword(IntlStringType, RankingAttributes):
     """
     Free-text term to be used for indexing or finding the content of text-based search engines
     """
@@ -291,26 +207,13 @@ class KeywordElement(IntlStringType, RankingAttributes):
     }
 
 
-class Keyword(GenericArray):
-    """
-    An array of KeywordElement objects.
-    """
-    element_class = KeywordElement
-
-
-class SubjectElement(Flex1ConceptPropType, RankingAttributes):
+class Subject(Flex1ConceptPropType, RankingAttributes):
     """
     An important topic of the content; what the content is about
     """
 
-class Subject(GenericArray):
-    """
-    An array of SubjectElement objects.
-    """
-    element_class = SubjectElement
 
-
-class SluglineElement(IntlStringType, RankingAttributes):
+class Slugline(IntlStringType, RankingAttributes):
     """
     A sequence of tokens associated with the content. The interpretation is
     provider specific.
@@ -328,14 +231,8 @@ class SluglineElement(IntlStringType, RankingAttributes):
         'relevance': 'relevance'  # type="Int100Type" use="optional">
     }
 
-class Slugline(GenericArray):
-    """
-    An array of SluglineElement objects.
-    """
-    element_class = SluglineElement
 
-
-class HeadlineElement(Label1Type, RankingAttributes):
+class Headline(Label1Type, RankingAttributes):
     """
     A brief and snappy introduction to the content, designed to catch the reader's attention
     """
@@ -347,53 +244,25 @@ class HeadlineElement(Label1Type, RankingAttributes):
     }
 
 
-class Headline(GenericArray):
-    """
-    An array of HeadlineElement objects.
-    """
-    element_class = HeadlineElement
-
-
-class DatelineElement(Label1Type, RankingAttributes):
+class Dateline(Label1Type, RankingAttributes):
     """
     A natural-language statement of the date and/or place of creation of the content
     """
 
 
-class Dateline(GenericArray):
-    """
-    An array of DatelineElement objects.
-    """
-    element_class = DatelineElement
-
-
-class ByElement(Label1Type, RankingAttributes):
+class By(Label1Type, RankingAttributes):
     """
     A natural-language statement about the creator (author, photographer etc.) of the content
     """
 
 
-class By(GenericArray):
-    """
-    An array of ByElement objects.
-    """
-    element_class = ByElement
-
-
-class CreditlineElement(IntlStringType, RankingAttributes):
+class Creditline(IntlStringType, RankingAttributes):
     """
     A free-form expression of the credit(s) for the content
     """
 
 
-class Creditline(GenericArray):
-    """
-    An array of CreditlineElement objects.
-    """
-    element_class = CreditlineElement
-
-
-class DescriptionElement(BlockType, RankingAttributes):
+class Description(BlockType, RankingAttributes):
     """
     A free-form textual description of the content of the item
     """
@@ -405,26 +274,12 @@ class DescriptionElement(BlockType, RankingAttributes):
     }
 
 
-class Description(GenericArray):
-    """
-    An array of DescriptionElement objects.
-    """
-    element_class = DescriptionElement
-
-
-class ContentMetaExtPropertyElement(Flex2ExtPropType):
+class ContentMetaExtProperty(Flex2ExtPropType):
     """
     Extension Property; the semantics are defined by the concept referenced by
     the rel attribute. The semantics of the Extension Property must have the
     same scope as the parent property.
     """
-
-
-class ContentMetaExtProperty(GenericArray):
-    """
-    An array of ContentMetaExtPropertyElement objects.
-    """
-    element_class = ContentMetaExtPropertyElement
 
 
 class DescriptiveMetadataGroup(BaseObject):

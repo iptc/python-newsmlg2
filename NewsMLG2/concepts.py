@@ -2,7 +2,7 @@
 Handle concepts, including concept names.
 """
 
-from .core import BaseObject, GenericArray, QCodeURIMixin
+from .core import BaseObject, QCodeURIMixin
 from .attributegroups import (
     CommonPowerAttributes, FlexAttributes,
     I18NAttributes, QualifyingAttributes, QuantifyAttributes,
@@ -18,30 +18,16 @@ from .conceptrelationships import (
 from .labeltypes import BlockType, Label1Type
 
 
-class DefinitionElement(BlockType, TimeValidityAttributes):
+class Definition(BlockType, TimeValidityAttributes):
     """
     A natural language definition of the semantics of the concept. This
     definition is normative only for the scope of the use of this concept.
     """
 
-class Definition(GenericArray):
-    """
-    Array of DefinitionElement objects.
-    """
-    element_class = ConceptNameType
-
-
-class NoteElement(BlockType, TimeValidityAttributes):
+class Note(BlockType, TimeValidityAttributes):
     """
     Additional natural language information about the concept.
     """
-
-
-class Note(GenericArray):
-    """
-    Array of NoteElement objects.
-    """
-    element_class = ConceptNameType
 
 
 class ConceptDefinitionGroup(BaseObject):
@@ -223,17 +209,10 @@ class GeoCoordinatesType(CommonPowerAttributes):
     }
 
 
-class PositionElement(GeoCoordinatesType):
+class Position(GeoCoordinatesType):
     """
     The coordinates of the location
     """
-
-
-class Position(GenericArray):
-    """
-    An array of PositionElement objects.
-    """
-    element_class = PositionElement
 
 
 class GeoAreaFounded(TruncatedDateTimePropType):
@@ -248,7 +227,7 @@ class GeoAreaDissolved(TruncatedDateTimePropType):
     """
 
 
-class GeoAreaLineElement(CommonPowerAttributes):
+class GeoAreaLine(CommonPowerAttributes):
     """
     A line as a geographic area
     """
@@ -257,14 +236,7 @@ class GeoAreaLineElement(CommonPowerAttributes):
     }
 
 
-class GeoAreaLine(GenericArray):
-    """
-    An array of GeoAreaLineElement objects.
-    """
-    element_class = GeoAreaLineElement
-
-
-class GeoAreaCircleElement(CommonPowerAttributes):
+class GeoAreaCircle(CommonPowerAttributes):
     """
     A circle as a geographic area
     """
@@ -283,27 +255,13 @@ class GeoAreaCircleElement(CommonPowerAttributes):
     }
 
 
-class GeoAreaCircle(GenericArray):
-    """
-    An array of GeoAreaCircleElement objects.
-    """
-    element_class = GeoAreaCircleElement
-
-
-class GeoAreaPolygonElement(CommonPowerAttributes):
+class GeoAreaPolygon(CommonPowerAttributes):
     """
     A polygon as a geographic area
     """
     elements = {
         'position': { 'type': 'array', 'xml_name': 'position', 'element_class': Position },
     }
-
-
-class GeoAreaPolygon(GenericArray):
-    """
-    An array of GeoAreaPolygonElement objects.
-    """
-    element_class = GeoAreaPolygonElement
 
 
 class GeoAreaDetails(CommonPowerAttributes):
@@ -313,7 +271,7 @@ class GeoAreaDetails(CommonPowerAttributes):
     elements = {
         'position': {
             'type': 'single', 'xml_name': 'position',
-            'element_class': PositionElement
+            'element_class': Position
         },
         'founded': {
             'type': 'single', 'xml_name': 'founded',
@@ -389,30 +347,16 @@ class Capacity(Label1Type):
     """
 
 
-class AccessElement(BlockType):
+class Access(BlockType):
     """
     Ways to access the place of the point of  interest, including directions.
     """
 
 
-class Access(GenericArray):
-    """
-    Array of AccessElement objects.
-    """
-    element_class = AccessElement
-
-
-class DetailsElement(BlockType):
+class Details(BlockType):
     """
     Detailed information about the precise location of the Point of Interest.
     """
-
-
-class Details(GenericArray):
-    """
-    Array of DetailsElement objects.
-    """
-    element_class = DetailsElement
 
 
 class POICreated(TruncatedDateTimePropType):
@@ -450,7 +394,7 @@ class POIDetails(CommonPowerAttributes):
     elements = {
         'position': {
             'type': 'single', 'xml_name': 'position',
-            'element_class': PositionElement
+            'element_class': Position
         },
         'address': {
             'type': 'single', 'xml_name': 'address',
@@ -558,7 +502,7 @@ class EntityDetailsGroup(BaseObject):
     }
 
 
-class ConceptElement(ConceptRelationshipsGroup, EntityDetailsGroup,
+class Concept(ConceptRelationshipsGroup, EntityDetailsGroup,
     CommonPowerAttributes, I18NAttributes):
     """
     A set of properties defining a concept
@@ -606,10 +550,3 @@ class ConceptElement(ConceptRelationshipsGroup, EntityDetailsGroup,
     def get_type_uri(self):
         """Return URI for type."""
         return self.get_element_value('type').get_uri()
-
-
-class Concept(GenericArray):
-    """
-    An array of ConceptElement objects.
-    """
-    element_class = ConceptElement

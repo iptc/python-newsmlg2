@@ -71,7 +71,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
         assert newsitem.standardversion == '2.29'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
-        assert newsitem.xml_lang == 'en-GB'
+        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
 
         catalogs = newsitem.get_catalogs()
         test_scheme = catalogs.get_scheme_for_alias('prov')
@@ -96,7 +96,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
         assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.xml_lang == 'en-GB'
+        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
 
         # catalog tests
         catalogs = newsitem.get_catalogs()
@@ -125,7 +125,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.get_attr('standard') == 'NewsML-G2'
         assert newsitem.get_attr('standardversion') == '2.29'
         assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.xml_lang == 'en-GB'
+        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
         assert newsitem.get_attr('version') == '11'
 
         rightsinfo = newsitem.rightsinfo
@@ -176,17 +176,28 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert contentmeta.subject[0].type == 'cpnat:abstract'
         assert contentmeta.subject[0].qcode == 'medtop:04000000'
         assert str(contentmeta.subject[0].name) == 'economy, business and finance'
-        assert contentmeta.subject[0].name.xml_lang == 'en-GB'
+        assert contentmeta.subject[0].name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
+        assert contentmeta.subject[0].name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
         assert contentmeta.subject[1].type == 'cpnat:abstract'
         assert contentmeta.subject[1].qcode == 'medtop:20000523'
         assert str(contentmeta.subject[1].name[0]) == 'labour market'
-        assert contentmeta.subject[1].name[0].xml_lang == 'en-GB'
+        assert contentmeta.subject[1].name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
         assert str(contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
-        assert contentmeta.subject[1].name[1].xml_lang == 'de'
+        assert contentmeta.subject[1].name[1].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'de'
         assert contentmeta.subject[1].broader.qcode == 'medtop:04000000'
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
-        assert contentmeta.genre.name.xml_lang == 'en-GB'
+        assert contentmeta.genre.name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
         assert str(contentmeta.slugline) == 'US-Finance-Fed'
         assert str(contentmeta.headline) == 'Fed to halt QE to avert "bubble"'
 
@@ -202,7 +213,9 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.standard == 'NewsML-G2'
         assert newsitem.standardversion == '2.29'
         assert newsitem.conformance == 'power'
-        assert newsitem.xml_lang == 'en-US'
+        assert newsitem.get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-US'
         # catalog tests??
         # <catalogRef
         #     href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
@@ -222,15 +235,23 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.contentmeta.subject[0].qcode == 'gyimeid:104530187'
         assert newsitem.contentmeta.subject[1].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[1].qcode == 'medtop:20000523'
-        assert newsitem.contentmeta.subject[1].name[0].xml_lang == 'en-GB'
+        assert newsitem.contentmeta.subject[1].name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
         assert str(newsitem.contentmeta.subject[1].name[0]) == 'labour market'
-        assert newsitem.contentmeta.subject[1].name[1].xml_lang == 'de'
+        assert newsitem.contentmeta.subject[1].name[1].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'de'
         assert str(newsitem.contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
         assert newsitem.contentmeta.subject[2].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[2].qcode == 'medtop:20000533'
-        assert newsitem.contentmeta.subject[2].name[0].xml_lang == 'en-GB'
+        assert newsitem.contentmeta.subject[2].name[0].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'en-GB'
         assert str(newsitem.contentmeta.subject[2].name[0]) == 'unemployment'
-        assert newsitem.contentmeta.subject[2].name[1].xml_lang == 'de'
+        assert newsitem.contentmeta.subject[2].name[1].get_attr(
+            "{http://www.w3.org/XML/1998/namespace}lang"
+        ) == 'de'
         assert str(newsitem.contentmeta.subject[2].name[1]) == 'Arbeitslosigkeit'
         assert newsitem.contentmeta.subject[3].type == 'cpnat:geoArea'
         assert str(newsitem.contentmeta.subject[3].name) == 'Las Vegas Boulevard'

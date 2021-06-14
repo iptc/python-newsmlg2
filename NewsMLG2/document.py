@@ -6,7 +6,7 @@ Parent class to paarse a NewsMLG2 document.
 
 from lxml import etree
 
-from .core import NEWSMLG2
+from .core import NEWSMLG2NSPREFIX, NSMAP
 from .newsitem import NewsItem
 from .knowledgeitem import KnowledgeItem
 
@@ -24,11 +24,11 @@ class NewsMLG2Document():
         elif isinstance(string, (str, bytes)):
             self._root_element = etree.fromstring(string)
 
-        if self._root_element.tag == NEWSMLG2+'newsItem':
+        if self._root_element.tag == NEWSMLG2NSPREFIX+'newsItem':
             self.item = NewsItem(
                 xmlelement = self._root_element
             )
-        elif self._root_element.tag == NEWSMLG2+'knowledgeItem':
+        elif self._root_element.tag == NEWSMLG2NSPREFIX+'knowledgeItem':
             self.item = KnowledgeItem(
                 xmlelement = self._root_element
             )
@@ -49,4 +49,8 @@ class NewsMLG2Document():
     def to_xml(self):
         """Return this document in XML form."""
         elem = self.item.to_xml()
-        return etree.tostring(elem, pretty_print=True, encoding="unicode")
+        return etree.tostring(
+                    elem,
+                    pretty_print=True,
+                    xml_declaration=True
+               ).decode('utf-8')

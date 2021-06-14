@@ -25,17 +25,17 @@ class DateTimePropType(CommonPowerAttributes):
     TODO add helper methods for date/time manipulation, timezone conversion etc
     """
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self.datetime = kwargs['xmlelement'].text.strip()
-
-    def __str__(self):
-        return self.datetime
-
-    def get_datetime(self):
-        return self.datetime
+#    def __init__(self, **kwargs):
+#        super().__init__(**kwargs)
+#        xmlelement = kwargs.get('xmlelement')
+#        if isinstance(xmlelement, etree._Element):
+#            self.datetime = kwargs['xmlelement'].text.strip()
+#
+#    def __str__(self):
+#        return self.datetime
+#
+#    def get_datetime(self):
+#        return self.datetime
 
 
 class DateOptTimePropType(DateOptTimeType, CommonPowerAttributes):
@@ -85,7 +85,7 @@ class IntlStringType(G2NormalizedString, CommonPowerAttributes, I18NAttributes):
     """
 
 
-class IntlStringType2(str, CommonPowerAttributes, I18NAttributes):
+class IntlStringType2(CommonPowerAttributes, I18NAttributes):
     """
     The type for an internationalized and unrestricted string, where the language
     and directionality in which the information is writte are indirected
@@ -178,8 +178,7 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         return self.name
 
 
-class Name(GenericArray):
+class Name(ConceptNameType):
     """
-    Array of ConceptNameType objects.
+    Instance of ConceptNameType.
     """
-    element_class = ConceptNameType

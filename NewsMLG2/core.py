@@ -13,11 +13,11 @@ from .catalogstore import CATALOG_STORE
 from .utils import import_string
 
 NEWSMLG2_NS = 'http://iptc.org/std/nar/2006-10-01/'
-NEWSMLG2 = '{%s}' % NEWSMLG2_NS
+NEWSMLG2NSPREFIX = '{%s}' % NEWSMLG2_NS
 NITF_NS = 'http://iptc.org/std/NITF/2006-10-18/'
-NITF = '{%s}' % NITF_NS
+NITFNSPREFIX= '{%s}' % NITF_NS
 XML_NS = 'http://www.w3.org/XML/1998/namespace'
-XML = '{%s}' % XML_NS
+XMLNSPREFIX = '{%s}' % XML_NS
 NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
 
@@ -88,7 +88,7 @@ class BaseObject():
             raise Exception("xmlelement should be an instance of _Element")
         attrs = self.get_attributes()
         for xml_attribute, attribute_id in attrs.items():
-            self.attribute_values[attribute_id] = xmlelement.get(xml_attribute)
+            self.attribute_values[xml_attribute] = xmlelement.get(xml_attribute)
 
         elements = self.get_elements()
         for element_id, element_definition in elements.items():
@@ -97,20 +97,16 @@ class BaseObject():
                 # This will raise an exception if the class doesn't exist
                 element_class = import_string(element_class)
             if element_definition['type'] == 'array':
-                assert hasattr(element_class, 'element_class'), (
-                    str(element_class) +
-                    " has no property 'element_class'. Defined in " +
-                    str(self.__class__)
-                )
-                self.element_values[element_id] = element_class(
+                self.element_values[element_id] = GenericArray(
                     xmlarray = xmlelement.findall(
-                                    NEWSMLG2+element_definition['xml_name']
-                               )
+                                    NEWSMLG2NSPREFIX+element_definition['xml_name']
+                               ),
+                    element_class = element_definition['element_class']
                 )
             else:
                 self.element_values[element_id] = element_class(
                     xmlelement = xmlelement.find(
-                                    NEWSMLG2+element_definition['xml_name']
+                                    NEWSMLG2NSPREFIX+element_definition['xml_name']
                                  )
                 )
         if xmlelement.text:
@@ -157,6 +153,8 @@ class BaseObject():
             return True
         if [bool(elem) for elem in self.element_values.values()]:
             return True
+        if getattr(self, 'text', None):
+            return True
         return False
 
     def __str__(self):
@@ -171,7 +169,7 @@ class BaseObject():
             xml_element_name = self.__class__.__name__
             xml_element_name = (xml_element_name[0].lower()
                 + xml_element_name[1:])
-        elem = etree.Element(xml_element_name)
+        elem = etree.Element(NEWSMLG2NSPREFIX+xml_element_name, nsmap=NSMAP)
         if hasattr(self, 'text') and self.text != '':
             elem.text = self.text
         for attr_name, attr_value in self.attribute_values.items():
@@ -207,6 +205,8 @@ class GenericArray(BaseObject):
         self.array_contents = []
         xmlarray = kwargs.get('xmlarray')
         if isinstance(xmlarray, (list, etree._Element)):
+            if 'element_class' in kwargs:
+                self.element_class = kwargs['element_class']
             if not self.element_class:
                 assert getattr(self, 'element_class_name'), (
                     str(self.__class__)+" has no element 'element_class_name'"

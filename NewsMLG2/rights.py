@@ -4,7 +4,6 @@
 Elements for handling rights management
 """
 
-from .core import GenericArray
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
 )
@@ -29,16 +28,10 @@ class CopyrightHolder(FlexPartyPropType):
     The person or organisation claiming the intellectual property for the content.
     """
 
-class CopyrightNoticeElement(RightsBlockType):
+class CopyrightNotice(RightsBlockType):
     """
     Any necessary copyright notice for claiming the intellectual property for the content.
     """
-
-class CopyrightNotice(GenericArray):
-    """
-    An array of CopyrightNoticeElement objects.
-    """
-    element_class = CopyrightNoticeElement
 
 
 class Accountable(FlexPersonPropType):
@@ -47,20 +40,13 @@ class Accountable(FlexPersonPropType):
     """
 
 
-class UsageTermsElement(RightsBlockType):
+class UsageTerms(RightsBlockType):
     """
     A natural-language statement about the usage terms pertaining to the content.
     """
 
 
-class UsageTerms(GenericArray):
-    """
-    An array of UsageTermsElement objects.
-    """
-    element_class = UsageTermsElement
-
-
-class RightsInfoExtPropertyElement(Flex2ExtPropType):
+class RightsInfoExtProperty(Flex2ExtPropType):
     """
     Extension Property; the semantics are defined by the concept referenced by
     the rel attribute. The semantics of the Extension Property must have the
@@ -68,14 +54,7 @@ class RightsInfoExtPropertyElement(Flex2ExtPropType):
     """
 
 
-class RightsInfoExtProperty(GenericArray):
-    """
-    Array of RightsInfoExtPropertyElement objects.
-    """
-    element_class = RightsInfoExtPropertyElement
-
-
-class RightsExpressionXMLElement(CommonPowerAttributes):
+class RightsExpressionXML(CommonPowerAttributes):
     """
     Contains a rights expression as defined by a Rights Expression Language and
     seralized using XML encoding.
@@ -86,14 +65,7 @@ class RightsExpressionXMLElement(CommonPowerAttributes):
     }
 
 
-class RightsExpressionXML(GenericArray):
-    """
-    Array of RightsExpressionXMLElement objects.
-    """
-    element_class = RightsExpressionXMLElement
-
-
-class RightsExpressionDataElement(CommonPowerAttributes):
+class RightsExpressionData(CommonPowerAttributes):
     """
     Contains a rights expression as defined by a Rights Expression Language and
     seralized using any specific encoding except XML.
@@ -106,14 +78,7 @@ class RightsExpressionDataElement(CommonPowerAttributes):
     }
 
 
-class RightsExpressionData(GenericArray):
-    """
-    An array of RightsExpressionDataElement objects.
-    """
-    element_class = RightsExpressionDataElement
-
-
-class RightsInfoElement(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
+class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
     """
     A set of properties representing the rights associated with the Item
     """
@@ -180,10 +145,3 @@ class RightsInfoElement(CommonPowerAttributes, I18NAttributes, TimeValidityAttri
             'element_class': RightsExpressionData
         }
     }
-
-
-class RightsInfo(GenericArray):
-    """
-    An array of RightsInfoElement objects.
-    """
-    element_class = RightsInfoElement

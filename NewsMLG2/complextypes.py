@@ -10,8 +10,8 @@ from lxml import etree
 
 from .core import GenericArray
 from .simpletypes import (
-    DateOptTimeType, G2NormalizedString, UnionDateTimeType,
-    UnionDateTimeEmptyStringType
+    DateOptTimeType, G2NormalizedString, TruncatedDateTimeType,
+    UnionDateTimeType, UnionDateTimeEmptyStringType
 )
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
@@ -24,18 +24,6 @@ class DateTimePropType(CommonPowerAttributes):
 
     TODO add helper methods for date/time manipulation, timezone conversion etc
     """
-
-#    def __init__(self, **kwargs):
-#        super().__init__(**kwargs)
-#        xmlelement = kwargs.get('xmlelement')
-#        if isinstance(xmlelement, etree._Element):
-#            self.datetime = kwargs['xmlelement'].text.strip()
-#
-#    def __str__(self):
-#        return self.datetime
-#
-#    def get_datetime(self):
-#        return self.datetime
 
 
 class DateOptTimePropType(DateOptTimeType, CommonPowerAttributes):
@@ -51,23 +39,17 @@ class DateTimeOrNullPropType(UnionDateTimeEmptyStringType, CommonPowerAttributes
     """
 
 
-class TruncatedDateTimePropType(CommonPowerAttributes):
+class TruncatedDateTimePropType(TruncatedDateTimeType, CommonPowerAttributes):
     """
     The type of a calendar date with an optional time part which
     may be truncated from the seconds part to the month part
     """
 
-    """
-            <xs:extension base="TruncatedDateTimeType">
-                <xs:attributeGroup ref="commonPowerAttributes" />
-                <xs:anyAttribute namespace="##other" processContents="lax" />
-            </xs:extension>
-    """
-
 
 class ApproximateDateTimePropType(UnionDateTimeType, CommonPowerAttributes):
     """
-    The type of a calendar date with an optional time part and with an optional approximation range for the date.
+    The type of a calendar date with an optional time part and with an optional
+    approximation range for the date.
     """
 
     attributes = {
@@ -127,27 +109,38 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.name = xmlelement.text.strip()
+            self.name = xmlelement.text and xmlelement.text.strip()
 
     name_role_mappings = {
         # http://cv.iptc.org/newscodes/namerole/
         # http://cv.iptc.org/newscodes/namerole/adjectival
         'nrol:adjectival': 'adjectival',
-        'nrol:alternate': 'alternate',    # http://cv.iptc.org/newscodes/namerole/alternate
-        'nrol:display': 'display',        # http://cv.iptc.org/newscodes/namerole/display
-        'nrol:full': 'full',              # http://cv.iptc.org/newscodes/namerole/full
-        'nrol:mnemonic': 'mnemonic',      # http://cv.iptc.org/newscodes/namerole/mnemonic
-        'nrol:short': 'short',            # http://cv.iptc.org/newscodes/namerole/short
-        'nrol:sort': 'sort',              # http://cv.iptc.org/newscodes/namerole/sort
-        'nrol:synonym': 'synonym',        # http://cv.iptc.org/newscodes/namerole/synonym
+        # http://cv.iptc.org/newscodes/namerole/alternate
+        'nrol:alternate': 'alternate',    
+        # http://cv.iptc.org/newscodes/namerole/display
+        'nrol:display': 'display',        
+        # http://cv.iptc.org/newscodes/namerole/full
+        'nrol:full': 'full',              
+        # http://cv.iptc.org/newscodes/namerole/mnemonic
+        'nrol:mnemonic': 'mnemonic',      
+        # http://cv.iptc.org/newscodes/namerole/short
+        'nrol:short': 'short',            
+        # http://cv.iptc.org/newscodes/namerole/sort
+        'nrol:sort': 'sort',              
+        # http://cv.iptc.org/newscodes/namerole/synonym
+        'nrol:synonym': 'synonym',        
         # http://cv.iptc.org/newscodes/namepart/
-        'nprt:acadTitle': 'acadTitle',    # http://cv.iptc.org/newscodes/namepart/acadTitle
-        'nprt:family': 'family',          # http://cv.iptc.org/newscodes/namepart/family
-        'nprt:given': 'given',            # http://cv.iptc.org/newscodes/namepart/given
-        'nprt:middle': 'middle',          # http://cv.iptc.org/newscodes/namepart/middle
+        # http://cv.iptc.org/newscodes/namepart/acadTitle
+        'nprt:acadTitle': 'acadTitle',    
+        # http://cv.iptc.org/newscodes/namepart/family
+        'nprt:family': 'family',          
+        # http://cv.iptc.org/newscodes/namepart/given
+        'nprt:given': 'given',            
+        # http://cv.iptc.org/newscodes/namepart/middle
+        'nprt:middle': 'middle',          
         # http://cv.iptc.org/newscodes/namepart/salutation
         'nprt:salutation': 'salutation',
-        # temporary hacks while we decide what to fix
+        # these are incorrect but found in SportsML sample files
         'nprt:first': 'given',
         'nrol:first': 'given',
         'nprt:last': 'family',
@@ -169,7 +162,6 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
                 self.name_role_mappings[part]: self.name or ""
             })
             del self.dict['part']
-        # elif self.name:
         else:
             self.dict.update({'name': self.name or ""})
         return self.dict

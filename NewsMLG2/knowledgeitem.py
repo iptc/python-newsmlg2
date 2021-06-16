@@ -14,6 +14,7 @@ from .concepts import Concept, Definition, Note
 from .extensionproperties import Flex2ExtPropType
 from .conceptrelationships import Related
 from .contentmeta import ContentMetadataAcDType
+from .partmeta import PartMeta
 
 
 class ConceptSet(CommonPowerAttributes):
@@ -94,6 +95,7 @@ class KnowledgeItemContentMeta(ContentMetadataAcDType):
     """
     Content Metadata for a Knowledge Item
     """
+    xml_element_name = 'contentMeta'
 
 
 class KnowledgeItem(AnyItem):
@@ -107,10 +109,10 @@ class KnowledgeItem(AnyItem):
             'type': 'single', 'xml_name': 'contentMeta',
             'element_class': KnowledgeItemContentMeta
         },
+        'partmeta': {
+            'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
+        },
         # TODO - implement these classes!
-        #'partmeta': {
-        #    'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
-        #},
         #'assert': {
         #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
         #},

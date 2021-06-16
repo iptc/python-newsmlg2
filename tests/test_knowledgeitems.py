@@ -101,7 +101,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
 """
         g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
 
-        knowlitem = g2doc.get_knowledgeitem()
+        knowlitem = g2doc.get_item()
         assert knowlitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144'
         assert knowlitem.standard == 'NewsML-G2'
         assert knowlitem.standardversion == '2.29'
@@ -153,7 +153,7 @@ class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '002_knowledgeitem.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
-        knowledgeitem = g2doc.get_knowledgeitem()
+        knowledgeitem = g2doc.get_item()
         assert knowledgeitem.get_attr('guid') == 'urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532'
         assert knowledgeitem.get_attr('standard') == 'NewsML-G2'
         assert knowledgeitem.get_attr('standardversion') == '2.29'

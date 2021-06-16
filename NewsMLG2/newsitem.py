@@ -14,6 +14,7 @@ from .contentmeta import ContentMetadataAfDType
 from .itemmanagement import Signal
 from .link import TargetResourceAttributes
 from .ids import AltId, Hash
+from .partmeta import PartMeta
 
 
 class InlineXML(NewsContentAttributes, NewsContentTypeAttributes,
@@ -148,10 +149,10 @@ class NewsItem(AnyItem):
             'type': 'single', 'xml_name': 'contentMeta',
             'element_class': NewsItemContentMeta
         },
+        'partmeta': {
+            'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
+        },
         # TODO - implement these classes!
-        #'partmeta': {
-        #    'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
-        #},
         #'assert': {
         #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
         #},

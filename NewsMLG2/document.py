@@ -7,6 +7,7 @@ Parent class to paarse a NewsMLG2 document.
 from lxml import etree
 
 from .core import NEWSMLG2NSPREFIX, NSMAP
+from .conceptitem import ConceptItem
 from .newsitem import NewsItem
 from .knowledgeitem import KnowledgeItem
 
@@ -32,18 +33,21 @@ class NewsMLG2Document():
             self.item = KnowledgeItem(
                 xmlelement = self._root_element
             )
+        elif self._root_element.tag == NEWSMLG2NSPREFIX+'conceptItem':
+            self.item = ConceptItem(
+                xmlelement = self._root_element
+            )
         else:
             raise Exception(
                 "Item types other than NewsItem and KnowledgeItem "
                 "are not yet supported."
             )
 
-    def get_newsitem(self):
-        """Return the main NewsItem object for this document."""
-        return self.item
-
-    def get_knowledgeitem(self):
-        """Return the main Item object for this document."""
+    def get_item(self):
+        """
+        Return the main Item object (NewsItem, KnowledgeItem, ConceptItem etc)
+        for this document.
+        """
         return self.item
 
     def to_xml(self):
@@ -52,5 +56,7 @@ class NewsMLG2Document():
         return etree.tostring(
                     elem,
                     pretty_print=True,
-                    xml_declaration=True
+                    xml_declaration=True,
+                    encoding='utf-8'
+               #)
                ).decode('utf-8')

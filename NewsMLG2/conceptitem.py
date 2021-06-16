@@ -2,7 +2,9 @@
 Concept Item
 """
 
-from .anyitem import AnyItem
+from .anyitem import (
+    AnyItem, Assert, DerivedFrom, DerivedFromValue, InlineRef
+)
 from .contentmeta import ContentMetadataAcDType
 from .concepts import Concept
 
@@ -24,22 +26,21 @@ class ConceptItem(AnyItem):
             'type': 'single', 'xml_name': 'contentMeta',
             'element_class': ConceptItemContentMeta
         },
-        # TODO - implement these classes!
-        #'assert': {
-        #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
-        #},
-        #'inlineref': {
-        #    'type': 'array', 'xml_name': 'inlineRef',
-        #    'element_class': InlineRef
-        #},
-        #'derivedfrom': {
-        #    'type': 'array', 'xml_name': 'derivedFrom',
-        #    'element_class': DerivedFrom
-        #},
-        #'derivedfromvalue': {
-        #    'type': 'array', 'xml_name': 'derivedFromValue',
-        #    'element_class': DerivedFromValue
-        #},
+        'assert': {
+            'type': 'array', 'xml_name': 'assert', 'element_class': Assert
+        },
+        'inlineref': {
+            'type': 'array', 'xml_name': 'inlineRef',
+            'element_class': InlineRef
+        },
+        'derivedfrom': {
+            'type': 'array', 'xml_name': 'derivedFrom',
+            'element_class': DerivedFrom
+        },
+        'derivedfromvalue': {
+            'type': 'array', 'xml_name': 'derivedFromValue',
+            'element_class': DerivedFromValue
+        },
         'concept': {
             'type': 'single', 'xml_name': 'concept',
             'element_class': Concept

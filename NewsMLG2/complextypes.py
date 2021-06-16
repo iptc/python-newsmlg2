@@ -8,7 +8,6 @@ These can only depend on simpletypes and attributegroups, or we get import loops
 
 from lxml import etree
 
-from .core import GenericArray
 from .simpletypes import (
     DateOptTimeType, G2NormalizedString, TruncatedDateTimeType,
     UnionDateTimeType, UnionDateTimeEmptyStringType
@@ -116,35 +115,35 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         # http://cv.iptc.org/newscodes/namerole/adjectival
         'nrol:adjectival': 'adjectival',
         # http://cv.iptc.org/newscodes/namerole/alternate
-        'nrol:alternate': 'alternate',    
+        'nrol:alternate': 'alternate',
         # http://cv.iptc.org/newscodes/namerole/display
-        'nrol:display': 'display',        
+        'nrol:display': 'display',
         # http://cv.iptc.org/newscodes/namerole/full
-        'nrol:full': 'full',              
+        'nrol:full': 'full',
         # http://cv.iptc.org/newscodes/namerole/mnemonic
-        'nrol:mnemonic': 'mnemonic',      
+        'nrol:mnemonic': 'mnemonic',
         # http://cv.iptc.org/newscodes/namerole/short
-        'nrol:short': 'short',            
+        'nrol:short': 'short',
         # http://cv.iptc.org/newscodes/namerole/sort
-        'nrol:sort': 'sort',              
+        'nrol:sort': 'sort',
         # http://cv.iptc.org/newscodes/namerole/synonym
-        'nrol:synonym': 'synonym',        
+        'nrol:synonym': 'synonym',
         # http://cv.iptc.org/newscodes/namepart/
         # http://cv.iptc.org/newscodes/namepart/acadTitle
-        'nprt:acadTitle': 'acadTitle',    
+        'nprt:acadTitle': 'acadTitle',
         # http://cv.iptc.org/newscodes/namepart/family
-        'nprt:family': 'family',          
+        'nprt:family': 'family',
         # http://cv.iptc.org/newscodes/namepart/given
-        'nprt:given': 'given',            
+        'nprt:given': 'given',
         # http://cv.iptc.org/newscodes/namepart/middle
-        'nprt:middle': 'middle',          
+        'nprt:middle': 'middle',
         # http://cv.iptc.org/newscodes/namepart/salutation
         'nprt:salutation': 'salutation',
         # these are incorrect but found in SportsML sample files
         'nprt:first': 'given',
         'nrol:first': 'given',
         'nprt:last': 'family',
-        'nrol:last': 'family',
+        'nrol:last': 'family'
     }
 
     def as_dict(self):

@@ -8,10 +8,11 @@ from lxml import etree
 
 from .core import BaseObject, QCodeURIMixin
 from .attributegroups import (
-    CommonPowerAttributes, I18NAttributes
+    CommonPowerAttributes, I18NAttributes, QuantifyAttributes
 )
 from .catalog import build_catalog, get_catalogs, CatalogRef, Catalog
 from .complextypes import Name, TruncatedDateTimePropType
+from .concepts import Flex1PropType
 from .extensionproperties import Flex2ExtPropType
 from .conceptrelationships import QualRelPropType, Related
 from .itemmanagement import ItemManagementGroup
@@ -183,7 +184,6 @@ class AnyItem(I18NAttributes):
         'catalogref': { 'type': 'array', 'xml_name': 'catalogRef', 'element_class': CatalogRef },
         'catalog': { 'type': 'array', 'xml_name': 'catalog', 'element_class': Catalog },
         'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
-        'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
         'pubhistory': { 'type': 'single', 'xml_name': 'pubHistory', 'element_class': PubHistory },
         'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },
         'itemmeta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta }
@@ -201,3 +201,60 @@ class AnyItem(I18NAttributes):
         Wrapper for global get_catalogs() function.
         """
         return get_catalogs()
+
+
+class AssertType(CommonPowerAttributes, I18NAttributes):
+    """
+    The type of an assertion about a concept
+    (Type defined in this XML Schema only)
+    """
+    attributes = {
+        # A concept identifier.
+        'qcode': 'qcode',  # type="QCodeType" use="optional">
+        # A URI which identifies a concept.
+        'uri': 'uri',  # type="IRIType" use="optional">
+        # A free-text text string assigned as property value
+        'literal': 'literal'  # type="g2normalizedString" use="optional">
+    }
+
+
+class Assert(AssertType):
+    """
+    An assertion about a concept
+    """
+
+
+class InlineRef(Flex1PropType, QuantifyAttributes):
+    """
+    Inline reference
+    The concept represented by the content identified by the local identifier(s)
+    """
+    attributes = {
+        # A set of local identifiers of inline content
+        'idrefs': 'idrefs', # type="xs:IDREFS" use="required">
+    }
+
+
+class DerivedFrom(Flex1PropType):
+    """
+    Refers to the ids of elements whose values have been derived from the
+    concept represented by this property.
+    """
+    attributes = {
+        # Refers to the ids of elements which values have been derived from the
+        # concept represented by this property
+        'idrefs': 'idrefs'  # type="xs:IDREFS">
+    }
+
+
+class DerivedFromValue(CommonPowerAttributes):
+    """
+    Represents the non-Concept value that was used for deriving the value of one
+    or more properties in this NewsML-G2 item.
+    """
+    attributes = {
+        #  Refers to the id of the element that provides the value used for the derivation.
+        'sourceidref': 'sourceidref',  # type="xs:IDREF" use="required">
+        # Refers to the ids of elements whose values have been derived from the value represented by this property.
+        'idrefs': 'idrefs'  # type="xs:IDREFS" use="required">
+    }

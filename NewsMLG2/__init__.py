@@ -14,8 +14,8 @@ DEBUG = True
 __version__ = VERSION
 __all__ = (
     # TODO 'CatalogItem',
-    # TODO 'ConceptItem',
-    # TODO 'KnowledgeItem',
+    'ConceptItem',
+    'KnowledgeItem',
     'NewsItem',
     # TODO 'PackageItem',
     # TODO 'PlanningItem',

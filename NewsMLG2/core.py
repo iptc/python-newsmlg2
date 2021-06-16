@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 """
 Core functions for NewsMLG2 library.
 """
@@ -163,6 +161,10 @@ class BaseObject():
         return '<'+self.__class__.__name__+'>'
 
     def to_xml(self):
+        """
+        Convert the current object to XML representation.
+        Any XML generated should conform to the NewsML-G2 schema.
+        """
         if hasattr(self, 'xml_element_name'):
             xml_element_name = self.xml_element_name
         else:
@@ -173,7 +175,6 @@ class BaseObject():
         if hasattr(self, 'text') and self.text != '':
             elem.text = self.text
         for attr_name, attr_value in self.attribute_values.items():
-            # TODO handle '{http://www.w3.org/XML/1998/namespace}lang' as a key
             if attr_value is not None:
                 elem.set(attr_name, attr_value)
         for child_element_id, child_element in self.element_values.items():
@@ -269,7 +270,7 @@ class GenericArray(BaseObject):
 
     def __bool__(self):
         if self.array_contents != []:
-            return any([bool(item) for item in self.array_contents])
+            return any(bool(item) for item in self.array_contents)
         return False
 
     def to_xml(self):

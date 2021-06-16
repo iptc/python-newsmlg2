@@ -4,17 +4,21 @@
 Handle NewsItems - one of the core NewsML-G2 Item types
 """
 
-from .anyitem import AnyItem
+from .anyitem import (
+    AnyItem, Assert, DerivedFrom, DerivedFromValue, InlineRef
+)
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, NewsContentAttributes,
     NewsContentCharacteristics, NewsContentTypeAttributes,
     TimeValidityAttributes
 )
 from .contentmeta import ContentMetadataAfDType
+from .extensionproperties import Flex2ExtPropType
 from .itemmanagement import Signal
 from .link import TargetResourceAttributes
 from .ids import AltId, Hash
 from .partmeta import PartMeta
+from .simpletypes import IRIType
 
 
 class InlineXML(NewsContentAttributes, NewsContentTypeAttributes,
@@ -64,6 +68,33 @@ class Channel(CommonPowerAttributes, NewsContentCharacteristics):
     }
 
 
+class AltLoc(IRIType, CommonPowerAttributes):
+    """
+    An alternative location of the content.
+    """
+    attributes = {
+        # A qualifier which indicates the context within which the alternative
+        # locator has been allocated - expressed by a QCode
+        'type': 'type',  # type="QCodeType" use="optional">
+        # A qualifier which indicates the context within which the alternative
+        # locator has been allocated - expressed by a URI
+        'typeuri': 'typeuri',  # type="IRIType" use="optional">
+        # A refinement of the semantics or business purpose of the property -
+        # expressed by a QCode
+        'role': 'role',  # type="QCodeType" use="optional">
+        # A refinement of the semantics or business purpose of the property -
+        # expressed by a URI
+        'roleruri': 'roleruri'  # type="IRIType" use="optional">
+    }
+
+
+class RemoteContentExtProperty(Flex2ExtPropType):
+    """
+    Extension Property; the semantics are defined by the concept referenced by
+    the rel attribute. The semantics of the Extension Property must have the
+    same scope as the parent property.
+    """
+
 class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     TimeValidityAttributes, NewsContentCharacteristics):
     """
@@ -76,20 +107,18 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
         'altid': {
             'type': 'array', 'xml_name': 'altId', 'element_class': AltId
         },
-        # TODO
-        # 'altloc': {
-        #    'type': 'array', 'xml_name': 'altLoc', 'element_class': AltLoc
-        #},
+        'altloc': {
+            'type': 'array', 'xml_name': 'altLoc', 'element_class': AltLoc
+        },
         'hash': {
             'type': 'array', 'xml_name': 'hash', 'element_class': Hash
         },
         'signal': {
             'type': 'array', 'xml_name': 'signal', 'element_class': Signal
-        #},
-        # TODO
-        # 'remotecontentextproperty': {
-        #    'type': 'array', 'xml_name': 'remoteContentExtProperty',
-        #    'element_class': RemoteContentExtProperty
+        },
+        'remotecontentextproperty': {
+            'type': 'array', 'xml_name': 'remoteContentExtProperty',
+            'element_class': RemoteContentExtProperty
         }
     }
     attributes = {
@@ -150,22 +179,25 @@ class NewsItem(AnyItem):
             'element_class': NewsItemContentMeta
         },
         'partmeta': {
-            'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
+            'type': 'array', 'xml_name': 'partMeta',
+            'element_class': PartMeta
         },
-        # TODO - implement these classes!
-        #'assert': {
-        #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
-        #},
-        #'inlineref': {
-        #    'type': 'array', 'xml_name': 'inlineRef', 'element_class': InlineRef
-        #},
-        #'derivedfrom': {
-        #    'type': 'array', 'xml_name': 'derivedFrom', 'element_class': DerivedFrom
-        #},
-        #'derivedfromvalue': {
-        #    'type': 'array', 'xml_name': 'derivedFromValue',
-        #    'element_class': DerivedFromValue
-        #},
+        'assert': {
+            'type': 'array', 'xml_name': 'assert',
+            'element_class': Assert
+        },
+        'inlineref': {
+            'type': 'array', 'xml_name': 'inlineRef',
+            'element_class': InlineRef
+        },
+        'derivedfrom': {
+            'type': 'array', 'xml_name': 'derivedFrom',
+            'element_class': DerivedFrom
+        },
+        'derivedfromvalue': {
+            'type': 'array', 'xml_name': 'derivedFromValue',
+            'element_class': DerivedFromValue
+        },
         'contentset': {
             'type': 'single', 'xml_name': 'contentSet',
             'element_class': ContentSet

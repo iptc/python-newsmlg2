@@ -9,7 +9,7 @@ from .attributegroups import (
     TimeValidityAttributes
 )
 from .complextypes import (
-    ConceptNameType, Name, TruncatedDateTimePropType
+    Name, TruncatedDateTimePropType
 )
 from .conceptrelationships import (
     Bag, ConceptRelationshipsGroup, Facet, FacetConcept,

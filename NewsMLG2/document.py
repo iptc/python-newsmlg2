@@ -6,7 +6,7 @@ Parent class to paarse a NewsMLG2 document.
 
 from lxml import etree
 
-from .core import NEWSMLG2NSPREFIX, NSMAP
+from .core import NEWSMLG2NSPREFIX
 from .conceptitem import ConceptItem
 from .newsitem import NewsItem
 from .knowledgeitem import KnowledgeItem

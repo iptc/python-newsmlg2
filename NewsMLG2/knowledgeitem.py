@@ -4,7 +4,9 @@
 KnowledgeItem - one of the main Item classes in NewsML-G2
 """
 
-from .anyitem import AnyItem
+from .anyitem import (
+    AnyItem, Assert, DerivedFrom, DerivedFromValue, InlineRef
+)
 from .attributegroups import (
     CommonPowerAttributes
 )
@@ -110,24 +112,25 @@ class KnowledgeItem(AnyItem):
             'element_class': KnowledgeItemContentMeta
         },
         'partmeta': {
-            'type': 'array', 'xml_name': 'partMeta', 'element_class': PartMeta
+            'type': 'array', 'xml_name': 'partMeta',
+            'element_class': PartMeta
         },
-        # TODO - implement these classes!
-        #'assert': {
-        #    'type': 'array', 'xml_name': 'assert', 'element_class': Assert
-        #},
-        #'inlineref': {
-        #    'type': 'array', 'xml_name': 'inlineRef',
-        #    'element_class': InlineRef
-        #},
-        #'derivedfrom': {
-        #    'type': 'array', 'xml_name': 'derivedFrom',
-        #    'element_class': DerivedFrom
-        #},
-        #'derivedfromvalue': {
-        #    'type': 'array', 'xml_name': 'derivedFromValue',
-        #    'element_class': DerivedFromValue
-        #},
+        'assert': {
+            'type': 'array', 'xml_name': 'assert',
+            'element_class': Assert
+        },
+        'inlineref': {
+            'type': 'array', 'xml_name': 'inlineRef',
+            'element_class': InlineRef
+        },
+        'derivedfrom': {
+            'type': 'array', 'xml_name': 'derivedFrom',
+            'element_class': DerivedFrom
+        },
+        'derivedfromvalue': {
+            'type': 'array', 'xml_name': 'derivedFromValue',
+            'element_class': DerivedFromValue
+        },
         'conceptset': {
             'type': 'single', 'xml_name': 'conceptSet',
             'element_class': ConceptSet

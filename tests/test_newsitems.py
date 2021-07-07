@@ -25,20 +25,21 @@
 # THE SOFTWARE.
 
 """
-NewsML-G2 Python library - unit tests 
+NewsML-G2 Python library - NewsItem unit tests 
 
 """
 
-import unittest
+from lxml import etree
 import os
 import sys
+import unittest
 sys.path.append(os.getcwd())
 
 import NewsMLG2
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
-class TestNewsMLG2Strings(unittest.TestCase):
+class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 
     def test_parse_from_string(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
@@ -51,7 +52,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
@@ -71,7 +72,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
         assert newsitem.standardversion == '2.29'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
-        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
+        assert newsitem.xml_lang == 'en-GB'
 
         catalogs = newsitem.get_catalogs()
         test_scheme = catalogs.get_scheme_for_alias('prov')
@@ -87,7 +88,7 @@ class TestNewsMLG2Strings(unittest.TestCase):
         assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
-class TestNewsMLG2Files(unittest.TestCase):
+class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '001_simplest_file.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
@@ -96,7 +97,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.standard == 'NewsML-G2'
         assert newsitem.standardversion == '2.29'
         assert newsitem.conformance == 'power'
-        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
+        assert newsitem.xml_lang == 'en-GB'
 
         # catalog tests
         catalogs = newsitem.get_catalogs()
@@ -121,12 +122,12 @@ class TestNewsMLG2Files(unittest.TestCase):
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
 
         newsitem = g2doc.get_item()
-        assert newsitem.get_attr('guid') == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
-        assert newsitem.get_attr('standard') == 'NewsML-G2'
-        assert newsitem.get_attr('standardversion') == '2.29'
-        assert newsitem.get_attr('conformance') == 'power'
-        assert newsitem.get_attr("{http://www.w3.org/XML/1998/namespace}lang") == 'en-GB'
-        assert newsitem.get_attr('version') == '11'
+        assert newsitem.guid == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.xml_lang == 'en-GB'
+        assert newsitem.version == '11'
 
         rightsinfo = newsitem.rightsinfo
         assert rightsinfo.copyrightholder.uri == 'http://www.example.com/about.html#copyright' 
@@ -176,28 +177,18 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert contentmeta.subject[0].type == 'cpnat:abstract'
         assert contentmeta.subject[0].qcode == 'medtop:04000000'
         assert str(contentmeta.subject[0].name) == 'economy, business and finance'
-        assert contentmeta.subject[0].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
-        assert contentmeta.subject[0].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
+        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
         assert contentmeta.subject[1].type == 'cpnat:abstract'
         assert contentmeta.subject[1].qcode == 'medtop:20000523'
         assert str(contentmeta.subject[1].name[0]) == 'labour market'
-        assert contentmeta.subject[1].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert contentmeta.subject[1].name[0].get_attr('xml_lang') == 'en-GB'
         assert str(contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
-        assert contentmeta.subject[1].name[1].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'de'
+        assert contentmeta.subject[1].name[1].get_attr('xml_lang') == 'de'
         assert contentmeta.subject[1].broader.qcode == 'medtop:04000000'
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
-        assert contentmeta.genre.name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert contentmeta.genre.name[0].get_attr('xml_lang') == 'en-GB'
         assert str(contentmeta.slugline) == 'US-Finance-Fed'
         assert str(contentmeta.headline) == 'Fed to halt QE to avert "bubble"'
 
@@ -213,9 +204,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.standard == 'NewsML-G2'
         assert newsitem.standardversion == '2.29'
         assert newsitem.conformance == 'power'
-        assert newsitem.get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-US'
+        assert newsitem.get_attr('xml_lang') == 'en-US'
         # catalog tests??
         # <catalogRef
         #     href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
@@ -235,23 +224,15 @@ class TestNewsMLG2Files(unittest.TestCase):
         assert newsitem.contentmeta.subject[0].qcode == 'gyimeid:104530187'
         assert newsitem.contentmeta.subject[1].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[1].qcode == 'medtop:20000523'
-        assert newsitem.contentmeta.subject[1].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert newsitem.contentmeta.subject[1].name[0].get_attr('xml_lang') == 'en-GB'
         assert str(newsitem.contentmeta.subject[1].name[0]) == 'labour market'
-        assert newsitem.contentmeta.subject[1].name[1].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'de'
+        assert newsitem.contentmeta.subject[1].name[1].get_attr('xml_lang') == 'de'
         assert str(newsitem.contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
         assert newsitem.contentmeta.subject[2].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[2].qcode == 'medtop:20000533'
-        assert newsitem.contentmeta.subject[2].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert newsitem.contentmeta.subject[2].name[0].get_attr('xml_lang') == 'en-GB'
         assert str(newsitem.contentmeta.subject[2].name[0]) == 'unemployment'
-        assert newsitem.contentmeta.subject[2].name[1].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'de'
+        assert newsitem.contentmeta.subject[2].name[1].get_attr('xml_lang') == 'de'
         assert str(newsitem.contentmeta.subject[2].name[1]) == 'Arbeitslosigkeit'
         assert newsitem.contentmeta.subject[3].type == 'cpnat:geoArea'
         assert str(newsitem.contentmeta.subject[3].name) == 'Las Vegas Boulevard'
@@ -282,5 +263,73 @@ class TestNewsMLG2Files(unittest.TestCase):
             'of the economic downturn. (Photo by Spencer Platt/Getty Images)'
         )
 
+class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
+    def test_create_simple_newsitem_in_code(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-guid'
+        newsitem.xml_lang = 'en-GB'
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+        assert newsitem.guid == 'test-guid'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+        
+    def test_create_newsitem_in_code_with_no_guid_fails(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+
+        with self.assertRaises(AttributeError):
+            output_xml = g2doc.to_xml()
+
+    def test_toxml_from_code(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-guid'
+        newsitem.xml_lang = 'en-GB'
+        g2doc.set_item(newsitem)
+
+        output_xml = g2doc.to_xml()
+        assert output_xml == ('<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1"/>\n')
+
+    def test_create_valid_newsitem_in_code(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-guid'
+        newsitem.xml_lang = 'en-GB'
+        itemmeta = NewsMLG2.ItemMeta()
+        itemmeta.itemclass.qcode = "ninat:text"
+        itemmeta.provider.qcode = "nprov:IPTC"
+        itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+        newsitem.itemmeta = itemmeta
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+        assert newsitem.guid == 'test-guid'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+
+        output_xml = g2doc.to_xml()
+        assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1">\n'
+                              '  <itemMeta>\n'
+                              '    <itemClass qcode="ninat:text"/>\n'
+                              '    <provider qcode="nprov:IPTC"/>\n'
+                              '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+                              '  </itemMeta>\n'
+                              '</newsItem>\n')
+
+ 
 if __name__ == '__main__':
     unittest.main()

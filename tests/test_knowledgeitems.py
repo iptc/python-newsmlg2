@@ -134,9 +134,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert conceptset.concept[0].get_type() == 'cpnat:abstract'
         assert conceptset.concept[0].get_type_uri() == 'http://cv.iptc.org/newscodes/cpnature/abstract'
         assert str(conceptset.concept[0].name) == 'ACCESSWIRE'
-        assert conceptset.concept[0].name[0].get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert conceptset.concept[0].name[0].get_attr('xml_lang') == 'en-GB'
         assert conceptset.concept[0].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert conceptset.concept[0].related.rel == 'skos:inScheme'
 

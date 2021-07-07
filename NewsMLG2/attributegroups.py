@@ -62,7 +62,10 @@ class I18NAttributes(BaseObject):
         # Specifies the language of this property and potentially all
         # descendant properties. xml:lang values of descendant properties
         # override this value. Values are determined by Internet BCP 47.
-        XMLNSPREFIX+'lang': 'xml_lang',
+        'xml_lang': {
+            'xml_name': XMLNSPREFIX+'lang'
+            # 'default': 'en-GB'
+        },
         # The directionality of textual content
         # (enumeration: ltr, rtl)
         'dir': 'dir'

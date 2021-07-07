@@ -108,9 +108,9 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.name = xmlelement.text and xmlelement.text.strip()
+            self._name = xmlelement.text and xmlelement.text.strip()
 
-    name_role_mappings = {
+    _name_role_mappings = {
         # http://cv.iptc.org/newscodes/namerole/
         # http://cv.iptc.org/newscodes/namerole/adjectival
         'nrol:adjectival': 'adjectival',
@@ -151,22 +151,22 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         # the only place where we diverge from a direct match with the schema
         role = self.attr_values.get('role', None)
         part = self.attr_values.get('part', None)
-        if role and role in self.name_role_mappings.keys():
+        if role and role in self._name_role_mappings.keys():
             self.dict.update({
-                self.name_role_mappings[role]: self.name or ""
+                self._name_role_mappings[role]: self._name or ""
             })
             del self.dict['role']
-        elif part and part in self.name_role_mappings.keys():
+        elif part and part in self._name_role_mappings.keys():
             self.dict.update({
-                self.name_role_mappings[part]: self.name or ""
+                self._name_role_mappings[part]: self._name or ""
             })
             del self.dict['part']
         else:
-            self.dict.update({'name': self.name or ""})
+            self.dict.update({'name': self._name or ""})
         return self.dict
 
     def __str__(self):
-        return self.name
+        return self._name
 
 
 class Name(ConceptNameType):

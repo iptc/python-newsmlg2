@@ -38,7 +38,7 @@ import NewsMLG2
 
 XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
-class TestNewsMLG2KnowledgeItems(unittest.TestCase):
+class TestNewsMLG2ConceptItems(unittest.TestCase):
 
     def test_parse_from_string(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
@@ -83,9 +83,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert conceptitem.conformance == 'power'
         # TODO implement attribute default values
         # assert conceptitem.version == '1'
-        assert conceptitem.get_attr(
-            "{http://www.w3.org/XML/1998/namespace}lang"
-        ) == 'en-GB'
+        assert conceptitem.get_attr('xml_lang') == 'en-GB'
 
         catalogs = conceptitem.get_catalogs()
         # catalogs should work the same as for news items.

@@ -24,16 +24,16 @@ class TruncatedDateTimeType(BaseObject):
     XSD definition: <xs:union memberTypes="xs:date xs:dateTime xs:gYearMonth xs:gYear" />
     """
     # store name of the tag used, this can vary
-    element_name = None
+    _element_name = None
     # value of the date-time
-    date_time = None
+    _date_time = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.element_name = xmlelement.tag
-            self.date_time = xmlelement.text.strip()
+            self._element_name = xmlelement.tag
+            self._date_time = xmlelement.text.strip()
 
 
 class UnionDateTimeType(BaseObject):
@@ -55,16 +55,16 @@ class UnionDateTimeEmptyStringType(BaseObject):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
         if isinstance(xmlelement, etree._Element):
-            self.element_name = xmlelement.tag
-            self.date_time = xmlelement.text.strip()
+            self._element_name = xmlelement.tag
+            self._date_time = xmlelement.text.strip()
 
     def as_dict(self):
         super().as_dict()
-        self.dict.update({self.element_name: self.date_time})
-        return self.dict
+        self._dict.update({self._element_name: self.date_time})
+        return self._dict
 
     def __str__(self):
-        return self.date_time
+        return self._date_time
 
 
 class EmptyStringType(BaseObject):

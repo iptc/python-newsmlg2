@@ -28,14 +28,23 @@ class Action(QualRelPropType):
         # The target of the action in a content object - expressed by a QCode.
         # If the target attribute is omitted the target of the action is the
         # whole object.
-        'target': 'target',  # type="QCodeType">
+        'target': {
+            'xml_name': 'target',
+            'xml_type': 'QCodeType'
+        },
         # The target of the action in a content object - expressed by a URI.
         # If the target attribute is omitted the target of the action is the
         # whole object.
-        'targeturi': 'targeturi',  # type="IRIType">
+        'targeturi': {
+            'xml_name': 'targeturi',
+            'xml_type': 'IRIType'
+        },
         # The date and optionally the time (with a time zone) when this action
         # was performed on the target.
-        'timestamp': 'timestamp',  # type="DateOptTimeType">
+        'timestamp': {
+            'xml_name': 'timestamp',
+            'xml_type': 'DateOptTimeType'
+        }
     }
 
 
@@ -59,10 +68,16 @@ class Hop(CommonPowerAttributes):
         # History.
         # Values need not to be consecutive. The sequence starts with the lowest
         # value.
-        'seq': 'seq', # type="xs:nonNegativeInteger">
+        'seq': {
+            'xml_name': 'seq',
+            'xml_type': 'xs:nonNegativeInteger'
+		},
         # The date and optionally the time (with a time zone) when this item's
         # content object was forwarded.
-        'timestamp': 'timestamp', # type="DateOptTimeType">
+        'timestamp': {
+            'xml_name': 'timestamp',
+            'xml_type': 'DateOptTimeType'
+		}
     }
 
 
@@ -108,11 +123,14 @@ class Published(CommonPowerAttributes, QCodeURIMixin):
             'type': 'array',
             'xml_name': 'publishedExtProperty',
             'element_class': PublishedExtProperty
-        },
+        }
     }
     attributes = {
         # A free-text value assigned as property value.
-        'literal': 'literal'  # type="g2normalizedString">
+        'literal': {
+            'xml_name': 'literal',
+            'xml_type': 'g2normalizedString'
+		}
     }
 
 
@@ -167,15 +185,37 @@ class AnyItem(I18NAttributes):
 
     attributes = {
         # The IPTC standard with which the Item is conformant.
-        'standard': 'standard',
+        'standard': {
+            'xml_name': 'standard',
+            # NOTE: the XML Schema doesn't define a default but
+            # we do, for ease of use reasons
+            'default': 'NewsML-G2'
+        },
         # The major-minor version of the IPTC standard with which the Item is conformant.
-        'standardversion': 'standardversion',
+        'standardversion': {
+            'xml_name': 'standardversion',
+            # NOTE: the XML Schema doesn't define a default but
+            # we do, for ease of use reasons
+            'default': '2.29'
+        },
         # The conformance level with which the Item is conformant.
-        'conformance': 'conformance', # TODO default "core"
+        'conformance': {
+            'xml_name': 'conformance',
+            # NOTE: the XML Schema defines default "core" but from 2.27+ the
+            # Specification recommends only using "power"
+            'default': 'power'
+        },
         # The persistent, universally unique identifier common for all versions of the Item.
-        'guid': 'guid', # TODO enforce requiredness
+        'guid': {
+            'xml_name': 'guid',
+            'use': 'required'
+        },
         # The version of the Item.
-        'version': 'version'  # TODO type positive integer, default "1"
+        'version': {
+            'xml_name': 'version',
+            'xml_type': 'positive integer',
+            'default': '1'
+        }
     }
 
     elements = {\
@@ -210,11 +250,23 @@ class AssertType(CommonPowerAttributes, I18NAttributes):
     """
     attributes = {
         # A concept identifier.
-        'qcode': 'qcode',  # type="QCodeType" use="optional">
+        'qcode': {
+            'xml_name': 'qcode',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+		},
         # A URI which identifies a concept.
-        'uri': 'uri',  # type="IRIType" use="optional">
+        'uri': {
+            'xml_name': 'uri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+		},
         # A free-text text string assigned as property value
-        'literal': 'literal'  # type="g2normalizedString" use="optional">
+        'literal': {
+            'xml_name': 'literal',
+            'xml_type': 'g2normalizedString',
+            'use': 'optional'
+		}
     }
 
 
@@ -231,7 +283,11 @@ class InlineRef(Flex1PropType, QuantifyAttributes):
     """
     attributes = {
         # A set of local identifiers of inline content
-        'idrefs': 'idrefs', # type="xs:IDREFS" use="required">
+        'idrefs': {
+            'xml_name': 'idrefs',
+            'xml_type': 'xs:IDREFS',
+			'use': 'required'
+		}
     }
 
 
@@ -243,7 +299,10 @@ class DerivedFrom(Flex1PropType):
     attributes = {
         # Refers to the ids of elements which values have been derived from the
         # concept represented by this property
-        'idrefs': 'idrefs'  # type="xs:IDREFS">
+        'idrefs': {
+            'xml_name': 'idrefs',
+            'xml_type': 'xs:IDREFS'
+		}
     }
 
 
@@ -253,8 +312,18 @@ class DerivedFromValue(CommonPowerAttributes):
     or more properties in this NewsML-G2 item.
     """
     attributes = {
-        #  Refers to the id of the element that provides the value used for the derivation.
-        'sourceidref': 'sourceidref',  # type="xs:IDREF" use="required">
-        # Refers to the ids of elements whose values have been derived from the value represented by this property.
-        'idrefs': 'idrefs'  # type="xs:IDREFS" use="required">
+        # Refers to the id of the element that provides the value used for the
+        # derivation.
+        'sourceidref': {
+            'xml_name': 'sourceidref',
+            'xml_type': 'xs:IDREF',
+			'use': 'required'
+		},
+        # Refers to the ids of elements whose values have been derived from the
+        # value represented by this property.
+        'idrefs': {
+            'xml_name': 'idrefs',
+            'xml_type': 'xs:IDREFS',
+			'use': 'required'
+		}
     }

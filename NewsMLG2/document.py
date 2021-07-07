@@ -8,6 +8,7 @@ from lxml import etree
 
 from .core import NEWSMLG2NSPREFIX
 from .conceptitem import ConceptItem
+from .anyitem import AnyItem
 from .newsitem import NewsItem
 from .knowledgeitem import KnowledgeItem
 
@@ -24,24 +25,24 @@ class NewsMLG2Document():
             self._root_element = tree.getroot()
         elif isinstance(string, (str, bytes)):
             self._root_element = etree.fromstring(string)
-
-        if self._root_element.tag == NEWSMLG2NSPREFIX+'newsItem':
-            self.item = NewsItem(
-                xmlelement = self._root_element
-            )
-        elif self._root_element.tag == NEWSMLG2NSPREFIX+'knowledgeItem':
-            self.item = KnowledgeItem(
-                xmlelement = self._root_element
-            )
-        elif self._root_element.tag == NEWSMLG2NSPREFIX+'conceptItem':
-            self.item = ConceptItem(
-                xmlelement = self._root_element
-            )
-        else:
-            raise Exception(
-                "Item types other than NewsItem and KnowledgeItem "
-                "are not yet supported."
-            )
+        if self._root_element is not None:
+            if self._root_element.tag == NEWSMLG2NSPREFIX+'newsItem':
+                self.item = NewsItem(
+                    xmlelement = self._root_element
+                )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'knowledgeItem':
+                self.item = KnowledgeItem(
+                    xmlelement = self._root_element
+                )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'conceptItem':
+                self.item = ConceptItem(
+                    xmlelement = self._root_element
+                )
+            else:
+                raise Exception(
+                    "Item types other than NewsItem and KnowledgeItem "
+                    "are not yet supported."
+                )
 
     def get_item(self):
         """
@@ -49,6 +50,17 @@ class NewsMLG2Document():
         for this document.
         """
         return self.item
+
+    def set_item(self, item):
+        """
+        Set the main Item object (NewsItem, KnowledgeItem, ConceptItem etc)
+        for this document.
+        """
+        if not isinstance(item, AnyItem):
+            raise Exception(
+                "Item must be an instance of NewsItem or KnowledgeItem"
+            )
+        self.item = item
 
     def to_xml(self):
         """Return this document in XML form."""
@@ -58,5 +70,4 @@ class NewsMLG2Document():
                     pretty_print=True,
                     xml_declaration=True,
                     encoding='utf-8'
-               #)
                ).decode('utf-8')

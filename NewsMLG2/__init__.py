@@ -7,6 +7,8 @@ content.
 
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document
+from .newsitem import NewsItem
+from .anyitem import ItemMeta
 
 VERSION = 0.1
 DEBUG = True

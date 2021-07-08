@@ -100,11 +100,13 @@ class BaseObject():
             if not isinstance(attribute_definition, str):
                 # new style definition
                 attribute_xmlname = attribute_definition['xml_name']
-                self._attribute_values[attribute_id] = xmlelement.get(attribute_xmlname)
+                xmlattr_value = xmlelement.get(attribute_xmlname)
             else:
-                # old style definition - definition is ignored
+                # old style definition - attribute_definition part is ignored
                 # TODO remove this line when all attribute definitions are updated
-                self._attribute_values[attribute_id] = xmlelement.get(attribute_id)
+                xmlattr_value = xmlelement.get(attribute_id)
+            if xmlattr_value is not None:
+                self._attribute_values[attribute_id] = xmlattr_value
         for element_id, element_definition in element_defns.items():
             element_class = self.get_element_class(element_definition['element_class'])
             if element_definition['type'] == 'array':

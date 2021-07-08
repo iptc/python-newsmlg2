@@ -16,9 +16,9 @@ support.
 
 Installing from PyPI (after we release it to PyPI...):
 
-    pip install newsml-g2
+    pip install newsmlg2
 
-## Usage
+## Reading NewsML-G2 files
 
 Example:
 
@@ -31,14 +31,13 @@ Example:
     parser = NewsMLG2.NewsMLG2Parser(b"""<?xml version="1.0" encoding="UTF-8"?>
 <newsItem
     xmlns="http://iptc.org/std/nar/2006-10-01/"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
     standardversion="2.29"
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
@@ -51,21 +50,72 @@ Example:
 </newsItem>
 """)
     newsitem = parser.getNewsItem()
-    assert newsitem.get_attr('guid') == 'simplest-test'
-    assert newsitem.get_attr('standard') == 'NewsML-G2'
-    assert newsitem.get_attr('standardversion') == '2.29'
-    assert newsitem.get_attr('conformance') == 'power'
+    assert newsitem.guid == 'simplest-test'
+    assert newsitem.standard == 'NewsML-G2'
+    assert newsitem.standardversion == '2.29'
+    assert newsitem.conformance == 'power'
+    itemmeta = newsitem.itemmeta
+    assert itemmeta.get_itemclass() == 'ninat:text'
+    assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
+    assert itemmeta.get_provider() == 'nprov:IPTC'
+    assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+    assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+
+    etc...
+```
+
+## Creating NewsML-G2 files from code
+
+Example:
+```
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-guid'
+        newsitem.xml_lang = 'en-GB'
+        itemmeta = NewsMLG2.ItemMeta()
+        itemmeta.itemclass.qcode = "ninat:text"
+        itemmeta.provider.qcode = "nprov:IPTC"
+        itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+        newsitem.itemmeta = itemmeta
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+        assert newsitem.guid == 'test-guid'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.29'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+
+        output_xml = g2doc.to_xml()
+        assert output_xml == (
+            "<?xml version='1.0' encoding='utf-8'?>\n"
+            '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1">\n'
+            '  <itemMeta>\n'
+            '    <itemClass qcode="ninat:text"/>\n'
+            '    <provider qcode="nprov:IPTC"/>\n'
+            '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+            '  </itemMeta>\n'
+            '</newsItem>\n')
 ```
 
 ## Testing
 
-A very small unit test library is included.
+A unit test library is included.
 
 Run it with:
 
-    python setup.py test
+    pytest
+
+Test coverage can be measured with the `coverage.py` package:
+
+    pip install coverage
+    coverage run --source NewsMLG2 -m pytest 
+    coverage report
 
 ## Release notes
 
 * 0.1 - First release, pinned to Python 3 only (use pip >9.0 to ensure pip's
 Python version requirement works properly)
+* 0.2 - Can now read and write NewsML-G2 from code - still doesn't create valid
+NewsML-G2 every time due to element ordering

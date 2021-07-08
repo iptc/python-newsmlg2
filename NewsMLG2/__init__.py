@@ -10,7 +10,7 @@ from .document import NewsMLG2Document
 from .newsitem import NewsItem
 from .anyitem import ItemMeta
 
-VERSION = 0.1
+VERSION = 0.2
 DEBUG = True
 
 __version__ = VERSION

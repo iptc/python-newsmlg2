@@ -18,12 +18,12 @@ from .simpletypes import IRIType
 from .catalogstore import CATALOG_STORE
 
 
-# TODO: raise a warning if a qcode is used that doesn't have a matching scheme declared in a catalog
-# (but warnings could be turned off with a parameter)
+# TODO: raise a warning if a qcode is used that doesn't have a matching scheme
+# declared in a catalog (but warnings could be turned off with a parameter)
 # - option: "strict" mode where it fails instead of just raising a warning
 #   - perhaps in multiple levels: differing types of "strictness"
-# - method to return whether the document is "valid" in terms of resolvable qcodes, or not - so clients
-# can decide what to do
+# - method to return whether the document is "valid" in terms of resolvable
+# qcodes, or not - so clients can decide what to do
 
 # Save some commonly used catalogs in this module's cache so we don't have
 # to download catalog files from the Internet
@@ -121,21 +121,44 @@ class Scheme(CommonPowerAttributes):
 
     attributes = {
         # A short string used by the provider as a replacement for a scheme URI.
-        'alias': 'alias', # type="xs:NCName" use="required">
+        'alias': {
+            'xml_name': 'alias',
+            'xml_type': 'xs:NCName',
+            'use': 'required'
+        },
         # The URI which identifies the scheme.
-        'uri': 'uri', # type="IRIType" use="required">
+        'uri': {
+            'xml_name': 'uri',
+            'xml_type': 'IRIType',
+            'use': 'required'
+        },
         # Defines the authority controlling this scheme
-        'authority': 'authority', # type="IRIType">
+        'authority': {
+            'xml_name': 'authority',
+            'xml_type': 'IRIType'
+        },
         # The date (and, optionally, the time) when the scheme was created.
         # This must not be later than the creation timestamp of any concepts in the scheme.
-        'schemecreated': 'schemecreated', # type="DateOptTimeType" use="optional">
+        'schemecreated': {
+            'xml_name': 'schemecreated',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) when the scheme was last modified.
         # The initial value is the date (and, optionally, the time) of creation of the scheme.
-        'schememodified': 'schememodified', # type="DateOptTimeType" use="optional">
+        'schememodified': {
+            'xml_name': 'schememodified',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) after which the scheme should not be used anymore.
         # If a scheme is marked as retired, then all Concept Identifiers in that scheme
         # (identified by the scheme @uri) must also be retired.
-        'schemeretired': 'schemeretired' # type="DateOptTimeType" use="optional">
+        'schemeretired': {
+            'xml_name': 'schemeretired',
+            'type': 'DateOptTimeType',
+            'use': 'optional'
+        }
     }
 
     def __str__(self):
@@ -160,19 +183,34 @@ class Catalog(CommonPowerAttributes):
     attributes = {
         # A pointer to some additional information about
         # the Catalog, and especially its evolution and latest version.
-        'additionalInfo': 'additionalInfo', # type="IRIType">
+        'additionalInfo': {
+            'xml_name': 'additionalInfo',
+            'xml_type': 'IRIType'
+        },
         # Defines the location of the catalog as remote resource.
         # (Should be the same as the URL which is used with the href
         # attribute of a catalogRef in an item.)
-        'url': 'url', # type="IRIType">
+        'url': {
+            'xml_name': 'url',
+            'xml_type': 'IRIType'
+        },
         # Defines the authority controlling this catalog
-        'authority': 'authority', # type="IRIType">
+        'authority': {
+            'xml_name': 'authority',
+            'xml_type': 'IRIType'
+        },
         # Globally Unique Identifier for this kind of catalog as
         # managed by a provider. A version attribute should be used with it.
-        'guid': 'guid', # type="xs:anyURI">
+        'guid': {
+            'xml_name': 'guid',
+            'xml_type': 'xs:anyURI'
+        },
         # Version corresponding to the guid of the catalog.
         # If a version attribute exists a guid attribute must exist too
-        'version': 'version', # type="xs:nonNegativeInteger">
+        'version': {
+            'xml_name': 'version',
+            'xml_type': 'xs:nonNegativeInteger'
+        }
     }
 
     def __init__(self, **kwargs):
@@ -232,7 +270,11 @@ class CatalogRef(BaseObject):
     """
     attributes = {
         # A short natural language name for the catalog.
-        'title': 'title',
+        'title': {
+            'xml_name': 'title'
+        },
         # A hyperlink to a remote Catalog.
-        'href': 'href'
+        'href': {
+            'xml_name': 'href'
+        }
     }

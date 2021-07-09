@@ -70,26 +70,50 @@ class SchemeMeta(CommonPowerAttributes):
     }
     attributes = {
         # The URI which identifies the scheme
-        'uri': 'uri',  # " type="IRIType" use="required">
+        'uri': {
+            'xml_name': 'uri',
+            'xml_type': 'IRIType',
+            'use': 'required'
+        },
         # The alias preferred by the schema authority
-        'preferredalias': 'preferredalias',
+        'preferredalias': {
+            'xml_name': 'preferredalias'
+        },
         # Defines the authority controlling the scheme
-        'authority': 'authority',  # " type="IRIType">
+        'authority': {
+            'xml_name': 'authority',
+            'xml_type': 'IRIType'
+        },
         # List of all concept types used within this Knowledge Item
-        'concepttype': 'concepttype',  # " type="QCodeListType">
+        'concepttype': {
+            'xml_name': 'concepttype',
+            'xml_type': 'QCodeListType'
+        },
         # The date (and, optionally, the time) when the scheme was created.
         # This must not be later than the creation timestamp of any concepts in
         # the scheme (identified by the schemeMeta @uri).
-        'schemecreated': 'schemecreated',  # " type="DateOptTimeType" use="optional">
+        'schemecreated': {
+            'xml_name': 'schemecreated',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) when the scheme was last
         # modified. The initial value is the date (and, optionally, the time)
         # of creation of the scheme (identified by the schemeMeta @uri).
-        'schememodified': 'schememodified',  # " type="DateOptTimeType" use="optional">
+        'schememodified': {
+            'xml_name': 'schememodified',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) after which the scheme should not
         # be used anymore. If a scheme is marked as retired, then all concepts
         # in that scheme (identified by the schemeMeta @uri) must also be
         # retired.
-        'schemeretired': 'schemeretired'  # " type="DateOptTimeType" use="optional">
+        'schemeretired': {
+            'xml_name': 'schemeretired',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        }
     }
 
 

@@ -19,7 +19,10 @@ class RightsBlockType(BlockType):
     """
     attributes = {
         # The locator of a remote expression of rights
-        'href': 'href',  # type="IRIType"
+        'href': {
+            'xml_name': 'href',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -27,6 +30,7 @@ class CopyrightHolder(FlexPartyPropType):
     """
     The person or organisation claiming the intellectual property for the content.
     """
+
 
 class CopyrightNotice(RightsBlockType):
     """
@@ -61,7 +65,11 @@ class RightsExpressionXML(CommonPowerAttributes):
     """
     attributes = {
         # Identifier for the used Rights Expression language
-        'langid': 'langid'  # type="xs:anyURI" use="required">
+        'langid': {
+            'xml_name': 'langid',
+            'xml_type': 'xs:anyURI',
+            'use': 'required'
+        }
     }
 
 
@@ -72,9 +80,17 @@ class RightsExpressionData(CommonPowerAttributes):
     """
     attributes = {
         # Identifier for the used Rights Expression language
-        'langid': 'langid',  # type="xs:anyURI" use="required">
+        'langid': {
+            'xml_name': 'langid',
+            'xml_type': 'xs:anyURI',
+            'use': 'required'
+        },
         # Identifier of the used type of encoding, prefered are IANA Media Type identifiers.
-        'enctype': 'enctype'  # type="xs:string" use="required">
+        'enctype': {
+            'xml_name': 'enctype',
+            'xml_type': 'xs:string',
+            'use': 'required'
+        }
     }
 
 
@@ -87,31 +103,50 @@ class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
         # applies. When referencing part(s) of the content of an Item, idrefs
         # must include the partid value of a partMeta element which in turn
         # references the part of the content.
-        'idrefs': 'idrefs', # type="xs:IDREFS"
+        'idrefs': {
+            'xml_name': 'idrefs',
+            'xml_type': 'xs:IDREFS'
+        },
         # Indicates to which part(s) of an Item the rightsInfo element applies -
         # expressed by a QCode. If the attribute does not exist then rightsInfo
         # applies to all parts of the Item.
         # Mandatory NewsCodes scheme for the values:
         # http://cv.iptc.org/newscodes/riscope/
-        'scope': 'scope', # type="QCodeListType" use="optional">
+        'scope': {
+            'xml_name': 'scope',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # Indicates to which part(s) of an Item the rightsInfo element applies -
         # expressed by a URI. If the attribute does not exist then rightsInfo
         # applies to all parts of the Item.
         # Mandatory NewsCodes scheme for the values:
         # http://cv.iptc.org/newscodes/riscope/
-        'scopeuri': 'scopeuri', # type="IRIListType" use="optional">
+        'scopeuri': {
+            'xml_name': 'scopeuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # Indicates to which rights-related aspect(s) of an Item or part(s) of
         # an Item the rightsInfo element applies - expressed by a QCode. If the
         # attribute does not exist then rightsInfo applies to all aspects.
         # Mandatory NewsCodes scheme for the values:
         # http://cv.iptc.org/newscodes/riaspect
-        'aspect': 'aspect', # type="QCodeListType" use="optional">
+        'aspect': {
+            'xml_name': 'aspect',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # Indicates to which rights-related aspect(s) of an Item or part(s) of
         # an Item the rightsInfo element applies - expressed by a URI. If the
         # attribute does not exist then rightsInfo applies to all aspects.
         # Mandatory NewsCodes scheme for the values:
         # http://cv.iptc.org/newscodes/riaspect
-        'aspecturi': 'aspecturi' # type="IRIListType" use="optional">
+        'aspecturi': {
+            'xml_name': 'aspecturi',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        }
     }
 
     elements = {

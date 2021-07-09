@@ -3,7 +3,6 @@ Core functions for NewsMLG2 library.
 """
 
 import importlib
-import json
 import re
 from lxml import etree
 
@@ -97,14 +96,8 @@ class BaseObject():
         if not isinstance(xmlelement, etree._Element):
             raise AttributeError("xmlelement should be an instance of _Element")
         for attribute_id, attribute_definition in attr_defns.items():
-            if not isinstance(attribute_definition, str):
-                # new style definition
-                attribute_xmlname = attribute_definition['xml_name']
-                xmlattr_value = xmlelement.get(attribute_xmlname)
-            else:
-                # old style definition - attribute_definition part is ignored
-                # TODO remove this line when all attribute definitions are updated
-                xmlattr_value = xmlelement.get(attribute_id)
+            attribute_xmlname = attribute_definition['xml_name']
+            xmlattr_value = xmlelement.get(attribute_xmlname)
             if xmlattr_value is not None:
                 self._attribute_values[attribute_id] = xmlattr_value
         for element_id, element_definition in element_defns.items():
@@ -137,23 +130,22 @@ class BaseObject():
         """
         if name in self._element_values:
             return self._element_values[name]
-        elif name in self._element_definitions:
+        if name in self._element_definitions:
             # no value, but the element exists - create it on the fly!
             element_definition = self._element_definitions[name]
             element_class = self.get_element_class(element_definition['element_class'])
             self._element_values[name] = element_class()
             return self._element_values[name]
-        elif name in self._attribute_definitions:
+        if name in self._attribute_definitions:
             if name in self._attribute_values:
                 return self._attribute_values[name]
-            elif 'default' in self._attribute_definitions[name]:
+            if 'default' in self._attribute_definitions[name]:
                 return self._attribute_definitions[name]['default']
-            else:
-                raise AttributeError(
-                    "'" + name + "' is a defined attribute of " +
-                    "'" + self.__class__.__name__ + "' " +
-                    "but has no defined value or default"
-                )
+            raise AttributeError(
+                "'" + name + "' is a defined attribute of " +
+                "'" + self.__class__.__name__ + "' " +
+                "but has no defined value or default"
+            )
         raise AttributeError(
             "'" + self.__class__.__name__ +
             "' has no element or attribute '" + name + "'"
@@ -175,7 +167,8 @@ class BaseObject():
             super().__setattr__(name, value)
         elif name in self._element_definitions:
             if isinstance(value, str):
-                element_class = self.get_element_class(self._element_definitions[name]['element_class'])
+                element_class_name = self._element_definitions[name]['element_class']
+                element_class = self.get_element_class(element_class_name)
                 self._element_values[name] = element_class(text = value)
             else:
                 self._element_values[name] = value
@@ -187,23 +180,6 @@ class BaseObject():
                 "' has no element or attribute '" + name + "'"
                   )
 
-
-    """
-    def as_dict(self):
-        Return the full object in dictionary form
-        (Could we just use __dict__ ?)
-        attrs = self.get_attribute_definitions()
-        attr_types = self.get_attribute_types()
-        if attrs:
-            for xml_attribute, json_property in attrs.items():
-                if xml_attribute in self._attribute_values and self._attribute_values[xml_attribute]:
-                    property_value =  self._attribute_values[xml_attribute]
-                    property_type = attr_types.get(xml_attribute, None)
-                    if property_type == "integer":
-                        property_value = int(property_value)
-                    self.dict.update({ json_property: property_value })
-        return self.dict
-    """
 
     def __bool__(self):
         if any(self._attribute_values.values()):
@@ -314,15 +290,6 @@ class GenericArray(BaseObject):
             self._element_class_name +' objects>'
         )
 
-    def as_dict(self):
-        return [ elem.as_dict() for elem in self._array_contents ]
-
-    def to_json(self):
-        """
-        Return this class as a JSON object.
-        """
-        return json.dumps(self.as_dict(), indent=4)
-
     def __getattr__(self, name):
         """
         More "syntactic sugar": If a user tries to get a property or call a
@@ -356,10 +323,14 @@ class QCodeURIMixin(BaseObject):
     attributes = {
         # A qualified code which identifies a concept - either the qcode or the
         # uri attribute MUST be used
-        'qcode': 'qcode',
+        'qcode': {
+            'xml_name': 'qcode'
+        },
         # A URI which identifies a concept - either the qcode or the uri
         # attribute MUST be used
-        'uri': 'uri'
+        'uri': {
+            'xml_name': 'uri'
+        }
     }
 
     def get_qcode(self):

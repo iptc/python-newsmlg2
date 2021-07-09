@@ -15,29 +15,60 @@ class AltId(IntlStringType2):
     attributes = {
         # A qualifier which indicates the context within which the alternative
         # identifier has been allocated - expressed by a QCode
-        'type': 'type',  # type="QCodeType" use="optional">
+        'type': {
+            'xml_name': 'type',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # A qualifier which indicates the context within which the alternative
         # identifier has been allocated - expressed by a URI
-        'typeuri': 'typeuri',  # type="IRIType" use="optional">
+        'typeuri': {
+            'xml_name': 'typeuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # A qualifier which indicates the business environment in which the
         # identifier can be used to access the content - expressed by a QCode
-        'environment': 'environment',  # type="QCodeListType" use="optional">
+        'environment': {
+            'xml_name': 'environment',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A qualifier which indicates the business environment in which the
         # identifier can be used to access the content - expressed by a URI
-        'environmenturi': 'environmenturi',  # type="IRIListType" use="optional">
+        'environmenturi': {
+            'xml_name': 'environmenturi',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # Indicates the format of the value of the element
         # - expressed by a QCode
-        'idformat': 'idformat',  #  type="QCodeType">
+        'idformat': {
+            'xml_name': 'idformat',
+            'xml_type': 'QCodeType'
+        },
         # Indicates the format of the value of the element - expressed by a URI
-        'idformaturi': 'idformaturi',  # type="IRIType">
+        'idformaturi': {
+            'xml_name': 'idformaturi',
+            'xml_type': 'IRIType'
+        },
         # A refinement of what kind of alternative is provided by this identifier
         # - expressed by a QCode
-        'role': 'role',  # type="QCodeType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType'
+        },
         # A refinement of what kind of alternative is provided by this identifier
         # - expressed by an URI
-        'roleuri': 'roleuri',  # type="IRIType">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType'
+        },
         # The version of the object identified by the alternative id.
-        'version': 'version'  #  type="xs:string">
+        'version': {
+            'xml_name': 'version',
+            'xml_type': 'xs:string'
+        }
     }
 
 
@@ -49,17 +80,29 @@ class Hash(CommonPowerAttributes):
         # The hash algorithm used for creating the hash value - expressed by a
         # QCode
         #  either the hashtype or the hashtypeuri attribute MUST be used
-        'hashtype': 'hashtype',  # type="QCodeType">
+        'hashtype': {
+            'xml_name': 'hashtype',
+            'xml_type': 'QCodeType'
+        },
         # The hash algorithm used for creating the hash value - expressed by a
         # URI
         # either the hashtype or the hashtypeuri attribute MUST be used
-        'hashtypeuri': 'hashtypeuri',  # type="IRIType">
+        'hashtypeuri': {
+            'xml_name': 'hashtypeuri',
+            'xml_type': 'IRIType'
+        },
         # The scope of a G2 item's content which is the reference for creating
         # the hash value - expressed by a QCode. If the attribute is omitted,
         # http://cv.iptc.org/newscodes/hashscope/content is the default value.
-        'scope': 'scope',  # type="QCodeType">
+        'scope': {
+            'xml_name': 'scope',
+            'xml_type': 'QCodeType'
+        },
         # The scope of a G2 item's content which is the reference for creating
         # the hash value - expressed by a URI. If the attribute is omitted,
         # http://cv.iptc.org/newscodes/hashscope/content is the default value.
-        'scopeuri': 'scopeuri'  # type="IRIType">
+        'scopeuri': {
+            'xml_name': 'scopeuri',
+            'xml_type': 'IRIType'
+        }
     }

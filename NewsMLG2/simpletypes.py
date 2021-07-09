@@ -58,11 +58,6 @@ class UnionDateTimeEmptyStringType(BaseObject):
             self._element_name = xmlelement.tag
             self._date_time = xmlelement.text.strip()
 
-    def as_dict(self):
-        super().as_dict()
-        self._dict.update({self._element_name: self.date_time})
-        return self._dict
-
     def __str__(self):
         return self._date_time
 

@@ -53,9 +53,13 @@ class ApproximateDateTimePropType(UnionDateTimeType, CommonPowerAttributes):
 
     attributes = {
         # The date (and optionally time) at which the approximation range begins.
-        'approxstart': 'approxstart',
+        'approxstart': {
+            'xml_name': 'approxstart',
+        },
         # The date (and optionally the time) at which the approximation range ends.
-        'approxend': 'approxend'
+        'approxend': {
+            'xml_name': 'approxend'
+        }
     }
 
 
@@ -80,7 +84,11 @@ class VersionedStringType(IntlStringType):
 
     attributes = {
         # The version of a processing resource.
-        'versioninfo': 'versioninfo'  # type="xs:string" use="optional">
+        'versioninfo': {
+            'xml_name': 'versioninfo',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
     }
 
 
@@ -93,15 +101,23 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     name = None
     attributes = {
         # A refinement of the semantics of the name - expressed by a QCode
-        'role': 'role',
+        'role': {
+            'xml_name': 'role'
+        },
         # A refinement of the semantics of the name - expressed by a URI
-        'roleuri': 'roleuri',
+        'roleuri': {
+            'xml_name': 'roleuri'
+        },
         # Specifies which part of a full name this property provides - expressed
         # by a QCode
-        'part': 'part',
+        'part': {
+            'xml_name': 'part'
+        },
         # Specifies which part of a full name this property provides - expressed
         # by a URI
-        'parturi': 'parturi'
+        'parturi': {
+            'xml_name': 'parturi'
+        }
     }
 
     def __init__(self, **kwargs):
@@ -145,25 +161,6 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         'nprt:last': 'family',
         'nrol:last': 'family'
     }
-
-    def as_dict(self):
-        super().as_dict()
-        # the only place where we diverge from a direct match with the schema
-        role = self.attr_values.get('role', None)
-        part = self.attr_values.get('part', None)
-        if role and role in self._name_role_mappings.keys():
-            self.dict.update({
-                self._name_role_mappings[role]: self._name or ""
-            })
-            del self.dict['role']
-        elif part and part in self._name_role_mappings.keys():
-            self.dict.update({
-                self._name_role_mappings[part]: self._name or ""
-            })
-            del self.dict['part']
-        else:
-            self.dict.update({'name': self._name or ""})
-        return self.dict
 
     def __str__(self):
         return self._name

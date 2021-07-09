@@ -36,9 +36,14 @@ class InlineData(NewsContentAttributes, NewsContentTypeAttributes,
     xml_element_name = 'inlineData'
     attributes = {
         # The encoding applied to the content before inclusion - expressed by a QCode
-        'encoding': 'encoding',  # " type="QCodeType">
+        'encoding': {
+            'xml_name': 'encoding',
+            'xml_type': 'QCodeType',
+        },
         # The encoding applied to the content before inclusion - expressed by a URI
-        'encodinguri': 'encodinguri'  # " type="IRIType">
+        'encodinguri': {
+            'xml_name': 'encodinguri'  # " type="IRIType',
+        },
     }
 
 
@@ -48,23 +53,46 @@ class Channel(CommonPowerAttributes, NewsContentCharacteristics):
     """
     attributes = {
         # A logical identifier of the channel
-        'chnlid': 'chnlid',  # type="xs:positiveInteger">
+        'chnlid': {
+            'xml_name': 'chnlid',
+            'xml_type': 'xs:positiveInteger',
+        },
         # The media type of the data conveyed by the channel - expressed by
         # a QCode
-        'type': 'type',  # " type="QCodeType">
+        'type': {
+            'xml_name': 'type',
+            'xml_type': 'QCodeType',
+        },
         # The media type of the data conveyed by the channel - expressed by
         # a URI
-        'typeuri': 'typeuri',  # " type="IRIType">
+        'typeuri': {
+            'xml_name': 'typeuri',
+            'xml_type': 'IRIType',
+        },
         # The role the data of this channel plays in the scope of the full
         # content - expressed by a QCode
-        'role': 'role',  # " type="QCodeType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType',
+        },
         # The role the data of this channel plays in the scope of the full
         # content - expressed by a URI
-        'roleuri': 'roleuri',  # " type="IRIType">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType',
+        },
         # The  language associated with the content of the channel
-        'language': 'language',  # " type="xs:language">
+        'language': {
+            'xml_name': 'language',
+            'xml_type': 'xs:language',
+        },
         # DO NOT USE this attribute, for G2 internal maintenance purposes only.
-        'g2flag': 'g2flag'  # " type="xs:string" use="optional" fixed="RCONT">
+        'g2flag': {
+            'xml_name': 'g2flag',
+            'xml_type': 'xs:string',
+            'use': 'optional',
+            'fixed': 'RCONT'  # TODO handle this?
+        }
     }
 
 
@@ -75,16 +103,32 @@ class AltLoc(IRIType, CommonPowerAttributes):
     attributes = {
         # A qualifier which indicates the context within which the alternative
         # locator has been allocated - expressed by a QCode
-        'type': 'type',  # type="QCodeType" use="optional">
+        'type': {
+            'xml_name': 'type',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # A qualifier which indicates the context within which the alternative
         # locator has been allocated - expressed by a URI
-        'typeuri': 'typeuri',  # type="IRIType" use="optional">
+        'typeuri': {
+            'xml_name': 'typeuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # A refinement of the semantics or business purpose of the property -
         # expressed by a QCode
-        'role': 'role',  # type="QCodeType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # A refinement of the semantics or business purpose of the property -
         # expressed by a URI
-        'roleruri': 'roleruri'  # type="IRIType" use="optional">
+        'roleruri': {
+            'xml_name': 'roleruri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        }
     }
 
 
@@ -123,7 +167,10 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     }
     attributes = {
         # The language of the remote content
-        'language': 'language'  # type="xs:language">
+        'language': {
+            'xml_name': 'language',
+            'xml_type': 'xs:language'
+        }
     }
 
 
@@ -142,7 +189,10 @@ class ContentSet(CommonPowerAttributes):
     attributes = {
         # A local reference to the original piece of content, from which all
         # renditions have been derived
-        'original': 'original'  # type="xs:IDREF"
+        'original': {
+            'xml_name': 'original',
+            'xml_type': 'xs:IDREF'
+        }
     }
 
     elements = {

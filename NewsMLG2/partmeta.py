@@ -21,24 +21,44 @@ class TimeDelim(CommonPowerAttributes):
         # excluded. Using the Edit Unit requires the frame rate or sampling rate
         # to be known, this must be defined by the referenced rendition of the
         # content.
-        'start': 'start',  # type="xs:string" use="required">
+        'start': {
+            'xml_name': 'start',
+            'xml_type': 'xs:string',
+            'use': 'required'
+        },
         # The end time of the part in a timeline. The expressed time unit is
         # included. Using the Edit Unit requires the frame rate or sampling rate
         # to be known, this must be defined by the referenced rendition of the
         # content.
-        'end': 'end',  # type="xs:string" use="required">
+        'end': {
+            'xml_name': 'end',
+            'xml_type': 'xs:string',
+            'use': 'required'
+        },
         # The unit used for the start and end timestamps - expressed by a QCode
         # either the timeunit or the timeunituri attribute MUST be used
-        'timeunit': 'timeunit',  # type="QCodeType">
+        'timeunit': {
+            'xml_name': 'timeunit',
+            'xml_type': 'QCodeType'
+        },
         # The unit used for the start and end timestamps - expressed by a URI
         # either the timeunit or the timeunituri attribute MUST be used
-        'timeunituri': 'timeunituri',  # type="IRIType">
+        'timeunituri': {
+            'xml_name': 'timeunituri',
+            'xml_type': 'IRIType'
+        },
         # Refers to the content rendition with this QCode as rendition attribute
         # value - expressed by a QCode
-        'renditionref': 'renditionref',  # type="QCodeType">
+        'renditionref': {
+            'xml_name': 'renditionref',
+            'xml_type': 'QCodeType'
+        },
         # Refers to the content rendition with this QCode as rendition attribute
         # value - expressed by a URI
-        'renditionrefuri': 'renditionrefuri'  # type="IRIType">
+        'renditionrefuri': {
+            'xml_name': 'renditionrefuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -49,14 +69,26 @@ class RegionDelim(CommonPowerAttributes):
     attributes = {
         # The x-axis coordinate of the side of the rectangle which has the
         # smaller x-axis coordinate value in the current user coordinate system
-        'x': 'x',  # type="xs:integer">
+        'x': {
+            'xml_name': 'x',
+            'xml_type': 'xs:integer'
+        },
         # The y-axis coordinate of the side of the rectangle which has the
         # smaller y-axis coordinate value in the current user coordinate system
-        'y': 'y',  # type="xs:integer">
+        'y': {
+            'xml_name': 'y',
+            'xml_type': 'xs:integer'
+        },
         # The width of the rectangle</xs:documentation>
-        'width': 'width',  # type="xs:integer">
+        'width': {
+            'xml_name': 'width',
+            'xml_type': 'xs:integer'
+        },
         # The height of the rectangle</xs:documentation>
-        'height': 'height'  # type="xs:nonNegativeInteger">
+        'height': {
+            'xml_name': 'height',
+            'xml_type': 'xs:nonNegativeInteger'
+        }
     }
 
 
@@ -109,41 +141,85 @@ class PartMetaPropType(AdministrativeMetadataGroup, DescriptiveMetadataGroup,
     }
     attributes = {
         # The identifier of the part
-        'partid': 'partid',  # type="xs:ID" use="optional">
+        'partid': {
+            'xml_name': 'partid',
+            'xml_type': 'xs:ID',
+            'use': 'optional'
+        },
         # If the attribute is empty, specifies which entity (person,
         # organisation or system) will edit the property - expressed by a QCode.
         # If the attribute is non-empty, specifies which entity (person,
         # organisation or system) has edited the property.
-        'creator': 'creator',  # type="QCodeType" use="optional">
+        'creator': {
+            'xml_name': 'creator',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # If the attribute is empty, specifies which entity (person,
         # organisation or system) will edit the property - expressed by a URI.
         # If the attribute is non-empty, specifies which entity (person,
         # organisation or system) has edited the property.
-        'creatoruri': 'creatoruri',  # type="IRIType" use="optional">
+        'creatoruri': {
+            'xml_name': 'creatoruri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) when the property was last
         # modified. The initial value is the date (and, optionally, the time) of
         # creation of the property.
-        'modified': 'modified',  # type="DateOptTimeType" use="optional">
+        'modified': {
+            'xml_name': 'modified',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # If set to true the corresponding property was added to the G2 Item for
         # a specific customer or group of customers only. The default value of
         # this property is false which applies when this attribute is not used
         # with the property.
-        'custom': 'custom',  # type="xs:boolean" use="optional">
+        'custom': {
+            'xml_name': 'custom',
+            'xml_type': 'xs:boolean',
+            'use': 'optional'
+        },
         # Indicates by which means the value was extracted from the content -
         # expressed by a QCode
-        'how': 'how',  # type="QCodeType" use="optional">
+        'how': {
+            'xml_name': 'how',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # Indicates by which means the value was extracted from the content -
         # expressed by a URI
-        'howuri': 'howuri',  # type="IRIType" use="optional">
+        'howuri': {
+            'xml_name': 'howuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # Why the metadata has been included - expressed by a QCode
-        'why': 'why',  # type="QCodeType" use="optional">
+        'why': {
+            'xml_name': 'why',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # Why the metadata has been included - expressed by a URI
-        'whyuri': 'whyuri',  # type="IRIType" use="optional">
+        'whyuri': {
+            'xml_name': 'whyuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # The sequence number of the part
-        'seq': 'seq',  # type="xs:nonNegativeInteger" use="optional">
+        'seq': {
+            'xml_name': 'seq',
+            'xml_type': 'xs:nonNegativeInteger',
+            'use': 'optional'
+        },
         # A list of identifiers of XML elements containing content which is
         # described by this partMeta structure.
-        'contentrefs': 'contentrefs'  # type="xs:IDREFS" use="optional">
+        'contentrefs': {
+            'xml_name': 'contentrefs',
+            'xml_type': 'xs:IDREFS',
+            'use': 'optional'
+        }
     }
 
 

@@ -73,9 +73,13 @@ class Flex1RolePropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
     """
     attributes = {
         # Refines the semantics of the property - expressed by a QCode
-        'role': 'role',
+        'role': {
+            'xml_name': 'role'
+        },
         # Refines the semantics of the property - expressed by a URI
-        'roleuri': 'roleuri'
+        'roleuri': {
+            'xml_name': 'roleuri'
+        }
     }
 
 
@@ -162,13 +166,19 @@ class Flex1PartyPropType(FlexPartyPropType):
         # originate information a role attribute with one or more roles must be
         # applied. The recommended vocabulary is the IPTC Information Source
         # Roles NewsCodes at http://cv.iptc.org/newscodes/infosourcerole/
-        'role': 'role', # type="QCodeListType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType'
+        },
         # A refinement of the semantics of the property - expressed by a URI.
         # In the scope of infoSource only: If a party did anything other than
         # originate information a role attribute with one or more roles must be
         # applied. The recommended vocabulary is the IPTC Information Source
         # Roles NewsCodes at http://cv.iptc.org/newscodes/infosourcerole/
-        'roleuri': 'roleuri', # type="IRIListType">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType'
+        },
     }
 
 
@@ -180,16 +190,32 @@ class FlexAuthorPropType(FlexPartyPropType):
     attributes = {
         # A refinement of the semantics of the property - expressed by
         # a QCode
-        'role': 'role', # type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the property - expressed by
         # a URI
-        'roleuri': 'roleuri', # type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # The job title of the person who created or enhanced the content in
         # the news provider organisation - expressed by a QCode
-        'jobtitle': 'jobtitle', # type="QCodeType" use="optional">
+        'jobtitle': {
+            'xml_name': 'jobtitle',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The job title of the person who created or enhanced the content in
         # the news provider organisation - expressed by a URI
-        'jobtitleuri': 'jobtitleuri', # type="IRIType" use="optional">
+        'jobtitleuri': {
+            'xml_name': 'jobtitleuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
     }
 
 
@@ -199,13 +225,29 @@ class GeoCoordinatesType(CommonPowerAttributes):
     """
     attributes = {
         # The latitude in decimal degrees.
-        'latitude': 'latitude',  # type="xs:decimal" use="required">
+        'latitude': {
+            'xml_name': 'latitude',
+            'xml_type': 'xs:decimal',
+            'use': 'required'
+        },
         # The longitude in decimal degrees.
-        'longitude': 'longitude',  # type="xs:decimal" use="required">
+        'longitude': {
+            'xml_name': 'longitude',
+            'xml_type': 'xs:decimal',
+            'use': 'required'
+        },
         # The altitude in meters above the zero elevation of the reference system (sea level).
-        'altitude': 'altitude',  # type="xs:integer" use="optional">
+        'altitude': {
+            'xml_name': 'altitude',
+            'xml_type': 'xs:integer',
+            'use': 'optional'
+        },
         # The GPS datum associated with the measure.
-        'gpsdatum': 'gpsdatum'  # type="xs:string" use="optional">
+        'gpsdatum': {
+            'xml_name': 'gpsdatum',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
     }
 
 
@@ -245,13 +287,23 @@ class GeoAreaCircle(CommonPowerAttributes):
     }
     attributes = {
         # The radius of the circle
-        'radius': 'radius',  # type="xs:double" use="required">
+        'radius': {
+            'xml_name': 'radius',
+            'xml_type': 'xs:double',
+            'use': 'required'
+        },
         # The dimension unit of the radius - expressed by a QCode /
         # either the radunit or the radunituri attribute MUST be used
-        'radunit': 'radunit',  # type="QCodeType">
+        'radunit': {
+            'xml_name': 'radunit',
+            'xml_type': 'QCodeType'
+        },
         # The dimension unit of the radius - expressed by a URI /
         # either the radunit or the radunituri attribute MUST be used
-        'radunituri': 'radunituri'  # type="IRIType">
+        'radunituri': {
+            'xml_name': 'radunituri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -434,10 +486,18 @@ class ConceptIdType(QCodeURIMixin, CommonPowerAttributes):
     attributes = {
         # The date (and, optionally, the time) when the concept identifier was
         # created.
-        'created': 'created',  # type="DateOptTimeType" use="optional">
+        'created': {
+            'xml_name': 'created',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        },
         # The date (and, optionally, the time) after which the concept
         # identifier should not be applied as the value of a property anymore.
-        'retired': 'retired'  # type="DateOptTimeType" use="optional">
+        'retired': {
+            'xml_name': 'retired',
+            'xml_type': 'DateOptTimeType',
+            'use': 'optional'
+        }
     }
 
 

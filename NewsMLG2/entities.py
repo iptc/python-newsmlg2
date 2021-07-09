@@ -43,10 +43,19 @@ class ElectronicAddressType(CommonPowerAttributes):
     """
     attributes = {
         # A refinement of the semantics of the electronic address - expressed by a QCode
-        'role': 'role',  # type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the electronic address - expressed by a URI
-        'roleuri': 'roleuri'  # " type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        }
     }
+
 
 class ElectronicAddressTechType(CommonPowerAttributes):
     """
@@ -55,14 +64,30 @@ class ElectronicAddressTechType(CommonPowerAttributes):
     attributes = {
         # A refinement of the semantics of the technical type of the electronic
         # address - expressed by a QCode
-        'role': 'role',  # type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the technical type of the electronic
         # address - expressed by a URI
-        'roleuri': 'roleuri',  # type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # The technical variant of the electronic address - expressed by a QCode
-        'tech': 'tech',  # type="QCodeType" use="optional">
+        'tech': {
+            'xml_name': 'tech',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The technical variant of the electronic address - expressed by a URI
-        'techuri': 'techuri'  # type="IRIType" use="optional">
+        'techuri': {
+            'xml_name': 'techuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        }
     }
 
 
@@ -96,9 +121,15 @@ class Web(IRIType, CommonPowerAttributes):
     """
     attributes = {
         # A refinement of the semantics of the web address - expressed by a QCode
-        'role': 'role',  # type="QCodeListType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType'
+        },
         # A refinement of the semantics of the web address - expressed by a URI
-        'roleuri': 'roleuri'  # " type="IRIListType">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType'
+        }
     }
 
 
@@ -110,9 +141,15 @@ class AddressLine(IntlStringType):
     """
     attributes = {
         # Refines the semantics of line - expressed by a QCode
-        'role': 'role', # type="QCodeType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType'
+        },
         # Refines the semantics of line - expressed by a URI
-        'roleuri': 'roleuri', # type="IRIType">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -174,10 +211,14 @@ class Address(CommonPowerAttributes):
     attributes = {
         # A refinement of the semantics of the postal address - expressed by
         # a QCode
-        'role': 'role',
+        'role': {
+            'xml_name': 'role'
+        },
         # A refinement of the semantics of the postal address - expressed by
         # a URI
-        'roleuri': 'roleuri'
+        'roleuri': {
+            'xml_name': 'roleuri'
+        }
     }
 
 
@@ -197,9 +238,17 @@ class ContactInfoType(CommonPowerAttributes):
     }
     attributes = {
         # A refinement of the semantics of a contact information - expressed by a QCode
-        'role': 'role',  # type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of a contact information - expressed by a URI
-        'roleuri': 'roleuri',  # type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        }
     }
 
 
@@ -264,27 +313,61 @@ class HasInstrument(CommonPowerAttributes):
     """
     attributes = {
         # A symbol for the financial instrument
-        'symbol': 'symbol',  # type="xs:string" use="required">
+        'symbol': {
+            'xml_name': 'symbol',
+            'xml_type': 'xs:string',
+            'use': 'required'
+        },
         # The  source of the financial instrument symbol - expressed by a QCode
-        'symbolsrc': 'symbolsrc',  # type="QCodeType">
+        'symbolsrc': {
+            'xml_name': 'symbolsrc',
+            'xml_type': 'QCodeType'
+        },
         # The  source of the financial instrument symbol - expressed by a URI
-        'symbolsrcuri': 'symbolsrcuri',  # type="IRIType">
+        'symbolsrcuri': {
+            'xml_name': 'symbolsrcuri',
+            'xml_type': 'IRIType'
+        },
         # A venue in which this financial instrument is traded - expressed by a QCode
-        'market': 'market',  # type="QCodeType">
+        'market': {
+            'xml_name': 'market',
+            'xml_type': 'QCodeType'
+        },
         # A venue in which this financial instrument is traded - expressed by a URI
-        'marketuri': 'marketuri',  # type="IRIType">
+        'marketuri': {
+            'xml_name': 'marketuri',
+            'xml_type': 'IRIType'
+        },
         # The label used for the market
-        'marketlabel': 'marketlabel',  # type="xs:string">
+        'marketlabel': {
+            'xml_name': 'marketlabel',
+            'xml_type': 'xs:string'
+        },
         # The source of the market label - expressed by a QCode
-        'marketlabelsrc': 'marketlabelsrc',  # type="QCodeType">
+        'marketlabelsrc': {
+            'xml_name': 'marketlabelsrc',
+            'xml_type': 'QCodeType'
+        },
         # The source of the market label - expressed by a URI
-        'marketlabelsrcuri': 'marketlabelsrcuri',  # type="IRIType">
+        'marketlabelsrcuri': {
+            'xml_name': 'marketlabelsrcuri',
+            'xml_type': 'IRIType'
+        },
         # The type(s) of the financial instrument - expressed by a QCode
-        'type': 'type',  # type="QCodeListType">
+        'type': {
+            'xml_name': 'type',
+            'xml_type': 'QCodeListType'
+        },
         # The type(s) of the financial instrument - expressed by a URI
-        'typeuri': 'typeuri',  # type="IRIListType">
+        'typeuri': {
+            'xml_name': 'typeuri',
+            'xml_type': 'IRIListType'
+        },
         # Indicates the relative importance among financial instruments of the same type.
-        'rank': 'rank'  # type="xs:nonNegativeInteger">
+        'rank': {
+            'xml_name': 'rank',
+            'xml_type': 'xs:nonNegativeInteger'
+        }
     }
 
 class OrganisationDetails(CommonPowerAttributes):

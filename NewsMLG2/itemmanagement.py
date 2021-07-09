@@ -76,9 +76,15 @@ class Generator(VersionedStringType):
     """
     attributes = {
         # Indentifies the stage at which this generator was used - expressed by a QCode
-        'role', #  type="QCodeType"
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType'
+        },
         # Indentifies the stage at which this generator was used - expressed by a URI
-        'roleuri' #  type="IRIType"
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -128,12 +134,18 @@ class Signal(Flex1PropType):
         # expressed by a QCode.
         # The recommended vocabulary is the IPTC Severity NewsCodes
         # http://cv.iptc.org/newscodes/severity/
-        'severity':  'severity', # type="QCodeType"
+        'severity': {
+            'xml_name': 'severity',
+            'xml_type': 'QCodeType'
+        },
         # Indicates how severe the impact from the signal is -
         # expressed by a URI.
         # The recommended vocabular is the IPTC Severity NewsCodes
         # http://cv.iptc.org/newscodes/severity/
-        'severityuri': 'severityuri' #  type="IRIType"
+        'severityuri': {
+            'xml_name': 'severityuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -146,12 +158,21 @@ class AltRep(IRIType, CommonPowerAttributes, TimeValidityAttributes,
     attributes = {
         # A qualifier which specifies the way the target Item is represented at
         # this location - expressed by a QCode
-        'representation': 'representation', # type="QCodeType"
+        'representation': {
+            'xml_name': 'representation',
+            'xml_type': 'QCodeType'
+        },
         # A qualifier which specifies the way the target Item is represented at
         # this location - expressed by a URI
-        'representationuri': 'representationuri', # type="IRIType"
+        'representationuri': {
+            'xml_name': 'representationuri',
+            'xml_type': 'IRIType'
+        },
         # The size in bytes of the target resource.
-        'size': 'size'# type="xs:nonNegativeInteger"
+        'size': {
+            'xml_name': 'size',
+            'xml_type': 'xs:nonNegativeInteger'
+        }
     }
 
 
@@ -175,16 +196,28 @@ class OrigRep(IRIType, CommonPowerAttributes):
     attributes = {
         # A qualifier which indicates the technical variant for accessing this
         # item (e.g. communication protocols) - expressed by a QCode
-        'accesstype': 'accesstype', # type="QCodeType">
+        'accesstype': {
+            'xml_name': 'accesstype',
+            'xml_type': 'QCodeType'
+        },
         # A qualifier which indicates the technical variant for accessing this
         # item (e.g. communication protocols) - expressed by a URI
-        'accesstypeuri': 'accesstypeuri', # type="IRIType">
+        'accesstypeuri': {
+            'xml_name': 'accesstypeuri',
+            'xml_type': 'IRIType'
+        },
         # A qualifier which indicates the role of the stated repository -
         # expressed by a QCode
-        'reposrole': 'reposrole', # type="QCodeType">
+        'reposrole': {
+            'xml_name': 'reposrole',
+            'xml_type': 'QCodeType'
+        },
         # A qualifier which indicates the role of the stated repository -
         # expressed by a URI
-        'reposroleuri': 'reposroleuri' # type="IRIType">
+        'reposroleuri': {
+            'xml_name': 'reposroleuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -196,9 +229,15 @@ class IncomingFeedId(QCodePropType):
     """
     attributes = {
         # A refinement of the semantics of the property - expressed by a QCode
-        'role': 'role', # type="QCodeType"
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType'
+        },
         # A refinement of the semantics of the property - expressed by a URI
-        'roleuri': 'roleuri' # type="IRIType"
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -247,7 +286,9 @@ class ItemManagementGroup(BaseObject):
             'xml_name': 'pubStatus',
             'element_class': PubStatus
         },
-        'role': { 'type': 'single', 'xml_name': 'role', 'element_class': Role },
+        'role': {
+            'type': 'single', 'xml_name': 'role', 'element_class': Role
+        },
         'filename': {
             'type': 'single',
             'xml_name': 'fileName',
@@ -258,12 +299,19 @@ class ItemManagementGroup(BaseObject):
             'xml_name': 'generator',
             'element_class': Generator
         },
-        'profile': { 'type': 'single', 'xml_name': 'profile', 'element_class': Profile
+        'profile': {
+            'type': 'single', 'xml_name': 'profile', 'element_class': Profile
         },
-        'service': { 'type': 'array', 'xml_name': 'service', 'element_class': Service },
-        'title': { 'type': 'array', 'xml_name': 'title', 'element_class': Title },
-        'ednote': { 'type': 'array', 'xml_name': 'edNote', 'element_class': EdNote },
-        'memberif': {
+        'service': {
+            'type': 'array', 'xml_name': 'service', 'element_class': Service
+        },
+        'title': {
+            'type': 'array', 'xml_name': 'title', 'element_class': Title
+        },
+        'ednote': {
+            'type': 'array', 'xml_name': 'edNote', 'element_class': EdNote
+        },
+        'memberof': {
             'type': 'array',
             'xml_name': 'memberOf',
             'element_class': MemberOf
@@ -273,16 +321,26 @@ class ItemManagementGroup(BaseObject):
             'xml_name': 'instanceOf',
             'element_class': InstanceOf
         },
-        'signal': { 'type': 'array', 'xml_name': 'signal', 'element_class': Signal },
-        'altrep': { 'type': 'array', 'xml_name': 'altRep', 'element_class': AltRep },
+        'signal': {
+            'type': 'array', 'xml_name': 'signal', 'element_class': Signal
+        },
+        'altrep': {
+            'type': 'array', 'xml_name': 'altRep', 'element_class': AltRep
+        },
         'deliverableof': {
             'type': 'array',
             'xml_name': 'deliverableOf',
             'element_class': DeliverableOf
         },
-        'hash': { 'type': 'array', 'xml_name': 'hash', 'element_class': Hash },
-        'expires': { 'type': 'array', 'xml_name': 'expires', 'element_class': Expires },
-        'origrep': { 'type': 'array', 'xml_name': 'origRep', 'element_class': OrigRep },
+        'hash': {
+            'type': 'array', 'xml_name': 'hash', 'element_class': Hash
+        },
+        'expires': {
+             'type': 'array', 'xml_name': 'expires', 'element_class': Expires
+        },
+        'origrep': {
+             'type': 'array', 'xml_name': 'origRep', 'element_class': OrigRep
+        },
         'incomingfeedid': {
             'type': 'array',
             'xml_name': 'incomingFeedId',

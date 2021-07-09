@@ -45,7 +45,11 @@ class Span(CommonPowerAttributes, I18NAttributes):
     }
     attributes = {
         # An equivalent of the html class attribute
-        'class': 'class'  # type="xs:string" use="optional">
+        'class': {
+            'xml_name': 'class',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
     }
 
 
@@ -62,7 +66,11 @@ class Inline(CommonPowerAttributes, FlexAttributes, I18NAttributes,
     }
     attributes = {
         # An equivalent of the html class attribute
-        'class': 'class'  # type="xs:string" use="optional">
+        'class': {
+            'xml_name': 'class',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
     }
 
 
@@ -79,15 +87,35 @@ class A(CommonPowerAttributes, I18NAttributes):
     }
     attributes = {
         # An equivalent of the html class attribute
-        'class': 'class',  # type="xs:string" use="optional">
+        'class': {
+            'xml_name': 'class',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        },
         # An equivalent of the html href attribute
-        'href': 'href',  # type="IRIType" use="optional">
+        'href': {
+            'xml_name': 'href',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # An equivalent of the html hreflang attribute
-        'hreflang': 'hreflang',  # type="xs:string" use="optional">
+        'hreflang': {
+            'xml_name': 'hreflang',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        },
         # An equivalent of the html rel attribute
-        'rel': 'rel',  # type="xs:string" use="optional">
+        'rel': {
+            'xml_name': 'rel',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        },
         # An equivalent of the html rev attribute
-        'rev': 'rev'  # type="xs:string" use="optional">
+        'rev': {
+            'xml_name': 'rev',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
     }
 
 
@@ -104,12 +132,24 @@ class Label1Type(CommonPowerAttributes, I18NAttributes):
     }
     attributes = {
         # A refinement of the semantics of the label - expressed by a QCode
-        'role': 'role',  # type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the label - expressed by a URI
-        'roleuri': 'roleuri',  # type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # An indication of the target media type(s), values as defined by the
         # Cascading Style Sheets specification [CSS].
-        'media': 'media'  # " type="xs:NMTOKENS" use="optional">
+        'media': {
+            'xml_name': 'media',
+            'xml_type': 'xs:NMTOKENS',
+            'use': 'optional'
+        }
     }
 
 
@@ -128,8 +168,16 @@ class BlockType(CommonPowerAttributes, I18NAttributes):
     attributes = {
         # An indication of the target media type(s) values as
         # defined by the Cascading Style Sheets (CSS) specification.
-        'media': 'media',
+        'media': {
+            'xml_name': 'media',
+        },
         # A refinement of the semantics of the block.
-        'role': 'role',  # type="QCodeListType"
-        'roleuri': 'roleuri'  # type="IRIType">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType'
+        },
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType'
+        }
     }

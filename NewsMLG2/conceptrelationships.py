@@ -59,15 +59,24 @@ class Bag(QCodePropType, QuantifyAttributes):
     attributes = {
         # The type of the concept assigned as controlled property value -
         # expressed by a QCode
-        'type': 'type',  # " type="QCodeType">
+        'type': {
+            'xml_name': 'type',
+            'xml_type': 'QCodeType'
+        },
         # The type of the concept assigned as controlled property value -
         # expressed by a URI
-        'typeuri': 'typeuri',  # " type="IRIType">
+        'typeuri': {
+            'xml_name': 'typeuri',
+            'xml_type': 'IRIType'
+        },
         # Indicates how significant the event expressed by a bit of event
         # concept type is to the concept expressed by this bit The scope of this
         # relationship is limited to the bits of a single bag. See also the note
         # below the table.
-        'significance': 'significance'  # " type="Int100Type">
+        'significance': {
+            'xml_name': 'significance',
+            'xml_type': 'Int100Type'
+        }
     }
 
 
@@ -81,13 +90,25 @@ class Facet(FlexPropType, TimeValidityAttributes):
         # The identifier of the relationship between the current concept
         # (containing the facet) and the concept identified by the facet value
         # - expressed by a QCode
-        'rel': 'rel',  #  type="QCodeType" use="optional">
+        'rel': {
+            'xml_name': 'rel',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The identifier of the relationship between the current concept
         # (containing the facet) and the concept identified by the facet value
         # - expressed by a URI
-        'reluri': 'reluri',  #  type="IRIType" use="optional">
+        'reluri': {
+            'xml_name': 'reluri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # DO NOT USE this attribute, for G2 internal maintenance purposes only.
-        'g2flag': 'g2flag'  #  type="xs:string" use="optional" fixed="DEPR">
+        'g2flag': {
+            'xml_name': 'g2flag',
+            'xml_type': 'xs:string',
+            'use': 'optional" fixed="DEPR'
+        }
     }
 
 
@@ -103,13 +124,24 @@ class RelatedConceptRelated(FlexPropType, TimeValidityAttributes,
     attributes = {
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a QCode
-        'rel': 'rel',  # type="QCodeType" use="optional">
+        'rel': {
+            'xml_name': 'rel',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a URI
-        'reluri': 'reluri',  # type="IRIType" use="optional">
+        'reluri': {
+            'xml_name': 'reluri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # The rank of the current concept among concepts having a relationship
         # to the target concept.
-        'rank': 'rank'  # type="xs:nonNegativeInteger">
+        'rank': {
+            'xml_name': 'rank',
+            'xml_type': 'xs:nonNegativeInteger'
+        }
     }
 
 
@@ -133,13 +165,25 @@ class RelatedConceptType(FlexPropType, TimeValidityAttributes):
     attributes = {
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a QCode
-        'rel': 'rel',  # type="QCodeType" use="optional">
+        'rel': {
+            'xml_name': 'rel',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a URI
-        'reluri': 'reluri',  # type="IRIType" use="optional">
+        'reluri': {
+            'xml_name': 'reluri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # The rank of the current concept among concepts having a relationship
         # to the target concept.
-        'rank': 'rank'  # type="xs:nonNegativeInteger" use="optional">
+        'rank': {
+            'xml_name': 'rank',
+            'xml_type': 'xs:nonNegativeInteger',
+            'use': 'optional'
+        }
     }
 
 
@@ -228,11 +272,19 @@ class FlexRelatedPropType(FlexProp2Type):
         # The identifier of the relationship between the concept containing the
         # related property and the concept identified by the related value -
         # expressed by a QCode
-        'rel': 'rel',  # type="QCodeType" use="optional">
+        'rel': {
+            'xml_name': 'rel',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The identifier of the relationship between the concept containing the
         # related property and the concept identified by the related value -
         # expressed by a URI
-        'reluri': 'reluri',  # type="IRIType" use="optional">
+        'reluri': {
+            'xml_name': 'reluri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        }
     }
 
 

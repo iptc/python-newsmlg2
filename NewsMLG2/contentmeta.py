@@ -48,11 +48,17 @@ class Icon(TargetResourceAttributes, CommonPowerAttributes,
         # a QCode. If the target resource is an item providing multiple
         # renditions then this attribute is used to identify the rendition
         # to be used.
-        'rendition': 'rendition',  # type="QCodeType">
+        'rendition': {
+            'xml_name': 'rendition',
+            'xml_type': 'QCodeType'
+        },
         # Identifies the rendition of the target resource - expressed by
         # a URI. If the target resource is an item providing multiple renditions
         # then this attribute is used to identify the rendition to be used.
-        'renditionuri': 'renditionuri'  # type="IRIType">
+        'renditionuri': {
+            'xml_name': 'renditionuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -90,7 +96,11 @@ class AudienceType(Flex1PropType, QuantifyAttributes):
     attributes = {
         # A qualifier which indicates the expected significance of the content
         # for this specific audience.
-        'significance': 'significance' # type="Int1to9Type" use="optional">
+        'significance': {
+            'xml_name': 'significance',
+            'xml_type': 'Int1to9Type',
+            'use': 'optional'
+        }
     }
 
 
@@ -112,35 +122,79 @@ class Rating(CommonPowerAttributes):
     """
     attributes = {
         # The rating of the content expressed as decimal value from a scale.
-        'value': 'value',  # type="xs:decimal" use="required">
+        'value': {
+            'xml_name': 'value',
+            'xml_type': 'xs:decimal',
+            'use': 'required'
+        },
         # Indicates how the value was calculated (by methods like median,
         # average ...) - expressed by a QCode
-        'valcalctype': 'valcalctype',  # type="QCodeType" use="optional">
+        'valcalctype': {
+            'xml_name': 'valcalctype',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # Indicates how the value was calculated (by methods like median,
         # average ...) - expressed by a URI
-        'valcalctypeuri': 'valcalctypeuri',  # type="IRIType" use="optional">
+        'valcalctypeuri': {
+            'xml_name': 'valcalctypeuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # Indicates the value of the rating scale used for the lowest/worst
         # rating.
-        'scalemin': 'scalemin',  # type="xs:decimal" use="required">
+        'scalemin': {
+            'xml_name': 'scalemin',
+            'xml_type': 'xs:decimal',
+            'use': 'required'
+        },
         # Indicates the value of the rating scale used for the highest/best
         # rating.
-        'scalemax': 'scalemax',  # type="xs:decimal" use="required">
+        'scalemax': {
+            'xml_name': 'scalemax',
+            'xml_type': 'xs:decimal',
+            'use': 'required'
+        },
         # The units which apply to the rating scale - expressed by a QCode /
         # either the scaleunit or the scaleunituri attribute MUST be used
-        'scaleunit': 'scaleunit',  # type="QCodeType">
+        'scaleunit': {
+            'xml_name': 'scaleunit',
+            'xml_type': 'QCodeType'
+        },
         # The units which apply to the rating scale - expressed by a URI /
         # either the scaleunit or the scaleunituri attribute MUST be used
-        'scaleunituri': 'scaleunituri',  # type="IRIType">
+        'scaleunituri': {
+            'xml_name': 'scaleunituri',
+            'xml_type': 'IRIType'
+        },
         # The number of parties acting as raters.
-        'raters': 'raters',  # type="xs:nonNegativeInteger" use="optional">
+        'raters': {
+            'xml_name': 'raters',
+            'xml_type': 'xs:nonNegativeInteger',
+            'use': 'optional'
+        },
         # The type of the rating parties - expressed by a QCode
-        'ratertype': 'ratertype',  # type="QCodeType" use="optional">
+        'ratertype': {
+            'xml_name': 'ratertype',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # The type of the rating parties - expressed by a URI
-        'ratertypeuri': 'ratertypeuri',  # type="IRIType" use="optional">
+        'ratertypeuri': {
+            'xml_name': 'ratertypeuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # Full definition of the rating - expressed by a QCode
-        'ratingtype': 'ratingtype',  # type="QCodeType">
+        'ratingtype': {
+            'xml_name': 'ratingtype',
+            'xml_type': 'QCodeType'
+        },
         # Full definition of the rating - expressed by a URI
-        'ratingtypeuri': 'ratingtypeuri'  # type="IRIType">
+        'ratingtypeuri': {
+            'xml_name': 'ratingtypeuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -150,15 +204,25 @@ class UserInteraction(CommonPowerAttributes):
     """
     attributes = {
         # The count of executed interactions.
-        'interactions': 'interactions',  # " type="xs:nonNegativeInteger" use="required">
+        'interactions': {
+            'xml_name': 'interactions',
+            'xml_type': 'xs:nonNegativeInteger',
+            'use': 'required'
+        },
         # The type of interaction which is reflected by this property -
         # expressed by a QCode / either the interactiontype or the
         # interactiontypeuri attribute MUST be used
-        'interactiontype': 'interactiontype',  # " type="QCodeType">
+        'interactiontype': {
+            'xml_name': 'interactiontype',
+            'xml_type': 'QCodeType'
+        },
         # The type of interaction which is reflected by this property -
         # expressed by a URI  / either the interactiontype or the
         # interactiontypeuri attribute MUST be used
-        'interactiontypeuri': 'interactiontypeuri'  # " type="IRIType">
+        'interactiontypeuri': {
+            'xml_name': 'interactiontypeuri',
+            'xml_type': 'IRIType'
+        }
     }
 
 
@@ -177,11 +241,23 @@ class Language(CommonPowerAttributes, RankingAttributes):
     }
     attributes = {
         # The language tag. Values must be valid BCP 47 language tags
-        'tag': 'tag',  # " type="xs:language" use="required">
+        'tag': {
+            'xml_name': 'tag',
+            'xml_type': 'xs:language',
+            'use': 'required'
+        },
         # A refinement of the semantics of the property - expressed by a QCode
-        'role': 'role',  # " type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the property - expressed by a URI
-        'roleuri': 'roleuri'  # " type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        }
     }
 
 
@@ -197,13 +273,29 @@ class Keyword(IntlStringType, RankingAttributes):
     """
     attributes = {
         # A refinement of the semantics of the keyword - expressed by a QCode
-        'role': 'role',  # " type="QCodeListType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeListType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the keyword - expressed by a URI
-        'roleuri': 'roleuri',  # " type="IRIListType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIListType',
+            'use': 'optional'
+        },
         # The confidence with which the metadata has been assigned.
-        'confidence': 'confidence',  # " type="Int100Type" use="optional">
+        'confidence': {
+            'xml_name': 'confidence',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        },
         # The relevance of the metadata to the news content to which it was attached.
-        'relevance': 'relevance'  # " type="Int100Type" use="optional">
+        'relevance': {
+            'xml_name': 'relevance',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        }
     }
 
 
@@ -220,15 +312,35 @@ class Slugline(IntlStringType, RankingAttributes):
     """
     attributes = {
         # The character string acting as a separator between the tokens in the slugline.
-        'separator': 'separator',  #  type="xs:string" use="optional">
+        'separator': {
+            'xml_name': 'separator',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the slug - expressed by a QCode
-        'role': 'role',  #  type="QCodeType" use="optional">
+        'role': {
+            'xml_name': 'role',
+            'xml_type': 'QCodeType',
+            'use': 'optional'
+        },
         # A refinement of the semantics of the slug - expressed by a URI
-        'roleuri': 'roleuri',  #  type="IRIType" use="optional">
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
         # The confidence with which the metadata has been assigned.
-        'confidence': 'confidence',  #  type="Int100Type" use="optional">
+        'confidence': {
+            'xml_name': 'confidence',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        },
         # The relevance of the metadata to the news content to which it was attached.
-        'relevance': 'relevance'  # type="Int100Type" use="optional">
+        'relevance': {
+            'xml_name': 'relevance',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        }
     }
 
 
@@ -238,9 +350,17 @@ class Headline(Label1Type, RankingAttributes):
     """
     attributes = {
         # The confidence with which the metadata has been assigned.
-        'confidence': 'confidence',  # type="Int100Type" use="optional">
+        'confidence': {
+            'xml_name': 'confidence',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        },
         # The relevance of the metadata to the news content to which it was attached.
-        'relevance': 'relevance'  # type="Int100Type" use="optional">
+        'relevance': {
+            'xml_name': 'relevance',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        }
     }
 
 
@@ -268,9 +388,17 @@ class Description(BlockType, RankingAttributes):
     """
     attributes = {
         # The confidence with which the metadata has been assigned.
-        'confidence': 'confidence',  # type="Int100Type" use="optional">
+        'confidence': {
+            'xml_name': 'confidence',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        },
         # The relevance of the metadata to the news content to which it was attached.
-        'relevance': 'relevance'  # type="Int100Type" use="optional">
+        'relevance': {
+            'xml_name': 'relevance',
+            'xml_type': 'Int100Type',
+            'use': 'optional'
+        }
     }
 
 

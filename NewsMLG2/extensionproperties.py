@@ -23,11 +23,15 @@ class Flex2ExtPropType(Flex1ExtPropType, TimeValidityAttributes):
         # The identifier of a concept defining the semantics of the property
         # - expressed by a QCode
         # either the rel or the reluri attribute MUST be used
-        'rel': 'rel',
+        'rel': {
+            'xml_name': 'rel'
+        },
         # The identifier of a concept defining the semantics of the property
         # - expressed by a URI
         # either the rel or the reluri attribute MUST be used
-        'reluri': 'reluri'
+        'reluri': {
+            'xml_name': 'reluri'
+        }
     }
 
 class ConceptExtProperty(Flex2ExtPropType):

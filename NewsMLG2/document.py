@@ -6,11 +6,13 @@ Parent class to paarse a NewsMLG2 document.
 
 from lxml import etree
 
+from .anyitem import AnyItem
 from .core import NEWSMLG2NSPREFIX
 from .conceptitem import ConceptItem
-from .anyitem import AnyItem
-from .newsitem import NewsItem
 from .knowledgeitem import KnowledgeItem
+from .newsitem import NewsItem
+from .packageitem import PackageItem
+
 
 class NewsMLG2Document():
     """
@@ -38,10 +40,14 @@ class NewsMLG2Document():
                 self.item = ConceptItem(
                     xmlelement = self._root_element
                 )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'packageItem':
+                self.item = PackageItem(
+                    xmlelement = self._root_element
+                )
             else:
                 raise Exception(
-                    "Item types other than NewsItem and KnowledgeItem "
-                    "are not yet supported."
+                    "Item types other than ConceptItem, KnowledgeItem, "
+                    "NewsItem and PackageItem are not yet supported."
                 )
 
     def get_item(self):

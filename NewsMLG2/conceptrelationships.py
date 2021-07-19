@@ -23,13 +23,13 @@ class FlexPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     Flexible generic type for both controlled and uncontrolled values
     """
 
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'hierarchyinfo': {
+    elements = [
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('hierarchyinfo', {
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
-        }
-    }
+        })
+    ]
 
 
 class SameAsType(FlexPropType, TimeValidityAttributes):
@@ -150,18 +150,18 @@ class RelatedConceptType(FlexPropType, TimeValidityAttributes):
     The type for an identifier of a related concept
     """
 
-    elements = {
-        'facet': {
+    elements = [
+        ('facet', {
             'type': 'array', 'xml_name': 'facet', 'element_class': Facet
-        },
-        'related': {
+        }),
+        ('related', {
             'type': 'array', 'xml_name': 'related',
             'element_class': RelatedConceptRelated
-        },
-        'sameas': {
+        }),
+        ('sameas', {
             'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
-        }
-    }
+        })
+    ]
     attributes = {
         # The identifier of the relationship between the current concept and the
         # target concept - expressed by a QCode
@@ -215,9 +215,9 @@ class FlexRelatedConceptType(RelatedConceptType, ArbitraryValueAttributes):
     """
     The type for identifying a related concept
     """
-    elements = {
-        'bag': { 'type': 'single', 'xml_name': 'bag', 'element_class': Bag }
-    }
+    elements = [
+        ('bag', { 'type': 'single', 'xml_name': 'bag', 'element_class': Bag })
+    ]
 
 
 class Related(FlexRelatedConceptType):
@@ -233,16 +233,16 @@ class QualRelPropType(QCodePropType, I18NAttributes):
     a uri attribute and optional names and related concepts
     """
 
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'hierarchyinfo': {
+    elements = [
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('hierarchyinfo', {
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
-        },
-        'related': {
+        }),
+        ('related', {
             'type': 'array', 'xml_name': 'related', 'element_class': Related
-        },
-    }
+        })
+    ]
 
 
 class FlexProp2Type(CommonPowerAttributes, FlexAttributes, I18NAttributes):
@@ -251,16 +251,16 @@ class FlexProp2Type(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     values
     """
 
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'hierarchyinfo': {
+    elements = [
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('hierarchyinfo', {
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
-        },
-        'sameAs': {
+        }),
+        ('sameAs', {
             'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
-        }
-    }
+        })
+    ]
 
 
 class FlexRelatedPropType(FlexProp2Type):
@@ -288,23 +288,17 @@ class FlexRelatedPropType(FlexProp2Type):
     }
 
 
-class ConceptRelationshipsGroup(BaseObject):
-    """
-    A group of properites required to indicate relationships of the concept
-    to other concepts
-    """
-
-    elements = {
-        'same_as': {
-            'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
-        },
-        'broader': {
-            'type': 'array', 'xml_name': 'broader', 'element_class': Broader
-        },
-        'narrower': {
-            'type': 'array', 'xml_name': 'narrower', 'element_class': Narrower
-        },
-        'related': {
-            'type': 'array', 'xml_name': 'related', 'element_class': Related
-        }
-    }
+ConceptRelationshipsGroup = [
+    ('same_as', {
+        'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
+    }),
+    ('broader', {
+        'type': 'array', 'xml_name': 'broader', 'element_class': Broader
+    }),
+    ('narrower', {
+        'type': 'array', 'xml_name': 'narrower', 'element_class': Narrower
+    }),
+    ('related', {
+        'type': 'array', 'xml_name': 'related', 'element_class': Related
+    })
+]

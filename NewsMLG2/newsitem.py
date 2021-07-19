@@ -144,27 +144,27 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
     """
     A type representing the structure of the remoteContent property
     """
-    elements = {
-        'channel': {
+    elements = [
+        ('channel', {
             'type': 'array', 'xml_name': 'channel', 'element_class': Channel
-        },
-        'altid': {
+        }),
+        ('altid', {
             'type': 'array', 'xml_name': 'altId', 'element_class': AltId
-        },
-        'altloc': {
+        }),
+        ('altloc', {
             'type': 'array', 'xml_name': 'altLoc', 'element_class': AltLoc
-        },
-        'hash': {
+        }),
+        ('hash', {
             'type': 'array', 'xml_name': 'hash', 'element_class': Hash
-        },
-        'signal': {
+        }),
+        ('signal', {
             'type': 'array', 'xml_name': 'signal', 'element_class': Signal
-        },
-        'remotecontentextproperty': {
+        }),
+        ('remotecontentextproperty', {
             'type': 'array', 'xml_name': 'remoteContentExtProperty',
             'element_class': RemoteContentExtProperty
-        }
-    }
+        })
+    ]
     attributes = {
         # The language of the remote content
         'language': {
@@ -195,20 +195,20 @@ class ContentSet(CommonPowerAttributes):
         }
     }
 
-    elements = {
-        'inlinexml': {
+    elements = [
+        ('inlinexml', {
             'type': 'array', 'xml_name': 'inlineXML',
             'element_class': InlineXML
-        },
-        'inlinedata': {
+        }),
+        ('inlinedata', {
             'type': 'array', 'xml_name': 'inlineData',
             'element_class': InlineData
-        },
-        'remotecontent': {
+        }),
+        ('remotecontent', {
             'type': 'array', 'xml_name': 'remoteContent',
             'element_class': RemoteContent
-        }
-    }
+        })
+    ]
 
 
 class NewsItemContentMeta(ContentMetadataAfDType):
@@ -223,33 +223,33 @@ class NewsItem(AnyItem):
     An Item containing news-related information
     """
 
-    elements = {
-        'contentmeta': {
+    elements = [
+        ('contentmeta', {
             'type': 'single', 'xml_name': 'contentMeta',
             'element_class': NewsItemContentMeta
-        },
-        'partmeta': {
+        }),
+        ('partmeta', {
             'type': 'array', 'xml_name': 'partMeta',
             'element_class': PartMeta
-        },
-        'assert': {
+        }),
+        ('assert', {
             'type': 'array', 'xml_name': 'assert',
             'element_class': Assert
-        },
-        'inlineref': {
+        }),
+        ('inlineref', {
             'type': 'array', 'xml_name': 'inlineRef',
             'element_class': InlineRef
-        },
-        'derivedfrom': {
+        }),
+        ('derivedfrom', {
             'type': 'array', 'xml_name': 'derivedFrom',
             'element_class': DerivedFrom
-        },
-        'derivedfromvalue': {
+        }),
+        ('derivedfromvalue', {
             'type': 'array', 'xml_name': 'derivedFromValue',
             'element_class': DerivedFromValue
-        },
-        'contentset': {
+        }),
+        ('contentset', {
             'type': 'single', 'xml_name': 'contentSet',
             'element_class': ContentSet
-        }
-    }
+        })
+    ]

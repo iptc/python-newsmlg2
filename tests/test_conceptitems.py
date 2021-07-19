@@ -40,7 +40,7 @@ XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
 class TestNewsMLG2ConceptItems(unittest.TestCase):
 
-    def test_parse_from_string(self):
+    def test_parse_conceptitem_from_string(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
 <conceptItem
     xmlns="http://iptc.org/std/nar/2006-10-01/"
@@ -119,7 +119,7 @@ class TestNewsMLG2ConceptItems(unittest.TestCase):
 
 
 class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
-    def test_from_file(self):
+    def test_parse_conceptitem_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '003_conceptitem.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
         conceptitem = g2doc.get_item()

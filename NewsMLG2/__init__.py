@@ -5,10 +5,11 @@ Implementation of the NewsML-G2 standard for representing news and media
 content.
 """
 
+from .anyitem import ItemMeta
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document
 from .newsitem import NewsItem
-from .anyitem import ItemMeta
+from .packageitem import PackageItem
 
 VERSION = 0.2
 DEBUG = True
@@ -19,7 +20,7 @@ __all__ = (
     'ConceptItem',
     'KnowledgeItem',
     'NewsItem',
-    # TODO 'PackageItem',
+    'PackageItem',
     # TODO 'PlanningItem',
     # TODO 'NewsMessage',
     '__version__'

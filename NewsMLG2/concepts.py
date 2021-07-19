@@ -30,47 +30,49 @@ class Note(BlockType, TimeValidityAttributes):
     """
 
 
-class ConceptDefinitionGroup(BaseObject):
-    """
-    A group of properites required to define the concept
-    """
+"""
+A group of properites required to define the concept
+"""
+ConceptDefinitionGroup = [
+    ('name', {
+        'type': 'array', 'xml_name': 'name', 'element_class': Name
+    }),
+    ('definition', {
+        'type': 'array', 'xml_name': 'definition',
+        'element_class': Definition
+    }),
+    ('note', {
+        'type': 'array', 'xml_name': 'note', 'element_class': Note
+    }),
+    ('facet', {
+        'type': 'array', 'xml_name': 'facet', 'element_class': Facet
+    }),
+    ('remoteinfo', {
+        'type': 'array', 'xml_name': 'remoteInfo',
+        'element_class': 'link.RemoteInfo'
+    }),
+    ('hierarchyinfo', {
+        'type': 'array', 'xml_name': 'hierarchyInfo',
+        'element_class': HierarchyInfo
+    })
+]
 
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'definition': {
-            'type': 'array', 'xml_name': 'definition',
-            'element_class': Definition
-        },
-        'note': { 'type': 'array', 'xml_name': 'note', 'element_class': Note},
-        'facet': {
-            'type': 'array', 'xml_name': 'facet', 'element_class': Facet
-        },
-        'remoteinfo': {
-            'type': 'array', 'xml_name': 'remoteInfo',
-            'element_class': 'link.RemoteInfo'
-        },
-        'hierarchyinfo': {
-            'type': 'array', 'xml_name': 'hierarchyInfo',
-            'element_class': HierarchyInfo
-        }
-    }
 
-
-class Flex1PropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+class Flex1PropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible generic PCL-type for both controlled and uncontrolled values
     Note: ConceptDefinitionGroup and ConceptRelationshipsGroup are actually in a
           sequence so we may have to handle this differently if we want to output
           schema-compliant documents
     """
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup
 
 
-class Flex1RolePropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+class Flex1RolePropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible generic PCL-type for both controlled and uncontrolled values
     """
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup
     attributes = {
         # Refines the semantics of the property - expressed by a QCode
         'role': {
@@ -89,63 +91,64 @@ class Flex1ConceptPropType(Flex1PropType, QuantifyAttributes):
     optional attributes
     """
 
-    elements = {
-        'bag': { 'type': 'single', 'xml_name': 'bag', 'element_class': Bag },
-        'main_concept': {
+    elements = [
+        ('bag', {
+            'type': 'single', 'xml_name': 'bag', 'element_class': Bag
+        }),
+        ('main_concept', {
             'type': 'single', 'xml_name': 'mainConcept',
             'element_class': MainConcept
-        },
-        'facet_concept': {
+        }),
+        ('facet_concept', {
             'type': 'array', 'xml_name': 'facetConcept',
             'element_class': FacetConcept
-        }
-    }
+        })
+    ]
 
-class FlexPersonPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+
+class FlexPersonPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible person data type for both controlled and uncontrolled values
     """
 
-    elements = {
-        'person_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('person_details', {
             'type': 'single', 'xml_name': 'personDetails',
             'element_class': 'entities.PersonDetails'
-        }
-    }
+        })
+    ]
 
 
-class FlexOrganisationPropType(ConceptDefinitionGroup,
-    ConceptRelationshipsGroup, CommonPowerAttributes, QualifyingAttributes,
+class FlexOrganisationPropType(CommonPowerAttributes, QualifyingAttributes,
     I18NAttributes):
     """
     Flexible organisation data type for both controlled and uncontrolled values
     """
 
-    elements = {
-        'organisation_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('organisation_details', {
             'type': 'single', 'xml_name': 'organisationDetails',
             'element_class': 'entities.OrganisationDetails'
-        }
-    }
+        })
+    ]
 
 
-class FlexPartyPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes, QCodeURIMixin):
+class FlexPartyPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes,
+    QCodeURIMixin):
     """
     Flexible party (person or organisation) PCL-type for both controlled and
     uncontrolled values
     """
-    elements = {
-        'person_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('person_details', {
             'type': 'single', 'xml_name': 'personDetails',
             'element_class': 'entities.PersonDetails'
-        },
-        'organisation_details': {
+        }),
+        ('organisation_details', {
             'type': 'single', 'xml_name': 'organisationDetails',
             'element_class': 'entities.OrganisationDetails'
-        }
-    }
+        })
+    ]
 
 
 class Party(FlexPartyPropType):
@@ -273,18 +276,18 @@ class GeoAreaLine(CommonPowerAttributes):
     """
     A line as a geographic area
     """
-    elements = {
-        'position': { 'type': 'array', 'xml_name': 'position', 'element_class': Position },
-    }
+    elements = [
+        ('position', { 'type': 'array', 'xml_name': 'position', 'element_class': Position }),
+    ]
 
 
 class GeoAreaCircle(CommonPowerAttributes):
     """
     A circle as a geographic area
     """
-    elements = {
-        'position': { 'type': 'array', 'xml_name': 'position', 'element_class': Position },
-    }
+    elements = [
+        ('position', { 'type': 'array', 'xml_name': 'position', 'element_class': Position }),
+    ]
     attributes = {
         # The radius of the circle
         'radius': {
@@ -311,80 +314,79 @@ class GeoAreaPolygon(CommonPowerAttributes):
     """
     A polygon as a geographic area
     """
-    elements = {
-        'position': { 'type': 'array', 'xml_name': 'position', 'element_class': Position },
-    }
+    elements = [
+        ('position', { 'type': 'array', 'xml_name': 'position', 'element_class': Position }),
+    ]
 
 
 class GeoAreaDetails(CommonPowerAttributes):
     """
     A group of properties specific to a geopolitical area
     """
-    elements = {
-        'position': {
+    elements = [
+        ('position', {
             'type': 'single', 'xml_name': 'position',
             'element_class': Position
-        },
-        'founded': {
+        }),
+        ('founded', {
             'type': 'single', 'xml_name': 'founded',
             'element_class': GeoAreaFounded
-        },
-        'dissolved': {
+        }),
+        ('dissolved', {
             'type': 'single', 'xml_name': 'dissolved',
             'element_class': GeoAreaDissolved
-        },
-        'line': {
+        }),
+        ('line', {
             'type': 'array', 'xml_name': 'line', 'element_class': GeoAreaLine
-        },
-        'circle': {
+        }),
+        ('circle', {
             'type': 'array', 'xml_name': 'circle',
             'element_class': GeoAreaCircle
-        },
-        'polygon': {
+        }),
+        ('polygon', {
             'type': 'array', 'xml_name': 'polygon',
             'element_class': GeoAreaPolygon
-        }
-    }
+        })
+    ]
 
 
-class FlexLocationPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    FlexAttributes, CommonPowerAttributes, I18NAttributes):
+class FlexLocationPropType(FlexAttributes, CommonPowerAttributes,
+    I18NAttributes):
     """
     Flexible location (geopolitical area of point-of-interest)
     data type for both controlled and uncontrolled values
     """
 
-    elements = {
-        'geo_area_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('geo_area_details', {
             'type': 'single',
             'xml_name': 'geoAreaDetails',
             'element_class': GeoAreaDetails
-        },
-        'poi_details': {
+        }),
+        ('poi_details', {
             'type': 'single',
             'xml_name': 'POIDetails',
             'element_class': 'concepts.POIDetails'
-        }
-    }
+        })
+    ]
 
     def __bool__(self):
         return self.geo_area_details is not None or self.poi_details is not None
 
 
-class FlexPOIPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible point-of-intrerest data type for both controlled and uncontrolled
     values
     """
 
-    elements = {
-        'poi_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('poi_details', {
             'type': 'single',
             'xml_name': 'POIDetails',
             'element_class': 'concepts.POIDetails'
-        }
-    }
+        })
+    ]
 
 
 class OpenHours(Label1Type):
@@ -413,70 +415,72 @@ class Details(BlockType):
 
 class POICreated(TruncatedDateTimePropType):
     """
-    The date (and optionally the time) on which this Point of Interest was created
+    The date (and optionally the time) on which this Point of Interest
+    was created
     """
 
 
 class POICeasedToExist(TruncatedDateTimePropType):
     """
-    The date (and optionally the time) on which this Point of Interest ceased to exist
+    The date (and optionally the time) on which this Point of Interest
+    ceased to exist
     """
 
 
-class FlexGeoAreaPropType(ConceptDefinitionGroup, ConceptRelationshipsGroup,
-    CommonPowerAttributes, FlexAttributes, I18NAttributes):
+class FlexGeoAreaPropType(CommonPowerAttributes, FlexAttributes,
+    I18NAttributes):
     """
     Flexible geopolitical area data type for both controlled and uncontrolled
     values
     """
 
-    elements = {
-        'geo_area_details': {
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('geo_area_details', {
             'type': 'single',
             'xml_name': 'geoAreaDetails',
             'element_class': GeoAreaDetails
-        }
-    }
+        })
+    ]
 
 
 class POIDetails(CommonPowerAttributes):
     """
     A group of properties specific to a point of interest
     """
-    elements = {
-        'position': {
+    elements = [
+        ('position', {
             'type': 'single', 'xml_name': 'position',
             'element_class': Position
-        },
-        'address': {
+        }),
+        ('address', {
             'type': 'single', 'xml_name': 'address',
             'element_class': 'entities.Address'
-        },
-        'openhours': {
+        }),
+        ('openhours', {
             'type': 'single', 'xml_name': 'openHours',
             'element_class': OpenHours
-        },
-        'capacity': {
+        }),
+        ('capacity', {
             'type': 'single', 'xml_name': 'capacity', 'element_class': Capacity
-        },
-        'contactinfo': {
+        }),
+        ('contactinfo', {
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': 'entities.ContactInfo'
-        },
-        'access': {
+        }),
+        ('access', {
             'type': 'array', 'xml_name': 'access', 'element_class': Access
-        },
-        'details': {
+        }),
+        ('details', {
             'type': 'array', 'xml_name': 'details', 'element_class': Details
-        },
-        'created': {
+        }),
+        ('created', {
             'type': 'single', 'xml_name': 'created', 'element_class': POICreated
-        },
-        'ceasedtoexist': {
+        }),
+        ('ceasedtoexist', {
             'type': 'single', 'xml_name': 'ceasedToExist',
             'element_class': POICeasedToExist
-        },
-    }
+        })
+    ]
 
 
 class ConceptIdType(QCodeURIMixin, CommonPowerAttributes):
@@ -513,13 +517,13 @@ class QualPropType(QCodePropType, I18NAttributes):
     uri attribute and optional names
     """
 
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'hierarchyinfo': {
+    elements = [
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('hierarchyinfo', {
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
-        }
-    }
+        })
+    ]
 
 
 class Type(QualPropType):
@@ -528,72 +532,70 @@ class Type(QualPropType):
     """
 
 
-class EntityDetailsGroup(BaseObject):
-    """
-    A group of properties to define the details of specific entities
-    """
-
-    elements = {
-        'persondetails': {
-            'type': 'single', 'xml_name': 'personDetails',
-            'element_class': 'entities.PersonDetails'
-        },
-        'organisationDetails': {
-            'type': 'single', 'xml_name': 'organisationDetails',
-            'element_class': 'entities.OrganisationDetails'
-        },
-        'geoareadetails': {
-            'type': 'single', 'xml_name': 'geoAreaDetails',
-            'element_class': GeoAreaDetails
-         },
-        'poidetails': {
-            'type': 'single', 'xml_name': 'POIDetails',
-            'element_class': POIDetails
-        },
-        'objectdetails': {
-            'type': 'single', 'xml_name': 'objectDetails',
-            'element_class': 'entities.ObjectDetails'
-        }
-        # TODO
-        # 'eventdetails': {
-        #     'type': 'single', 'xml_name': 'eventDetails',
-        #     'element_class': EventDetails
-        # }
-    }
+"""
+A group of properties to define the details of specific entities
+"""
+EntityDetailsGroup = [
+    ('persondetails', {
+        'type': 'single', 'xml_name': 'personDetails',
+        'element_class': 'entities.PersonDetails'
+    }),
+    ('organisationDetails', {
+        'type': 'single', 'xml_name': 'organisationDetails',
+        'element_class': 'entities.OrganisationDetails'
+    }),
+    ('geoareadetails', {
+        'type': 'single', 'xml_name': 'geoAreaDetails',
+        'element_class': GeoAreaDetails
+    }),
+    ('poidetails', {
+        'type': 'single', 'xml_name': 'POIDetails',
+        'element_class': POIDetails
+    }),
+    ('objectdetails', {
+        'type': 'single', 'xml_name': 'objectDetails',
+        'element_class': 'entities.ObjectDetails'
+    })
+    # TODO
+    # ('eventdetails': {
+    #     'type': 'single', 'xml_name': 'eventDetails',
+    #     'element_class': EventDetails
+    # })
+]
 
 
-class Concept(ConceptRelationshipsGroup, EntityDetailsGroup,
-    CommonPowerAttributes, I18NAttributes):
+class Concept(CommonPowerAttributes, I18NAttributes):
     """
     A set of properties defining a concept
     """
 
-    elements = {
-        'conceptid': {
+    elements = [
+        ('conceptid', {
             'type': 'single', 'xml_name': 'conceptId',
             'element_class': ConceptId
-        },
-        'type': { 'type': 'single', 'xml_name': 'type', 'element_class': Type },
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'definition': {
+        }),
+        ('type', { 'type': 'single', 'xml_name': 'type', 'element_class': Type }),
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('definition', {
             'type': 'array', 'xml_name': 'definition',
             'element_class': Definition
-        },
-        'note': { 'type': 'array', 'xml_name': 'note', 'element_class': Note },
-        'facet': { 'type': 'array', 'xml_name': 'facet', 'element_class': Facet },
-        'remoteinfo': {
+        }),
+        ('note', { 'type': 'array', 'xml_name': 'note', 'element_class': Note }),
+        ('facet', { 'type': 'array', 'xml_name': 'facet', 'element_class': Facet }),
+        ('remoteinfo', {
             'type': 'array', 'xml_name': 'remoteInfo',
             'element_class': 'link.RemoteInfo'
-        },
-        'hierarchyinfo': {
+        }),
+        ('hierarchyinfo', {
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
-        },
-        'conceptextproperty': {
+        })
+    ] + ConceptRelationshipsGroup + EntityDetailsGroup + [
+        ('conceptextproperty', {
             'type': 'single', 'xml_name': 'conceptExtProperty',
             'element_class': 'extensionproperties.ConceptExtProperty'
-        }
-    }
+        })
+    ]
 
     def get_conceptid(self):
         """Return QCode for conceptid."""

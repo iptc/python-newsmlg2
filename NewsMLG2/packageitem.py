@@ -59,43 +59,43 @@ class Group(CommonPowerAttributes, I18NAttributes):
     """
     A mixed set of group references and references to items or Web resources
     """
-    elements = {
-        'groupref': {
+    elements = [
+        ('groupref', {
             'type': 'array',
             'xml_name': 'groupRef',
             'element_class': GroupRef
-        },
-        'itemref': {
+        }),
+        ('itemref', {
             'type': 'array',
             'xml_name': 'itemRef',
             'element_class': ItemRef
-        },
-        'conceptref': {
+        }),
+        ('conceptref', {
             'type': 'array',
             'xml_name': 'conceptRef',
             'element_class': ConceptRef
-        },
-        'title': {
+        }),
+        ('title', {
             'type': 'array',
             'xml_name': 'title',
             'element_class': Title
-        },
-        'signal': {
+        }),
+        ('signal', {
             'type': 'array',
             'xml_name': 'signal',
             'element_class': Signal
-        },
-        'ednote': {
+        }),
+        ('ednote', {
             'type': 'array',
             'xml_name': 'edNote',
             'element_class': EdNote
-        },
-        'groupextproperty': {
+        }),
+        ('groupextproperty', {
             'type': 'array',
             'xml_name': 'groupExtProperty',
             'element_class': GroupExtProperty
-        }
-    }
+        })
+    ]
     attributes = {
         # The part this group plays within its container -
         # expressed by a QCode
@@ -134,13 +134,13 @@ class GroupSet(CommonPowerAttributes):
     """
     A hierarchical set of groups
     """
-    elements = {
-        'group': {
+    elements = [
+        ('group', {
             'type': 'array',
             'xml_name': 'group',
             'element_class': Group
-        }
-    }
+        })
+    ]
     attributes = {
         # The reference to a local group acting as the root of the hierarchy
         # of groups
@@ -156,40 +156,40 @@ class PackageItem(AnyItem):
     """
     An Item used for packaging references to other Items and Web resources.
     """
-    elements = {
-        'contentmeta': {
+    elements = [
+        ('contentmeta', {
             'type': 'single',
             'xml_name': 'contentMeta',
             'element_class': PackageItemContentMeta
-        },
-        'partmeta': {
+        }),
+        ('partmeta', {
             'type': 'array',
             'xml_name': 'partMeta',
             'element_class': PartMeta
-        },
-        'assert': {
+        }),
+        ('assert', {
             'type': 'array',
             'xml_name': 'assert',
             'element_class': Assert
-        },
-        'inlineRef': {
+        }),
+        ('inlineRef', {
             'type': 'array',
             'xml_name': 'inlineRef',
             'element_class': InlineRef
-        },
-        'derivedfrom': {
+        }),
+        ('derivedfrom', {
             'type': 'array',
             'xml_name': 'derivedFrom',
             'element_class': DerivedFrom
-        },
-        'derivedfromvalue': {
+        }),
+        ('derivedfromvalue', {
             'type': 'array',
             'xml_name': 'derivedFromValue',
             'element_class': DerivedFromValue
-        },
-        'groupset': {
+        }),
+        ('groupset', {
             'type': 'single',
             'xml_name': 'groupSet',
             'element_class': GroupSet
-        }
-    }
+        })
+    ]

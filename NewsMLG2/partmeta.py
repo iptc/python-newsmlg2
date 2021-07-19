@@ -106,39 +106,41 @@ class PartMetaExtProperty(Flex2ExtPropType):
     """
 
 
-class PartMetaPropType(AdministrativeMetadataGroup, DescriptiveMetadataGroup,
-    I18NAttributes):
+class PartMetaPropType(I18NAttributes):
     """
     A type representing the structure of a partMeta property
     """
-    elements = {
-        'icon': { 'type': 'array', 'xml_name': 'icon', 'element_class': Icon },
-        'timedelim': {
+    elements = [
+        ('icon', {
+            'type': 'array', 'xml_name': 'icon', 'element_class': Icon
+        }),
+        ('timedelim', {
             'type': 'array', 'xml_name': 'timeDelim',
             'element_class': TimeDelim
-        },
-        'regiondelim': {
+        }),
+        ('regiondelim', {
             'type': 'single', 'xml_name': 'regionDelim',
             'element_class': RegionDelim
-        },
-        'role': {
+        }),
+        ('role', {
             'type': 'single', 'xml_name': 'regionDelim',
             'element_class': RegionDelim
-        },
-        'partmetaextproperty': {
+        })
+    ] + AdministrativeMetadataGroup + DescriptiveMetadataGroup + [
+        ('partmetaextproperty', {
             'type': 'array', 'xml_name': 'partMetaExtProperty',
             'element_class': PartMetaExtProperty
-        },
-        'signal': {
+        }),
+        ('signal', {
             'type': 'array', 'xml_name': 'signal', 'element_class': Signal
-        },
-        'ednote': {
+        }),
+        ('ednote', {
             'type': 'array', 'xml_name': 'edNote', 'element_class': EdNote
-         },
-        'link': {
+        }),
+        ('link', {
             'type': 'array', 'xml_name': 'link', 'element_class': Link
-        }
-    }
+        })
+    ]
     attributes = {
         # The identifier of the part
         'partid': {

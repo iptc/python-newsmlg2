@@ -53,16 +53,16 @@ class Hop(CommonPowerAttributes):
     A single hop of the Hop History. The details of the hop entry should
     reflect the actions taken by a party.
     """
-    elements = {
-        'party': {
+    elements = [
+        ('party', {
             'type': 'array', 'xml_name': 'party', 'element_class': 'concepts.Party'
-        },
-        'action': {
+        }),
+        ('action', {
             'type': 'array',
             'xml_name': 'action',
             'element_class': Action
-        }
-    }
+        })
+    ]
     attributes = {
         # The sequential value of this Hop in a sequence of Hops of a Hop
         # History.
@@ -86,9 +86,9 @@ class HopHistory(BaseObject):
     A history of the creation and modifications of the content object of this
     item, expressed as a sequence of hops.
     """
-    elements = {
-        'hop': { 'type': 'array', 'xml_name': 'hop', 'element_class': Hop }
-    }
+    elements = [
+        ('hop', { 'type': 'array', 'xml_name': 'hop', 'element_class': Hop })
+    ]
 
 
 class Timestamp(TruncatedDateTimePropType):
@@ -109,22 +109,22 @@ class Published(CommonPowerAttributes, QCodeURIMixin):
     """
     A step in the "pubHistory".
     """
-    elements = {
-        'timestamp': {
+    elements = [
+        ('timestamp', {
             'type': 'single',
             'xml_name': 'timestamp',
             'element_class': Timestamp
-        },
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'related': {
+        }),
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('related', {
             'type': 'array', 'xml_name': 'related', 'element_class': Related
-        },
-        'publishedExtProperty': {
+        }),
+        ('publishedExtProperty', {
             'type': 'array',
             'xml_name': 'publishedExtProperty',
             'element_class': PublishedExtProperty
-        }
-    }
+        })
+    ]
     attributes = {
         # A free-text value assigned as property value.
         'literal': {
@@ -138,13 +138,13 @@ class PubHistory(BaseObject):
     """
     One to many datasets about publishing this item.
     """
-    elements = {
-        'published': {
+    elements = [
+        ('published', {
             'type': 'array',
             'xml_name': 'published',
             'element_class': Published
-        }
-    }
+        })
+    ]
 
 
 class ItemMetaExtProperty(Flex2ExtPropType):
@@ -156,27 +156,70 @@ class ItemMetaExtProperty(Flex2ExtPropType):
     """
 
 
-class ItemMetadataType(ItemManagementGroup, CommonPowerAttributes,
-    I18NAttributes):
+class ItemMetadataType(CommonPowerAttributes, I18NAttributes):
     """
     The type for a set of properties directly associated with the item
     (Type defined in this XML Schema only)
     """
-    elements = {
-        'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
-        'itemmetaextproperty': {
+    elements = ItemManagementGroup + [
+        ('link', { 'type': 'array', 'xml_name': 'link', 'element_class': Link }),
+        ('itemmetaextproperty', {
             'type': 'array',
             'xml_name': 'itemMetaExtProperty',
             'element_class': ItemMetaExtProperty
-        }
-    }
+        })
+    ]
 
 
 class ItemMeta(ItemMetadataType):
     """
     A set of properties directly associated with the Item
     """
+    def __init__(self,  **kwargs):
+        super().__init__(**kwargs)
+        assert self.itemclass is not None, "itemClass is required in any NewsML-G2 Item"
+        assert self.provider is not None, "provider is required in any NewsML-G2 Item"
+        assert self.versioncreated is not None, "versionCreated is required in any NewsML-G2 Item"
 
+    def get_itemclass(self):
+        """Return QCode for itemclass."""
+        return self.get_element_value('itemclass').get_qcode()
+
+    def get_itemclass_uri(self):
+        """Return URI for itemclass."""
+        return self.get_element_value('itemclass').get_uri()
+
+    def get_provider(self):
+        """Return QCode for provider."""
+        return self.get_element_value('provider').get_qcode()
+
+    def get_provider_uri(self):
+        """Return URI for provider."""
+        return self.get_element_value('provider').get_uri()
+
+    def get_pubstatus(self):
+        """Return QCode for pubstatus."""
+        return self.get_element_value('pubstatus').get_qcode()
+
+    def get_pubstatus_uri(self):
+        """Return URI for pubstatus."""
+        return self.get_element_value('pubstatus').get_uri()
+
+    def get_service(self):
+        """Return QCode for first service in services array."""
+        return self.get_element_value('service')[0].get_qcode()
+
+    def get_service_uri(self):
+        """Return URI for first service in services array."""
+        return self.get_element_value('service')[0].get_uri()
+
+    def get_signal(self):
+        """Return QCode for first signal in signals array."""
+        return self.get_element_value('signal')[0].get_qcode()
+
+    def get_signal_uri(self):
+        """Return URI for first signal in signals array."""
+        return self.get_element_value('signal')[0].get_uri()
 
 class AnyItem(I18NAttributes):
     """
@@ -218,16 +261,16 @@ class AnyItem(I18NAttributes):
         }
     }
 
-    elements = {\
+    elements = [
         # TODO implement xs:choice either "catalogRef" or "catalog"
         # (but unlimited number of whichever one exists)
-        'catalogref': { 'type': 'array', 'xml_name': 'catalogRef', 'element_class': CatalogRef },
-        'catalog': { 'type': 'array', 'xml_name': 'catalog', 'element_class': Catalog },
-        'hophistory': { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory },
-        'pubhistory': { 'type': 'single', 'xml_name': 'pubHistory', 'element_class': PubHistory },
-        'rightsinfo': { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo },
-        'itemmeta': { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta }
-    }
+        ('catalogref', { 'type': 'array', 'xml_name': 'catalogRef', 'element_class': CatalogRef }),
+        ('catalog', { 'type': 'array', 'xml_name': 'catalog', 'element_class': Catalog }),
+        ('hophistory', { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory }),
+        ('pubhistory', { 'type': 'single', 'xml_name': 'pubHistory', 'element_class': PubHistory }),
+        ('rightsinfo', { 'type': 'array', 'xml_name': 'rightsInfo', 'element_class': RightsInfo }),
+        ('itemmeta', { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta })
+    ]
 
     def __init__(self,  **kwargs):
         super().__init__(**kwargs)

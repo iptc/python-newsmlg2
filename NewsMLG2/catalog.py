@@ -101,23 +101,23 @@ class Scheme(CommonPowerAttributes):
     A scheme alias-to-URI mapping.
     """
 
-    elements = {
-        'sameasscheme': {
+    elements = [
+        ('sameasscheme', {
             'type': 'array', 'xml_name': 'sameAsScheme', 'element_class': SameAsScheme
-        },
-        'name': {
+        }),
+        ('name', {
             'type': 'array', 'xml_name': 'name', 'element_class': Name
-        },
-        'definition': {
+        }),
+        ('definition', {
             'type': 'array', 'xml_name': 'definition', 'element_class': Definition
-        },
-        'note': {
+        }),
+        ('note', {
             'type': 'array', 'xml_name': 'note', 'element_class': Note
-        },
-        'sameas': {
+        }),
+        ('sameas', {
             'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
-        }
-    }
+        })
+    ]
 
     attributes = {
         # A short string used by the provider as a replacement for a scheme URI.
@@ -171,14 +171,14 @@ class Catalog(CommonPowerAttributes):
     """
 
     _catalog = []
-    elements = {
-        'title': {
+    elements = [
+        ('title', {
             'type': 'array', 'xml_name': 'title', 'element_class': Title
-        },
-        'scheme': {
+        }),
+        ('scheme', {
             'type': 'array', 'xml_name': 'scheme', 'element_class': Scheme
-        }
-    }
+        })
+    ]
 
     attributes = {
         # A pointer to some additional information about

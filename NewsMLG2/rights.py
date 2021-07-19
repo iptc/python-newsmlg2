@@ -149,34 +149,36 @@ class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
         }
     }
 
-    elements = {
-        'accountable': {
+    elements = [
+        ('accountable', {
             'type': 'single', 'xml_name': 'accountable',
             'element_class': Accountable
-        },
-        'copyrightholder': {
+        }),
+        ('copyrightholder', {
             'type': 'single', 'xml_name': 'copyrightHolder',
             'element_class': CopyrightHolder
-        },
-        'copyrightnotice': {
+        }),
+        ('copyrightnotice', {
             'type': 'array', 'xml_name': 'copyrightNotice',
             'element_class': CopyrightNotice
-        },
-        'usageterms': {
+        }),
+        ('usageterms', {
             'type': 'array', 'xml_name': 'usageTerms',
             'element_class': UsageTerms
-        },
-        'link': { 'type': 'array', 'xml_name': 'link', 'element_class': Link },
-        'rightsinfo_ext': {
+        }),
+        ('link', {
+            'type': 'array', 'xml_name': 'link', 'element_class': Link
+        }),
+        ('rightsinfo_ext', {
             'type': 'array', 'xml_name': 'rightsInfoExtProperty',
             'element_class': RightsInfoExtProperty
-        },
-        'rightsexpressionxml': {
+        }),
+        ('rightsexpressionxml', {
             'type': 'array', 'xml_name': 'rightsExpressionXML',
             'element_class': RightsExpressionXML
-        },
-        'rightsexpressiondata': {
+        }),
+        ('rightsexpressiondata', {
             'type': 'array', 'xml_name': 'rightsExpressionData',
             'element_class': RightsExpressionData
-        }
-    }
+        })
+    ]

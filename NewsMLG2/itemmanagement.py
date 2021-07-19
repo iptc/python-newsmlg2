@@ -250,150 +250,103 @@ class MetadataCreator(FlexAuthorPropType):
     """
 
 
-class ItemManagementGroup(BaseObject):
-    """
-    A set of properties directly associated with the Item
-    """
-
-    elements = {
-        'itemclass': {
-            'type': 'single',
-            'xml_name': 'itemClass',
-            'element_class': ItemClass
-        },
-        'provider': {
-            'type': 'single',
-            'xml_name': 'provider',
-            'element_class': Provider
-        },
-        'versioncreated': {
-            'type': 'single',
-            'xml_name': 'versionCreated',
-            'element_class': VersionCreated
-        },
-        'firstcreated': {
-            'type': 'single',
-            'xml_name': 'firstCreated',
-            'element_class': FirstCreated
-        },
-        'embargoed': {
-            'type': 'single',
-            'xml_name': 'embargoed',
-            'element_class': Embargoed
-        },
-        'pubstatus': {
-            'type': 'single',
-            'xml_name': 'pubStatus',
-            'element_class': PubStatus
-        },
-        'role': {
-            'type': 'single', 'xml_name': 'role', 'element_class': Role
-        },
-        'filename': {
-            'type': 'single',
-            'xml_name': 'fileName',
-            'element_class': FileName
-        },
-        'generator': {
-            'type': 'array',
-            'xml_name': 'generator',
-            'element_class': Generator
-        },
-        'profile': {
-            'type': 'single', 'xml_name': 'profile', 'element_class': Profile
-        },
-        'service': {
-            'type': 'array', 'xml_name': 'service', 'element_class': Service
-        },
-        'title': {
-            'type': 'array', 'xml_name': 'title', 'element_class': Title
-        },
-        'ednote': {
-            'type': 'array', 'xml_name': 'edNote', 'element_class': EdNote
-        },
-        'memberof': {
-            'type': 'array',
-            'xml_name': 'memberOf',
-            'element_class': MemberOf
-        },
-        'instanceof': {
-            'type': 'array',
-            'xml_name': 'instanceOf',
-            'element_class': InstanceOf
-        },
-        'signal': {
-            'type': 'array', 'xml_name': 'signal', 'element_class': Signal
-        },
-        'altrep': {
-            'type': 'array', 'xml_name': 'altRep', 'element_class': AltRep
-        },
-        'deliverableof': {
-            'type': 'array',
-            'xml_name': 'deliverableOf',
-            'element_class': DeliverableOf
-        },
-        'hash': {
-            'type': 'array', 'xml_name': 'hash', 'element_class': Hash
-        },
-        'expires': {
-             'type': 'array', 'xml_name': 'expires', 'element_class': Expires
-        },
-        'origrep': {
-             'type': 'array', 'xml_name': 'origRep', 'element_class': OrigRep
-        },
-        'incomingfeedid': {
-            'type': 'array',
-            'xml_name': 'incomingFeedId',
-            'element_class': IncomingFeedId
-        },
-        'metadatacreator': {
-            'type': 'single',
-            'xml_name': 'metadataCreator',
-            'element_class': MetadataCreator
-        }
-    }
-    def __init__(self,  **kwargs):
-        super().__init__(**kwargs)
-        assert self.itemclass is not None, "itemClass is required in any NewsML-G2 Item"
-        assert self.provider is not None, "provider is required in any NewsML-G2 Item"
-        assert self.versioncreated is not None, "versionCreated is required in any NewsML-G2 Item"
-
-    def get_itemclass(self):
-        """Return QCode for itemclass."""
-        return self.get_element_value('itemclass').get_qcode()
-
-    def get_itemclass_uri(self):
-        """Return URI for itemclass."""
-        return self.get_element_value('itemclass').get_uri()
-
-    def get_provider(self):
-        """Return QCode for provider."""
-        return self.get_element_value('provider').get_qcode()
-
-    def get_provider_uri(self):
-        """Return URI for provider."""
-        return self.get_element_value('provider').get_uri()
-
-    def get_pubstatus(self):
-        """Return QCode for pubstatus."""
-        return self.get_element_value('pubstatus').get_qcode()
-
-    def get_pubstatus_uri(self):
-        """Return URI for pubstatus."""
-        return self.get_element_value('pubstatus').get_uri()
-
-    def get_service(self):
-        """Return QCode for first service in services array."""
-        return self.get_element_value('service')[0].get_qcode()
-
-    def get_service_uri(self):
-        """Return URI for first service in services array."""
-        return self.get_element_value('service')[0].get_uri()
-
-    def get_signal(self):
-        """Return QCode for first signal in signals array."""
-        return self.get_element_value('signal')[0].get_qcode()
-
-    def get_signal_uri(self):
-        """Return URI for first signal in signals array."""
-        return self.get_element_value('signal')[0].get_uri()
+"""
+A set of properties directly associated with the Item
+"""
+ItemManagementGroup = [
+    ('itemclass', {
+        'type': 'single',
+        'xml_name': 'itemClass',
+        'element_class': ItemClass
+    }),
+    ('provider', {
+        'type': 'single',
+        'xml_name': 'provider',
+        'element_class': Provider
+    }),
+    ('versioncreated', {
+        'type': 'single',
+        'xml_name': 'versionCreated',
+        'element_class': VersionCreated
+    }),
+    ('firstcreated', {
+        'type': 'single',
+        'xml_name': 'firstCreated',
+        'element_class': FirstCreated
+    }),
+    ('embargoed', {
+        'type': 'single',
+        'xml_name': 'embargoed',
+        'element_class': Embargoed
+    }),
+    ('pubstatus', {
+        'type': 'single',
+        'xml_name': 'pubStatus',
+        'element_class': PubStatus
+    }),
+    ('role', {
+        'type': 'single', 'xml_name': 'role', 'element_class': Role
+    }),
+    ('filename', {
+        'type': 'single',
+        'xml_name': 'fileName',
+        'element_class': FileName
+    }),
+    ('generator', {
+        'type': 'array',
+        'xml_name': 'generator',
+        'element_class': Generator
+    }),
+    ('profile', {
+        'type': 'single', 'xml_name': 'profile', 'element_class': Profile
+    }),
+    ('service', {
+        'type': 'array', 'xml_name': 'service', 'element_class': Service
+    }),
+    ('title', {
+        'type': 'array', 'xml_name': 'title', 'element_class': Title
+    }),
+    ('ednote', {
+        'type': 'array', 'xml_name': 'edNote', 'element_class': EdNote
+    }),
+    ('memberof', {
+        'type': 'array',
+        'xml_name': 'memberOf',
+        'element_class': MemberOf
+    }),
+    ('instanceof', {
+        'type': 'array',
+        'xml_name': 'instanceOf',
+        'element_class': InstanceOf
+    }),
+    ('signal', {
+        'type': 'array', 'xml_name': 'signal', 'element_class': Signal
+    }),
+    ('altrep', {
+        'type': 'array', 'xml_name': 'altRep', 'element_class': AltRep
+    }),
+    ('deliverableof', {
+        'type': 'array',
+        'xml_name': 'deliverableOf',
+        'element_class': DeliverableOf
+    }),
+    ('hash', {
+        'type': 'array', 'xml_name': 'hash', 'element_class': Hash
+    }),
+    ('expires', {
+         'type': 'array', 'xml_name': 'expires', 'element_class': Expires
+    }),
+    ('origrep', {
+         'type': 'array', 'xml_name': 'origRep', 'element_class': OrigRep
+    }),
+    ('incomingfeedid', {
+        'type': 'array',
+        'xml_name': 'incomingFeedId',
+        'element_class': IncomingFeedId
+    }),
+    ('metadatacreator', {
+        'type': 'single',
+        'xml_name': 'metadataCreator',
+        'element_class': MetadataCreator
+    })
+]

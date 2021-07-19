@@ -23,12 +23,15 @@ Installing from PyPI (after we release it to PyPI...):
 Example:
 
 ```
-    import NewsMLG2
+import NewsMLG2
 
-    parser = NewsMLG2.NewsMLG2Parser(filename="test-newsmlg2-file.xml")
-    print(parser.getNewsItem())
+# load NewsML-G2 from a file and print the parsed version
+g2doc = NewsMLG2.NewsMLG2Document(filename="test-newsmlg2-file.xml")
+print(g2doc.get_item())
 
-    parser = NewsMLG2.NewsMLG2Parser(b"""<?xml version="1.0" encoding="UTF-8"?>
+# load NewsML-G2 from a string
+g2doc = NewsMLG2.NewsMLG2Document(
+b"""<?xml version="1.0" encoding="UTF-8"?>
 <newsItem
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
@@ -49,19 +52,26 @@ Example:
     </contentSet>
 </newsItem>
 """)
-    newsitem = parser.getNewsItem()
-    assert newsitem.guid == 'simplest-test'
-    assert newsitem.standard == 'NewsML-G2'
-    assert newsitem.standardversion == '2.29'
-    assert newsitem.conformance == 'power'
-    itemmeta = newsitem.itemmeta
-    assert itemmeta.get_itemclass() == 'ninat:text'
-    assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-    assert itemmeta.get_provider() == 'nprov:IPTC'
-    assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
-    assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
-    etc...
+# get the newsItem from the parsed object
+newsitem = g2doc.getNewsItem()
+# test various elements and attributes using our shortcut dot syntax
+assert newsitem.guid == 'simplest-test'
+assert newsitem.standard == 'NewsML-G2'
+assert newsitem.standardversion == '2.29'
+assert newsitem.conformance == 'power'
+
+itemmeta = newsitem.itemmeta
+# you can choose whether to use qcodes or URIs, we do the conversion for you
+# using the catalog declared in the NewsML-G2 file
+assert itemmeta.get_itemclass() == 'ninat:text'
+assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
+assert itemmeta.get_provider() == 'nprov:IPTC'
+assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+# Elements that contain a simple text string can be read with str(class)
+assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+
+etc...
 ```
 
 ## Creating NewsML-G2 files from code

@@ -24,9 +24,9 @@ class ConceptSet(CommonPowerAttributes):
     An unordered set of concepts
     """
 
-    elements = {
-        'concept': { 'type': 'array', 'xml_name': 'concept', 'element_class': Concept }
-    }
+    elements = [
+        ('concept', { 'type': 'array', 'xml_name': 'concept', 'element_class': Concept })
+    ]
 
 
 class SchemeMetaExtPropertyElement(Flex2ExtPropType):
@@ -49,25 +49,25 @@ class SchemeMeta(CommonPowerAttributes):
     Metadata about a scheme conveyed by a Knowledge Item
     """
 
-    elements = {
-        'sameasscheme': {
+    elements = [
+        ('sameasscheme', {
             'type': 'array', 'xml_name': 'sameAsScheme',
             'element_class': SameAsScheme
-        },
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': Name },
-        'definition': {
+        }),
+        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('definition', {
             'type': 'array', 'xml_name': 'definition',
             'element_class': Definition
-        },
-        'note': { 'type': 'array', 'xml_name': 'note', 'element_class': Note },
-        'related': {
+        }),
+        ('note', { 'type': 'array', 'xml_name': 'note', 'element_class': Note }),
+        ('related', {
             'type': 'array', 'xml_name': 'related', 'element_class': Related
-        },
-        'schememetaextproperty': {
+        }),
+        ('schememetaextproperty', {
             'type': 'array', 'xml_name': 'schemeMetaExtProperty',
             'element_class': SchemeMetaExtProperty
-        }
-    }
+        })
+    ]
     attributes = {
         # The URI which identifies the scheme
         'uri': {
@@ -130,37 +130,37 @@ class KnowledgeItem(AnyItem):
     representation of a controlled vocabulary
     """
 
-    elements = {
-        'contentmeta': {
+    elements = [
+        ('contentmeta', {
             'type': 'single', 'xml_name': 'contentMeta',
             'element_class': KnowledgeItemContentMeta
-        },
-        'partmeta': {
+        }),
+        ('partmeta', {
             'type': 'array', 'xml_name': 'partMeta',
             'element_class': PartMeta
-        },
-        'assert': {
+        }),
+        ('assert', {
             'type': 'array', 'xml_name': 'assert',
             'element_class': Assert
-        },
-        'inlineref': {
+        }),
+        ('inlineref', {
             'type': 'array', 'xml_name': 'inlineRef',
             'element_class': InlineRef
-        },
-        'derivedfrom': {
+        }),
+        ('derivedfrom', {
             'type': 'array', 'xml_name': 'derivedFrom',
             'element_class': DerivedFrom
-        },
-        'derivedfromvalue': {
+        }),
+        ('derivedfromvalue', {
             'type': 'array', 'xml_name': 'derivedFromValue',
             'element_class': DerivedFromValue
-        },
-        'conceptset': {
+        }),
+        ('conceptset', {
             'type': 'single', 'xml_name': 'conceptSet',
             'element_class': ConceptSet
-        },
-        'schememeta': {
+        }),
+        ('schememeta', {
             'type': 'single', 'xml_name': 'schemeMeta',
             'element_class': SchemeMeta
-        }
-    }
+        })
+    ]

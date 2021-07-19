@@ -28,11 +28,11 @@ class Ruby(CommonPowerAttributes, I18NAttributes):
     """
     Simple W3C Ruby Annotation - see http://www.w3.org/TR/ruby/#simple-ruby1
     """
-    elements = {
-        'rb': { 'type': 'single', 'xml_name': 'rb', 'element_class': RB },
-        'rt': { 'type': 'single', 'xml_name': 'rt', 'element_class': RT },
-        'rp': { 'type': 'single', 'xml_name': 'rp', 'element_class': RP }
-    }
+    elements = [
+        ('rb', { 'type': 'single', 'xml_name': 'rb', 'element_class': RB }),
+        ('rt', { 'type': 'single', 'xml_name': 'rt', 'element_class': RT }),
+        ('rp', { 'type': 'single', 'xml_name': 'rp', 'element_class': RP })
+    ]
 
 
 class Span(CommonPowerAttributes, I18NAttributes):
@@ -40,9 +40,9 @@ class Span(CommonPowerAttributes, I18NAttributes):
     A generic mechanism for adding inline information to parts of the textual
     content
     """
-    elements = {
-        'ruby': { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby }
-    }
+    elements = [
+        ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby })
+    ]
     attributes = {
         # An equivalent of the html class attribute
         'class': {
@@ -60,10 +60,10 @@ class Inline(CommonPowerAttributes, FlexAttributes, I18NAttributes,
     Note that this is a mixed element i.e. text can be mixed with child
     elements. TODO handle this type of content properly.
     """
-    elements = {
-        'span': { 'type': 'array', 'xml_name': 'span', 'element_class': Span },
-        'ruby': { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby }
-    }
+    elements = [
+        ('span', { 'type': 'array', 'xml_name': 'span', 'element_class': Span }),
+        ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby })
+    ]
     attributes = {
         # An equivalent of the html class attribute
         'class': {
@@ -80,11 +80,11 @@ class A(CommonPowerAttributes, I18NAttributes):
     Note that this is a mixed element i.e. text can be mixed with child
     elements. TODO handle this type of content properly.
     """
-    elements = {
-        'inline': { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline },
-        'span': { 'type': 'array', 'xml_name': 'span', 'element_class': Span },
-        'ruby': { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby },
-    }
+    elements = [
+        ('inline', { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline }),
+        ('span', { 'type': 'array', 'xml_name': 'span', 'element_class': Span }),
+        ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby })
+    ]
     attributes = {
         # An equivalent of the html class attribute
         'class': {
@@ -124,12 +124,12 @@ class Label1Type(CommonPowerAttributes, I18NAttributes):
     The PCL-type for information about the content as natural language string
     with minimal markup
     """
-    elements = {
-        'a': { 'type': 'array', 'xml_name': 'a', 'element_class': A },
-        'span': { 'type': 'array', 'xml_name': 'span', 'element_class': Span },
-        'ruby': { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby },
-        'inline': { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline },
-    }
+    elements = [
+        ('a', { 'type': 'array', 'xml_name': 'a', 'element_class': A }),
+        ('span', { 'type': 'array', 'xml_name': 'span', 'element_class': Span }),
+        ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby }),
+        ('inline', { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline })
+    ]
     attributes = {
         # A refinement of the semantics of the label - expressed by a QCode
         'role': {
@@ -158,13 +158,13 @@ class BlockType(CommonPowerAttributes, I18NAttributes):
     The type for nformation about the content as natural language
     string with minimal markup and line breaks
     """
-    elements = {
-        'a': { 'type': 'array', 'xml_name': 'a', 'element_class': A },
-        'span': { 'type': 'array', 'xml_name': 'span', 'element_class': Span },
-        'ruby': { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby },
-        'br': { 'type': 'array', 'xml_name': 'br', 'element_class': BR },
-        'inline': { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline },
-    }
+    elements = [
+        ('a', { 'type': 'array', 'xml_name': 'a', 'element_class': A }),
+        ('span', { 'type': 'array', 'xml_name': 'span', 'element_class': Span }),
+        ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby }),
+        ('br', { 'type': 'array', 'xml_name': 'br', 'element_class': BR }),
+        ('inline', { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline })
+    ]
     attributes = {
         # An indication of the target media type(s) values as
         # defined by the Cascading Style Sheets (CSS) specification.

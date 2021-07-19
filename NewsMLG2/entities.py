@@ -186,28 +186,28 @@ class Address(CommonPowerAttributes):
     """
     A postal address for the location of a Point Of Interest
     """
-    elements = {
-        'line': {
+    elements = [
+        ('line', {
             'type': 'array', 'xml_name': 'line', 'element_class': AddressLine
-        },
-        'worldregion': {
+        }),
+        ('worldregion', {
             'type': 'single', 'xml_name': 'worldRegion',
             'element_class': WorldRegion
-        },
-        'locality': {
+        }),
+        ('locality', {
             'type': 'array', 'xml_name': 'locality', 'element_class': Locality
-        },
-        'area': {
+        }),
+        ('area', {
             'type': 'array', 'xml_name': 'area', 'element_class': Area
-        },
-        'country': {
+        }),
+        ('country', {
             'type': 'single', 'xml_name': 'country', 'element_class': Country
-        },
-        'postal_code': {
+        }),
+        ('postal_code', {
             'type': 'single', 'xml_name': 'postalCode',
             'element_class': PostalCode
-        }
-    }
+        })
+    ]
     attributes = {
         # A refinement of the semantics of the postal address - expressed by
         # a QCode
@@ -227,15 +227,15 @@ class ContactInfoType(CommonPowerAttributes):
     The type for information to get in contact with a party
     (Type defined in this XML Schema only)
     """
-    elements = {
-        'email': { 'type': 'array', 'xml_name': 'email', 'element_class': Email },
-        'im': { 'type': 'array', 'xml_name': 'im', 'element_class': IM },
-        'phone': { 'type': 'array', 'xml_name': 'phone', 'element_class': Phone },
-        'fax': { 'type': 'array', 'xml_name': 'fax', 'element_class': Fax },
-        'web': { 'type': 'array', 'xml_name': 'web', 'element_class': Web },
-        'address': { 'type': 'array', 'xml_name': 'address', 'element_class': Address },
-        'note': { 'type': 'array', 'xml_name': 'note', 'element_class': Note },
-    }
+    elements = [
+        ('email', { 'type': 'array', 'xml_name': 'email', 'element_class': Email }),
+        ('im', { 'type': 'array', 'xml_name': 'im', 'element_class': IM }),
+        ('phone', { 'type': 'array', 'xml_name': 'phone', 'element_class': Phone }),
+        ('fax', { 'type': 'array', 'xml_name': 'fax', 'element_class': Fax }),
+        ('web', { 'type': 'array', 'xml_name': 'web', 'element_class': Web }),
+        ('address', { 'type': 'array', 'xml_name': 'address', 'element_class': Address }),
+        ('note', { 'type': 'array', 'xml_name': 'note', 'element_class': Note })
+    ]
     attributes = {
         # A refinement of the semantics of a contact information - expressed by a QCode
         'role': {
@@ -263,18 +263,19 @@ class PersonDetails(CommonPowerAttributes):
     A set of properties specific to a person
     """
 
-    elements = {
-        'born': { 'type': 'single', 'xml_name': 'born', 'element_class': Born },
-        'died': { 'type': 'single', 'xml_name': 'died', 'element_class': Died },
-        'affiliation': {
+    elements = [
+        ('born', { 'type': 'single', 'xml_name': 'born', 'element_class': Born }),
+        ('died', { 'type': 'single', 'xml_name': 'died', 'element_class': Died }),
+        ('affiliation', {
             'type': 'array', 'xml_name': 'affiliation',
             'element_class': PersonAffiliation
-        },
-       'contact_info': {
+        }),
+        ('contact_info', {
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
-        }
-    }
+        })
+    ]
+
 
 class OrganisationFounded(TruncatedDateTimePropType):
     """
@@ -375,32 +376,32 @@ class OrganisationDetails(CommonPowerAttributes):
     A group of properties specific to an organisation
     """
 
-    elements = {
-        'founded': {
+    elements = [
+        ('founded', {
             'type': 'single', 'xml_name': 'founded',
             'element_class': OrganisationFounded
-        },
-        'dissolved': {
+        }),
+        ('dissolved', {
             'type': 'single', 'xml_name': 'dissolved',
             'element_class': OrganisationDissolved
-        },
-        'location': {
+        }),
+        ('location', {
             'type': 'array', 'xml_name': 'location',
             'element_class': OrganisationLocation
-        },
-        'affiliation': {
+        }),
+        ('affiliation', {
             'type': 'array', 'xml_name': 'affiliation',
             'element_class': OrganisationAffiliation
-        },
-        'contactinfo': {
+        }),
+        ('contactinfo', {
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
-        },
-        'hasinstrument': {
+        }),
+        ('hasinstrument', {
             'type': 'array', 'xml_name': 'hasInstrument',
             'element_class': HasInstrument
-        }
-    }
+        })
+    ]
 
 
 class ObjectCreated(TruncatedDateTimePropType):
@@ -420,21 +421,21 @@ class ObjectDetails(CommonPowerAttributes):
     A group of properties specific to an object
     """
 
-    elements = {
-        'created': {
+    elements = [
+        ('created', {
             'type': 'single', 'xml_name': 'created',
             'element_class': ObjectCreated
-        },
-        'copyrightnotice': {
+        }),
+        ('copyrightnotice', {
             'type': 'array', 'xml_name': 'copyrightNotice',
             'element_class': CopyrightNotice
-        },
-        'creator': {
+        }),
+        ('creator', {
             'type': 'array', 'xml_name': 'creator',
             'element_class': Creator
-        },
-        'ceasedtoexist': {
+        }),
+        ('ceasedtoexist', {
             'type': 'single', 'xml_name': 'ceasedToExist',
             'element_class': ObjectCeasedToExist
-        }
-    }
+        })
+    ]

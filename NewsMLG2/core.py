@@ -2,7 +2,6 @@
 Core functions for NewsMLG2 library.
 """
 
-import importlib
 import re
 from lxml import etree
 
@@ -64,10 +63,10 @@ class BaseObject():
         """
         if self._element_definitions:
             return self._element_definitions
-        self._element_definitions = {}
+        self._element_definitions = []
         for otherclass in reversed(self.__class__.__mro__):
-            elements = vars(otherclass).get('elements', {})
-            self._element_definitions.update(elements)
+            elements = vars(otherclass).get('elements', ())
+            self._element_definitions += elements
         return self._element_definitions
 
     def get_element_class(self, element_class):
@@ -100,7 +99,8 @@ class BaseObject():
             xmlattr_value = xmlelement.get(attribute_xmlname)
             if xmlattr_value is not None:
                 self._attribute_values[attribute_id] = xmlattr_value
-        for element_id, element_definition in element_defns.items():
+        #for element_id, element_definition in element_defns.items():
+        for (element_id, element_definition) in element_defns:
             element_class = self.get_element_class(element_definition['element_class'])
             if element_definition['type'] == 'array':
                 self._element_values[element_id] = GenericArray(
@@ -130,9 +130,11 @@ class BaseObject():
         """
         if name in self._element_values:
             return self._element_values[name]
-        if name in self._element_definitions:
+        # convert our list of tuples to a dict so we can look up keys
+        elemdefndict = dict(self._element_definitions)
+        if name in elemdefndict:
             # no value, but the element exists - create it on the fly!
-            element_definition = self._element_definitions[name]
+            element_definition = elemdefndict[name]
             element_class = self.get_element_class(element_definition['element_class'])
             self._element_values[name] = element_class()
             return self._element_values[name]
@@ -165,9 +167,12 @@ class BaseObject():
         if name.startswith('_'):
             # it's a property internal to this module, handle it normally
             super().__setattr__(name, value)
-        elif name in self._element_definitions:
+            return
+        # convert our list of tuples to a dict so we can look up keys
+        elemdefndict = dict(self._element_definitions)
+        if name in elemdefndict:
             if isinstance(value, str):
-                element_class_name = self._element_definitions[name]['element_class']
+                element_class_name = elemdefndict[name]['element_class']
                 element_class = self.get_element_class(element_class_name)
                 self._element_values[name] = element_class(text = value)
             else:

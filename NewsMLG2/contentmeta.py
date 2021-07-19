@@ -236,9 +236,11 @@ class Language(CommonPowerAttributes, RankingAttributes):
     """
     A language used by the news content
     """
-    elements = {
-        'name': { 'type': 'array', 'xml_name': 'name', 'element_class': LanguageName }
-    }
+    elements = [
+        ('name', {
+            'type': 'array', 'xml_name': 'name', 'element_class': LanguageName
+        })
+    ]
     attributes = {
         # The language tag. Values must be valid BCP 47 language tags
         'tag': {
@@ -410,170 +412,168 @@ class ContentMetaExtProperty(Flex2ExtPropType):
     """
 
 
-class DescriptiveMetadataGroup(BaseObject):
-    """
-    A group of properties associated with the descriptive facet of news related
-    content.
-    """
-    elements = {
-        'language': { 'type': 'array', 'xml_name': 'language', 'element_class': Language },
-        'genre': { 'type': 'array', 'xml_name': 'genre', 'element_class': Genre },
-        'keyword': { 'type': 'array', 'xml_name': 'keyword', 'element_class': Keyword },
-        'subject': { 'type': 'array', 'xml_name': 'subject', 'element_class': Subject },
-        'slugline': { 'type': 'array', 'xml_name': 'slugline', 'element_class': Slugline },
-        'headline': { 'type': 'array', 'xml_name': 'headline', 'element_class': Headline },
-        'dateline': { 'type': 'array', 'xml_name': 'dateline', 'element_class': Dateline },
-        'by': { 'type': 'array', 'xml_name': 'by', 'element_class': By },
-        'creditline': { 'type': 'array', 'xml_name': 'creditline', 'element_class': Creditline },
-        'description': { 'type': 'array', 'xml_name': 'description', 'element_class': Description }
-    }
+"""
+A group of properties associated with the descriptive facet of news related
+content.
+"""
+DescriptiveMetadataGroup = [
+    ('language', { 'type': 'array', 'xml_name': 'language', 'element_class': Language }),
+    ('genre', { 'type': 'array', 'xml_name': 'genre', 'element_class': Genre }),
+    ('keyword', { 'type': 'array', 'xml_name': 'keyword', 'element_class': Keyword }),
+    ('subject', { 'type': 'array', 'xml_name': 'subject', 'element_class': Subject }),
+    ('slugline', { 'type': 'array', 'xml_name': 'slugline', 'element_class': Slugline }),
+    ('headline', { 'type': 'array', 'xml_name': 'headline', 'element_class': Headline }),
+    ('dateline', { 'type': 'array', 'xml_name': 'dateline', 'element_class': Dateline }),
+    ('by', { 'type': 'array', 'xml_name': 'by', 'element_class': By }),
+    ('creditline', { 'type': 'array', 'xml_name': 'creditline', 'element_class': Creditline }),
+    ('description', { 'type': 'array', 'xml_name': 'description', 'element_class': Description })
+]
 
 
-class DescriptiveMetadataCoreGroup(BaseObject):
-    """
-    A group of properties associated with the core descriptive facet of news
-    related content.
-    """
-    elements = {
-        'language': { 'type': 'array', 'xml_name': 'language', 'element_class': Language },
-        'keyword': { 'type': 'array', 'xml_name': 'keyword', 'element_class': Keyword },
-        'subject': { 'type': 'array', 'xml_name': 'subject', 'element_class': Subject },
-        'slugline': { 'type': 'array', 'xml_name': 'slugline', 'element_class': Slugline },
-        'headline': { 'type': 'array', 'xml_name': 'headline', 'element_class': Headline },
-        'description': { 'type': 'array', 'xml_name': 'description', 'element_class': Description }
-    }
+"""
+A group of properties associated with the core descriptive facet of news
+related content.
+"""
+DescriptiveMetadataCoreGroup = [
+    ('language', { 'type': 'array', 'xml_name': 'language', 'element_class': Language }),
+    ('keyword', { 'type': 'array', 'xml_name': 'keyword', 'element_class': Keyword }),
+    ('subject', { 'type': 'array', 'xml_name': 'subject', 'element_class': Subject }),
+    ('slugline', { 'type': 'array', 'xml_name': 'slugline', 'element_class': Slugline }),
+    ('headline', { 'type': 'array', 'xml_name': 'headline', 'element_class': Headline }),
+    ('description', { 'type': 'array', 'xml_name': 'description', 'element_class': Description })
+]
 
 
-class AdministrativeMetadataGroup(BaseObject):
-    """
-    A group of properties associated with the administrative facet of content.
-    """
-    elements = {
-        'urgency': {
-            'type': 'single',
-            'xml_name': 'urgency',
-            'element_class': Urgency
-        },
-        'contentcreated': {
-            'type': 'single',
-            'xml_name': 'contentCreated',
-            'element_class': ContentCreated
-        },
-        'contentmodified': {
-            'type': 'single',
-            'xml_name': 'contentModified',
-            'element_class': ContentModified
-        },
-        'located': {
-            'type': 'array',
-            'xml_name': 'located',
-            'element_class': Located
-        },
-        'infosource': {
-            'type': 'array',
-            'xml_name': 'infoSource',
-            'element_class': InfoSource
-        },
-        'creator': {
-            'type': 'array',
-            'xml_name': 'creator',
-            'element_class': Creator
-        },
-        'contributor': {
-            'type': 'array',
-            'xml_name': 'contributor',
-            'element_class': Contributor
-        },
-        'audience': {
-            'type': 'array',
-            'xml_name': 'audience',
-            'element_class': Audience
-        },
-        'exclaudience': {
-            'type': 'array',
-            'xml_name': 'exclaudience',
-            'element_class': ExclAudience
-        },
-        'altid': {
-            'type': 'array',
-            'xml_name': 'altid',
-            'element_class': AltId
-        },
-        'rating': {
-            'type': 'array',
-            'xml_name': 'rating',
-            'element_class': Rating
-        },
-        'userinteraction': {
-            'type': 'array',
-            'xml_name': 'userInteraction',
-            'element_class': UserInteraction
-        }
-    }
+"""
+A group of properties associated with the administrative facet of content.
+"""
+AdministrativeMetadataGroup = [
+    ('urgency', {
+        'type': 'single',
+        'xml_name': 'urgency',
+        'element_class': Urgency
+    }),
+    ('contentcreated', {
+        'type': 'single',
+        'xml_name': 'contentCreated',
+        'element_class': ContentCreated
+    }),
+    ('contentmodified', {
+        'type': 'single',
+        'xml_name': 'contentModified',
+        'element_class': ContentModified
+    }),
+    ('located', {
+        'type': 'array',
+        'xml_name': 'located',
+        'element_class': Located
+    }),
+    ('infosource', {
+        'type': 'array',
+        'xml_name': 'infoSource',
+        'element_class': InfoSource
+    }),
+    ('creator', {
+        'type': 'array',
+        'xml_name': 'creator',
+        'element_class': Creator
+    }),
+    ('contributor', {
+        'type': 'array',
+        'xml_name': 'contributor',
+        'element_class': Contributor
+    }),
+    ('audience', {
+        'type': 'array',
+        'xml_name': 'audience',
+        'element_class': Audience
+    }),
+    ('exclaudience', {
+        'type': 'array',
+        'xml_name': 'exclaudience',
+        'element_class': ExclAudience
+    }),
+    ('altid', {
+        'type': 'array',
+        'xml_name': 'altid',
+        'element_class': AltId
+    }),
+    ('rating', {
+        'type': 'array',
+        'xml_name': 'rating',
+        'element_class': Rating
+    }),
+    ('userinteraction', {
+        'type': 'array',
+        'xml_name': 'userInteraction',
+        'element_class': UserInteraction
+    })
+]
 
 
-class ContentMetadataAcDType(AdministrativeMetadataGroup,
-    DescriptiveMetadataCoreGroup, CommonPowerAttributes,I18NAttributes):
+class ContentMetadataAcDType(CommonPowerAttributes,I18NAttributes):
     """
     The type for a  set of metadata properties including Administrative and core
     Descriptive properties about the content
     """
 
-    elements = {
-        'icon': { 'type': 'array', 'xml_name': 'icon', 'element_class': Icon },
-        'contentMetaExtProperty': {
+    elements = [
+        ('icon', { 'type': 'array', 'xml_name': 'icon', 'element_class': Icon })
+    ] + AdministrativeMetadataGroup + DescriptiveMetadataCoreGroup + [
+        ('contentMetaExtProperty', {
             'type': 'array',
             'xml_name': 'contentMetaExtProperty',
             'element_class': ContentMetaExtProperty
-        }
-    }
+        })
+    ]
 
 
-class ContentMetadataAfDType(AdministrativeMetadataGroup,
-    DescriptiveMetadataGroup,CommonPowerAttributes,I18NAttributes):
+class ContentMetadataAfDType(CommonPowerAttributes,I18NAttributes):
     """
     The type for a  set of metadata properties including Administrative and core
     Descriptive properties about the content
     """
 
-    elements = {
-        'icon': { 'type': 'array', 'xml_name': 'icon', 'element_class': Icon },
-        'contentMetaExtProperty': {
+    elements = [
+        ('icon', { 'type': 'array', 'xml_name': 'icon', 'element_class': Icon })
+    ] + AdministrativeMetadataGroup + DescriptiveMetadataGroup + [
+        ('contentMetaExtProperty', {
             'type': 'array',
             'xml_name': 'contentMetaExtProperty',
             'element_class': ContentMetaExtProperty
-        }
-    }
+        })
+    ]
+
 
 class ContentMetadataCatType(CommonPowerAttributes, I18NAttributes):
     """
     The type for a set of metadata properties of a catalog item
     """
 
-    elements = {
-        'contentCreated': {
+    elements = [
+        ('contentCreated', {
             'type': 'single',
             'xml_name': 'contentCreated',
             'element_class': ContentCreated
-        },
-        'contentModified': {
+        }),
+        ('contentModified', {
             'type': 'single',
             'xml_name': 'contentModified',
             'element_class': ContentModified
-        },
-        'creator': {
+        }),
+        ('creator', {
             'type': 'array',
             'xml_name': 'creator',
             'element_class': Creator
-        },
-        'contributor': {
+        }),
+        ('contributor', {
             'type': 'array',
             'xml_name': 'contributor',
             'element_class': Contributor
-        },
-        'altid': {
+        }),
+        ('altid', {
             'type': 'array',
             'xml_name': 'altId',
             'element_class': AltId
-        }
-    }
+        })
+    ]

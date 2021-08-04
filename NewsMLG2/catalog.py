@@ -9,10 +9,11 @@ import os
 from lxml import etree
 
 from .core import NEWSMLG2NSPREFIX, BaseObject
-from .attributegroups import CommonPowerAttributes
+from .attributegroups import CommonPowerAttributes, I18NAttributes
 from .complextypes import Name
 from .concepts import Definition, Note
 from .conceptrelationships import SameAs
+from .contentmeta import ContentMetadataCatType
 from .labeltypes import Label1Type
 from .simpletypes import IRIType
 from .catalogstore import CATALOG_STORE
@@ -28,6 +29,10 @@ from .catalogstore import CATALOG_STORE
 # Save some commonly used catalogs in this module's cache so we don't have
 # to download catalog files from the Internet
 CATALOG_CACHE = {
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml':
+        'catalogs/catalog.IPTC-G2-Standards_32.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_33.xml':
+        'catalogs/catalog.IPTC-G2-Standards_33.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_34.xml':
         'catalogs/catalog.IPTC-G2-Standards_34.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml':
@@ -183,7 +188,7 @@ class Catalog(CommonPowerAttributes):
     attributes = {
         # A pointer to some additional information about
         # the Catalog, and especially its evolution and latest version.
-        'additionalInfo': {
+        'additionalinfo': {
             'xml_name': 'additionalInfo',
             'xml_type': 'IRIType'
         },
@@ -219,11 +224,8 @@ class Catalog(CommonPowerAttributes):
         self._catalog_titles = []
         self._catalog_uri_lookup = {}
         self._catalog_alias_lookup = {}
-        xmlelement = kwargs.get('xmlelement')
-        assert isinstance(xmlelement, etree._Element)
-        assert xmlelement.tag == NEWSMLG2NSPREFIX+'catalog'
 
-        for scheme in self.get_element_value('scheme'):
+        for scheme in self.scheme:
             self.add_scheme_to_catalog(scheme)
 
     def add_scheme_to_catalog(self, scheme):

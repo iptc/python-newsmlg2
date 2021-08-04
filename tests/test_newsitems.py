@@ -171,6 +171,11 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert contentmeta.located.broader[1].type == 'cptype:country'
         assert contentmeta.located.broader[1].qcode == 'iso3166-1a2:DE'
         assert str(contentmeta.located.broader[1].name) == 'Germany'
+
+        # test GenericArray iterator code in NewsMLG2/core.py
+        broadernames = [str(broader.name) for broader in contentmeta.located.broader]
+        assert broadernames == ['Berlin', 'Germany']
+
         assert contentmeta.creator.uri == 'http://www.example.com/staff/mjameson'
         assert str(contentmeta.creator.name) == 'Meredith Jameson'
         assert contentmeta.infosource.uri == 'http://www.example.com'

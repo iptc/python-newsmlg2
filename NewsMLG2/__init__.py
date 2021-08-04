@@ -6,6 +6,7 @@ content.
 """
 
 from .anyitem import ItemMeta
+from .catalogitem import CatalogItem
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document
 from .newsitem import NewsItem
@@ -16,7 +17,7 @@ DEBUG = True
 
 __version__ = VERSION
 __all__ = (
-    # TODO 'CatalogItem',
+    'CatalogItem',
     'ConceptItem',
     'KnowledgeItem',
     'NewsItem',

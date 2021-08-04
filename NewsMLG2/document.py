@@ -8,6 +8,7 @@ from lxml import etree
 
 from .anyitem import AnyItem
 from .core import NEWSMLG2NSPREFIX
+from .catalogitem import CatalogItem
 from .conceptitem import ConceptItem
 from .knowledgeitem import KnowledgeItem
 from .newsitem import NewsItem
@@ -28,16 +29,20 @@ class NewsMLG2Document():
         elif isinstance(string, (str, bytes)):
             self._root_element = etree.fromstring(string)
         if self._root_element is not None:
-            if self._root_element.tag == NEWSMLG2NSPREFIX+'newsItem':
-                self.item = NewsItem(
+            if self._root_element.tag == NEWSMLG2NSPREFIX+'catalogItem':
+                self.item = CatalogItem(
+                    xmlelement = self._root_element
+                )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'conceptItem':
+                self.item = ConceptItem(
                     xmlelement = self._root_element
                 )
             elif self._root_element.tag == NEWSMLG2NSPREFIX+'knowledgeItem':
                 self.item = KnowledgeItem(
                     xmlelement = self._root_element
                 )
-            elif self._root_element.tag == NEWSMLG2NSPREFIX+'conceptItem':
-                self.item = ConceptItem(
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'newsItem':
+                self.item = NewsItem(
                     xmlelement = self._root_element
                 )
             elif self._root_element.tag == NEWSMLG2NSPREFIX+'packageItem':
@@ -46,8 +51,9 @@ class NewsMLG2Document():
                 )
             else:
                 raise Exception(
-                    "Item types other than ConceptItem, KnowledgeItem, "
-                    "NewsItem and PackageItem are not yet supported."
+                    "Item types other than CatalogItem, ConceptItem, "
+                    "KnowledgeItem, NewsItem and PackageItem are not yet "
+                    "supported."
                 )
 
     def get_item(self):

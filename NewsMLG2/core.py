@@ -99,7 +99,6 @@ class BaseObject():
             xmlattr_value = xmlelement.get(attribute_xmlname)
             if xmlattr_value is not None:
                 self._attribute_values[attribute_id] = xmlattr_value
-        #for element_id, element_definition in element_defns.items():
         for (element_id, element_definition) in element_defns:
             element_class = self.get_element_class(element_definition['element_class'])
             if element_definition['type'] == 'array':
@@ -135,8 +134,14 @@ class BaseObject():
         if name in elemdefndict:
             # no value, but the element exists - create it on the fly!
             element_definition = elemdefndict[name]
+            # TODO refactor this out - repeated code
             element_class = self.get_element_class(element_definition['element_class'])
-            self._element_values[name] = element_class()
+            if element_definition['type'] == 'array':
+                self._element_values[name] = GenericArray(
+                    element_class = element_definition['element_class']
+                )
+            else:
+                self._element_values[name] = element_class()
             return self._element_values[name]
         if name in self._attribute_definitions:
             if name in self._attribute_values:
@@ -244,6 +249,7 @@ class BaseObject():
 
 
 class GenericArray(BaseObject):
+#class GenericArray():
     """
     Helper class to handle arrays of objects.
     To be subclassed by every array class.
@@ -257,7 +263,7 @@ class GenericArray(BaseObject):
     _element_class = None
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        # super().__init__(**kwargs)
         self._array_contents = []
         xmlarray = kwargs.get('xmlarray')
         if isinstance(xmlarray, (list, etree._Element)):
@@ -268,6 +274,17 @@ class GenericArray(BaseObject):
             for xmlelement in xmlarray:
                 array_elem = self._element_class(xmlelement = xmlelement)
                 self._array_contents.append(array_elem)
+        self._iterindex = -1
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self._iterindex += 1
+        if (self._iterindex >= len(self._array_contents)):
+            self._iterindex = -1
+            raise StopIteration
+        return self._array_contents[self._iterindex]
 
     def __len__(self):
         return len(self._array_contents)

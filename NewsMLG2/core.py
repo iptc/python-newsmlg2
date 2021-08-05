@@ -248,11 +248,9 @@ class BaseObject():
         return elem
 
 
-class GenericArray(BaseObject):
-#class GenericArray():
+class GenericArray():
     """
-    Helper class to handle arrays of objects.
-    To be subclassed by every array class.
+    Handle arrays of objects.
     Subclass defines object class either as a reference in 'element_class',
     or by module and class name in strings as 'element_module_name' and
     'element_class_name'
@@ -335,6 +333,23 @@ class GenericArray(BaseObject):
         for elem in self._array_contents:
             xml_array.append(elem.to_xml())
         return xml_array
+
+    def get_languages(self):
+        """
+        For repeating elements with xml:lang attributes,
+        this helper function returns all available language codes.
+        """
+        return [elem.xml_lang for elem in self._array_contents]
+
+    def get_language(self, language):
+        """
+        For repeating elements with xml:lang attributes,
+        this helper function finds the correct language version.
+        """
+        for elem in self._array_contents:
+            if elem.xml_lang == language:
+                return str(elem)
+        return None
 
 
 class QCodeURIMixin(BaseObject):

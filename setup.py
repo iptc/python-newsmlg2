@@ -18,13 +18,16 @@ setup(
   author = 'Brendan Quinn',
   author_email = 'office@iptc.org',
   url = 'https://github.com/iptc/python-newsmlg2',
-  download_url = 'https://github.com/iptc/python-newsmlg2/archive/'+VERSION+'.tar.gz',
+  download_url = 'https://github.com/iptc/python-newsmlg2/archive/v'+VERSION+'.tar.gz',
   keywords = ['api', 'media', 'publishing', 'news', 'syndication'],
   classifiers = [
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',
+  ],
+  install_requires=[
+    'lxml',
   ],
   include_package_data=True,
   package_data={'': ['catalogs/*']},

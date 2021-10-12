@@ -11,10 +11,11 @@ VERSION = '0.3'
 
 setup(
   name = 'newsmlg2',
-  packages=find_packages(exclude=['contrib', 'docs']),
+  packages = find_packages(exclude=['contrib', 'docs']),
   version = VERSION,
   description = 'Python implementation of the NewsML-G2 standard (https://iptc.org/standards/newsml-g2/)',
-  long_description=long_description,
+  long_description = long_description,
+  long_description_content_type = 'text/markdown',
   author = 'Brendan Quinn',
   author_email = 'office@iptc.org',
   url = 'https://github.com/iptc/python-newsmlg2',

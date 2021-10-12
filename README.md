@@ -64,10 +64,10 @@ assert newsitem.conformance == 'power'
 itemmeta = newsitem.itemmeta
 # you can choose whether to use qcodes or URIs, we do the conversion for you
 # using the catalog declared in the NewsML-G2 file
-assert itemmeta.itemclass == 'ninat:text'
-assert resolve_qcode(itemmeta.itemclass) == 'http://cv.iptc.org/newscodes/ninature/text'
-assert itemmeta.provider == 'nprov:IPTC'
-assert resolve_qcode(itemmeta.provider) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+assert itemmeta.itemclass.qcode == 'ninat:text'
+assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/ninature/text'
+assert itemmeta.provider.qcode == 'nprov:IPTC'
+assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
 # Elements that contain a simple text string can be read with str(class)
 assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
@@ -78,35 +78,35 @@ etc...
 
 Example:
 ```
-        g2doc = NewsMLG2.NewsMLG2Document()
-        newsitem = NewsMLG2.NewsItem()
-        newsitem.guid = 'test-guid'
-        newsitem.xml_lang = 'en-GB'
-        itemmeta = NewsMLG2.ItemMeta()
-        itemmeta.itemclass.qcode = "ninat:text"
-        itemmeta.provider.qcode = "nprov:IPTC"
-        itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
-        newsitem.itemmeta = itemmeta
-        g2doc.set_item(newsitem)
+    g2doc = NewsMLG2.NewsMLG2Document()
+    newsitem = NewsMLG2.NewsItem()
+    newsitem.guid = 'test-guid'
+    newsitem.xml_lang = 'en-GB'
+    itemmeta = NewsMLG2.ItemMeta()
+    itemmeta.itemclass.qcode = "ninat:text"
+    itemmeta.provider.qcode = "nprov:IPTC"
+    itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+    newsitem.itemmeta = itemmeta
+    g2doc.set_item(newsitem)
 
-        output_newsitem = g2doc.get_item()
-        assert newsitem.guid == 'test-guid'
-        assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.29'
-        assert newsitem.conformance == 'power'
-        assert newsitem.version == '1'
-        assert newsitem.xml_lang == 'en-GB'
+    output_newsitem = g2doc.get_item()
+    assert newsitem.guid == 'test-guid'
+    assert newsitem.standard == 'NewsML-G2'
+    assert newsitem.standardversion == '2.29'
+    assert newsitem.conformance == 'power'
+    assert newsitem.version == '1'
+    assert newsitem.xml_lang == 'en-GB'
 
-        output_xml = g2doc.to_xml()
-        assert output_xml == (
-            "<?xml version='1.0' encoding='utf-8'?>\n"
-            '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1">\n'
-            '  <itemMeta>\n'
-            '    <itemClass qcode="ninat:text"/>\n'
-            '    <provider qcode="nprov:IPTC"/>\n'
-            '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
-            '  </itemMeta>\n'
-            '</newsItem>\n')
+    output_xml = g2doc.to_xml()
+    assert output_xml == (
+        "<?xml version='1.0' encoding='utf-8'?>\n"
+        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1">\n'
+        '  <itemMeta>\n'
+        '    <itemClass qcode="ninat:text"/>\n'
+        '    <provider qcode="nprov:IPTC"/>\n'
+        '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+        '  </itemMeta>\n'
+        '</newsItem>\n')
 ```
 
 ## Testing

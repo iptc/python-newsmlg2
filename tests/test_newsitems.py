@@ -82,10 +82,10 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = newsitem.itemmeta
-        assert itemmeta.get_itemclass() == 'ninat:text'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'ninat:text'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.provider.qcode == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
@@ -110,10 +110,10 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
 
         # itemmeta tests
         itemmeta = newsitem.itemmeta
-        assert itemmeta.get_itemclass() == 'ninat:text'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'ninat:text'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.provider.qcode == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
         assert newsitem.contentset.inlinexml.contenttype == 'application/nitf+xml'
 
@@ -137,26 +137,26 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert str(rightsinfo.usageterms) == 'Not for use outside the United States'
 
         itemmeta = newsitem.itemmeta
-        assert itemmeta.get_itemclass() == 'ninat:text'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-        assert itemmeta.get_provider() == 'nprov:REUTERS'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/REUTERS'
+        assert itemmeta.itemclass.qcode == 'ninat:text'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.provider.qcode == 'nprov:REUTERS'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/REUTERS'
         assert str(itemmeta.versioncreated) == '2018-10-21T16:25:32-05:00'
         assert str(itemmeta.firstcreated) == '2016-10-18T13:12:21-05:00'
         assert str(itemmeta.embargoed) == '2018-10-23T12:00:00Z'
         # TODO some test like isEmbargoed?? isPublishable??
-        assert itemmeta.get_pubstatus() == 'stat:usable'
-        assert itemmeta.get_pubstatus_uri() == 'http://cv.iptc.org/newscodes/pubstatusg2/usable'
-        assert itemmeta.get_service() == 'svc:uknews'
+        assert itemmeta.pubstatus.qcode == 'stat:usable'
+        assert NewsMLG2.qcode_to_uri(itemmeta.pubstatus.qcode) == 'http://cv.iptc.org/newscodes/pubstatusg2/usable'
+        assert itemmeta.service.qcode == 'svc:uknews'
         # alias 'svc' is not in our catalog, so this raises an exception
         with self.assertRaises(NewsMLG2.AliasNotFoundInCatalogs):
-            assert itemmeta.get_service_uri() == ''
+            assert NewsMLG2.qcode_to_uri(itemmeta.service.qcode) == ''
         assert str(itemmeta.service.name) == 'UK News Service'
         assert str(itemmeta.ednote) == 'Note to editors: STRICTLY EMBARGOED. Not for public release until 12noon on Friday, October 23, 2018.'
-        assert itemmeta.get_signal() == 'sig:update'
-        assert itemmeta.get_signal_uri() == 'http://cv.iptc.org/newscodes/signal/update'
-        assert itemmeta.link.get_rel() == 'irel:seeAlso'
-        assert itemmeta.link.get_rel_uri() == 'http://cv.iptc.org/newscodes/itemrelation/seeAlso'
+        assert itemmeta.signal.qcode == 'sig:update'
+        assert NewsMLG2.qcode_to_uri(itemmeta.signal.qcode) == 'http://cv.iptc.org/newscodes/signal/update'
+        assert itemmeta.link.rel == 'irel:seeAlso'
+        assert NewsMLG2.qcode_to_uri(itemmeta.link.rel) == 'http://cv.iptc.org/newscodes/itemrelation/seeAlso'
         assert itemmeta.link.href == 'http://www.example.com/video/20081222-PNN-1517-407624/index.html'
 
         contentmeta = newsitem.contentmeta
@@ -181,9 +181,9 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert contentmeta.infosource.uri == 'http://www.example.com'
         assert contentmeta.subject[0].type == 'cpnat:abstract'
         assert contentmeta.subject[0].qcode == 'medtop:04000000'
+        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
+        assert contentmeta.subject[0].name[0].xml_lang == 'en-GB'
         assert str(contentmeta.subject[0].name) == 'economy, business and finance'
-        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
-        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
         assert contentmeta.subject[1].type == 'cpnat:abstract'
         assert contentmeta.subject[1].qcode == 'medtop:20000523'
         assert str(contentmeta.subject[1].name[0]) == 'labour market'
@@ -191,6 +191,13 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert str(contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
         assert contentmeta.subject[1].name[1].get_attr('xml_lang') == 'de'
         assert contentmeta.subject[1].broader.qcode == 'medtop:04000000'
+
+        # Helper function to get available language versions
+        assert contentmeta.subject[1].name.get_languages() == ['en-GB', 'de']
+        # Helper function to get a given language version
+        assert contentmeta.subject[1].name.get_language('en-GB') == 'labour market'
+        assert contentmeta.subject[1].name.get_language('de') == 'Arbeitsmarkt'
+
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
         assert contentmeta.genre.name[0].get_attr('xml_lang') == 'en-GB'

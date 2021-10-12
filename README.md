@@ -14,7 +14,7 @@ support.
 
 ## Installation
 
-Installing from PyPI (after we release it to PyPI...):
+Installing from PyPI:
 
     pip install newsmlg2
 
@@ -64,10 +64,10 @@ assert newsitem.conformance == 'power'
 itemmeta = newsitem.itemmeta
 # you can choose whether to use qcodes or URIs, we do the conversion for you
 # using the catalog declared in the NewsML-G2 file
-assert itemmeta.get_itemclass() == 'ninat:text'
-assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/ninature/text'
-assert itemmeta.get_provider() == 'nprov:IPTC'
-assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+assert itemmeta.itemclass == 'ninat:text'
+assert resolve_qcode(itemmeta.itemclass) == 'http://cv.iptc.org/newscodes/ninature/text'
+assert itemmeta.provider == 'nprov:IPTC'
+assert resolve_qcode(itemmeta.provider) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
 # Elements that contain a simple text string can be read with str(class)
 assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
@@ -127,5 +127,7 @@ Test coverage can be measured with the `coverage.py` package:
 
 * 0.1 - First release, pinned to Python 3 only (use pip >9.0 to ensure pip's
 Python version requirement works properly)
-* 0.2 - Can now read and write NewsML-G2 from code - still doesn't create valid
-NewsML-G2 every time due to element ordering
+* 0.2 - Can now read and write NewsML-G2 from code - NewsMessage and PlanningItem
+not yet implemented. Probably quite a few bugs.
+* 0.3 - Changed from automatically converting between URIs and QCodes to providing
+helper functions `uri_to_qcode()` and `qcode_to_uri()`

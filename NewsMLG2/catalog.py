@@ -61,6 +61,7 @@ def build_catalog(xmlelement):
             file = CATALOG_CACHE[href]
             add_catalog(uri=href, file=file)
         else:
+            # TODO convert to a logged warning
             print("WARNING: Remote catalog {} declared. Remote "
                   "loading of catalogs is not yet supported.".format(href))
 

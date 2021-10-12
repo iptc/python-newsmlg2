@@ -117,10 +117,10 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = knowlitem.itemmeta
-        assert itemmeta.get_itemclass() == 'cinat:scheme'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/cinature/scheme'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'cinat:scheme'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/cinature/scheme'
+        assert itemmeta.provider.uri == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert NewsMLG2.uri_to_qcode(itemmeta.provider.uri) == 'nprov:IPTC'
         assert str(itemmeta.versioncreated) == '2021-05-05T12:00:00+00:00'
 
         conceptset = knowlitem.conceptset
@@ -152,10 +152,10 @@ class TestNewsMLG2Files(unittest.TestCase):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '002_knowledgeitem.xml')
         g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
         knowledgeitem = g2doc.get_item()
-        assert knowledgeitem.get_attr('guid') == 'urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532'
-        assert knowledgeitem.get_attr('standard') == 'NewsML-G2'
-        assert knowledgeitem.get_attr('standardversion') == '2.29'
-        assert knowledgeitem.get_attr('conformance') == 'power'
+        assert knowledgeitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532'
+        assert knowledgeitem.standard == 'NewsML-G2'
+        assert knowledgeitem.standardversion == '2.29'
+        assert knowledgeitem.conformance == 'power'
 
         # catalog tests
         catalogs = knowledgeitem.get_catalogs()
@@ -168,10 +168,10 @@ class TestNewsMLG2Files(unittest.TestCase):
 
         # itemmeta tests
         itemmeta = knowledgeitem.itemmeta
-        assert itemmeta.get_itemclass() == 'cinat:scheme'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/cinature/scheme'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'cinat:scheme'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/cinature/scheme'
+        assert itemmeta.provider.uri == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert NewsMLG2.uri_to_qcode(itemmeta.provider.uri) == 'nprov:IPTC'
         assert str(itemmeta.versioncreated) == '2021-04-21T12:00:00+00:00'
 
 if __name__ == '__main__':

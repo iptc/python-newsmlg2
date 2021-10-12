@@ -104,10 +104,10 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = catitem.itemmeta
-        assert itemmeta.get_itemclass() == 'catinat:catalog'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/catinature/catalog'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert str(itemmeta.itemclass.qcode) == 'catinat:catalog'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/catinature/catalog'
+        assert str(itemmeta.provider.qcode) == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2018-10-17T12:00:00Z'
 
         catalog = catitem.catalogcontainer.catalog
@@ -136,15 +136,16 @@ class TestNewsMLG2CatalogItemFiles(unittest.TestCase):
         # catalogs should work the same as for news items.
         test_scheme = catalogs.get_scheme_for_alias('prov')
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
-        assert test_scheme.authority == 'https://iptc.org/'
+        # the listing refers to catalog v32 which doesn't have authority elements
+        # assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = catitem.itemmeta
-        assert itemmeta.get_itemclass() == 'catinat:catalog'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/catinature/catalog'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'catinat:catalog'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/catinature/catalog'
+        assert itemmeta.provider.qcode == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2018-10-17T12:00:00Z'
 
         catalog = catitem.catalogcontainer.catalog

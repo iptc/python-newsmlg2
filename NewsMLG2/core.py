@@ -355,7 +355,8 @@ class GenericArray():
 class QCodeURIMixin(BaseObject):
     """
     Used for any class that has "qcode" and "uri" attributes.
-    Provides getter and setter methods.
+    Up to version 0.2, provided helper methods. Now users should
+    use `uri_to_qcode()` and `qcode_to_uri()` functions instead.
     """
     attributes = {
         # A qualified code which identifies a concept - either the qcode or the
@@ -369,35 +370,3 @@ class QCodeURIMixin(BaseObject):
             'xml_name': 'uri'
         }
     }
-
-    def get_qcode(self):
-        """
-        Return the value of this property as a qcode
-        """
-        qcode = self.get_attr('qcode')
-        if qcode is not None:
-            return qcode
-        # convert URI to qcode:
-        uri = self.get_attr('uri')
-        urimainpart, code = uri.rsplit('/', 1)
-        # get catalog - we need to put the slash back!
-        scheme = CATALOG_STORE.get_scheme_for_uri(urimainpart+'/')
-        # look up catalog for URI, get prefix
-        alias = scheme.alias
-        return alias + ':' + code
-
-    def get_uri(self):
-        """
-        Return the value of this property as a URI
-        """
-        uri = self.get_attr('uri')
-        if uri:
-            return uri
-        # convert qcode to URI:
-        qcode = self.get_attr('qcode')
-        alias, code = qcode.split(':')
-        # get catalog
-        scheme = CATALOG_STORE.get_scheme_for_alias(alias)
-        # look up catalog for alias, get URI
-        uri = scheme.uri
-        return uri + code

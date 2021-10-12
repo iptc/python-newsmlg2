@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-VERSION = '0.2'
+VERSION = '0.3'
 
 setup(
   name = 'newsmlg2',
@@ -26,6 +26,8 @@ setup(
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',
   ],
+  include_package_data=True,
+  package_data={'': ['catalogs/*']},
   python_requires='>=3',
   tests_require=['pytest'],
 )

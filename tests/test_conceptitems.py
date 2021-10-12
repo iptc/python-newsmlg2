@@ -94,8 +94,8 @@ class TestNewsMLG2ConceptItems(unittest.TestCase):
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 
         itemmeta = conceptitem.itemmeta
-        assert itemmeta.get_itemclass() == 'cinat:concept'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/cinature/concept'
+        assert itemmeta.itemclass.qcode == 'cinat:concept'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/cinature/concept'
         assert itemmeta.provider.literal == 'reuters.com'
         assert str(itemmeta.versioncreated) == '2019-09-09T08:00:00.000Z'
 
@@ -139,10 +139,10 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
 
         # itemmeta tests
         itemmeta = conceptitem.itemmeta
-        assert itemmeta.get_itemclass() == 'cinat:concept'
-        assert itemmeta.get_itemclass_uri() == 'http://cv.iptc.org/newscodes/cinature/concept'
-        assert itemmeta.get_provider() == 'nprov:IPTC'
-        assert itemmeta.get_provider_uri() == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        assert itemmeta.itemclass.qcode == 'cinat:concept'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/cinature/concept'
+        assert itemmeta.provider.qcode == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
 if __name__ == '__main__':

@@ -54,7 +54,13 @@ class BaseObject():
         """
         Get value of the given XML attribute.
         """
-        return self._attribute_values.get(attr, None)
+        # Only return a value if it exists - otherwise hasattr() causes problems.
+        if attr in self._attribute_values:
+            return self._attribute_values.get(attr, None)
+        raise AttributeError(
+            "'" + self.__class__.__name__ +
+            "' has no element or attribute '" + name + "'"
+        )
 
     def get_element_definitions(self):
         """
@@ -148,11 +154,14 @@ class BaseObject():
                 return self._attribute_values[name]
             if 'default' in self._attribute_definitions[name]:
                 return self._attribute_definitions[name]['default']
-            raise AttributeError(
-                "'" + name + "' is a defined attribute of " +
-                "'" + self.__class__.__name__ + "' " +
-                "but has no defined value or default"
-            )
+            # <name> is a defined attribute of the class but
+            # has not defined value or default: return None
+            return None
+            #raise AttributeError(
+            #    "'" + name + "' is a defined attribute of " +
+            #    "'" + self.__class__.__name__ + "' " +
+            #    "but has no defined value or default"
+            #)
         raise AttributeError(
             "'" + self.__class__.__name__ +
             "' has no element or attribute '" + name + "'"
@@ -341,7 +350,7 @@ class GenericArray():
         """
         return [elem.xml_lang for elem in self._array_contents]
 
-    def get_language(self, language):
+    def get_for_language(self, language):
         """
         For repeating elements with xml:lang attributes,
         this helper function finds the correct language version.

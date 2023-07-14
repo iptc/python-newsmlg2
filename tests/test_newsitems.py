@@ -195,8 +195,8 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         # Helper function to get available language versions
         assert contentmeta.subject[1].name.get_languages() == ['en-GB', 'de']
         # Helper function to get a given language version
-        assert contentmeta.subject[1].name.get_language('en-GB') == 'labour market'
-        assert contentmeta.subject[1].name.get_language('de') == 'Arbeitsmarkt'
+        assert contentmeta.subject[1].name.get_for_language('en-GB') == 'labour market'
+        assert contentmeta.subject[1].name.get_for_language('de') == 'Arbeitsmarkt'
 
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'

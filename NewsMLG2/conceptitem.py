@@ -14,7 +14,7 @@ class ConceptItemContentMeta(ContentMetadataAcDType):
     Content Metadata for a Concept Item
     User Note: For multiple concepts use a Knowledge Item
     """
-    xml_element_name = 'conceptItem'
+    xml_element_name = 'contentMeta'
 
 
 class ConceptItem(AnyItem):

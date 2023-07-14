@@ -131,3 +131,5 @@ Python version requirement works properly)
 not yet implemented. Probably quite a few bugs.
 * 0.3 - Changed from automatically converting between URIs and QCodes to providing
 helper functions `uri_to_qcode()` and `qcode_to_uri()`
+* 0.4 - Added catalog v37 and v38. Added PlanningItem support. Fixed bugs. Improved
+magic function support to help hasattr() and more on NewsML-G2 objects.

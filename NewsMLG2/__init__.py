@@ -11,6 +11,7 @@ from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document
 from .newsitem import NewsItem
 from .packageitem import PackageItem
+from .planningitem import PlanningItem
 from .utils import qcode_to_uri, uri_to_qcode
 
 VERSION = 0.3
@@ -23,7 +24,7 @@ __all__ = (
     'KnowledgeItem',
     'NewsItem',
     'PackageItem',
-    # TODO 'PlanningItem',
+    'PlanningItem',
     # TODO 'NewsMessage',
     '__version__'
 )

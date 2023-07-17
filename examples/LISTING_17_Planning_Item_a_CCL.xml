@@ -7,10 +7,10 @@
     guid="urn:newsml:iptc.org:20101025:gbmrmdreis4711" 
     version="11"
     standard="NewsML-G2" 
-    standardversion="2.24" 
+    standardversion="2.32" 
     conformance="core"
     xml:lang="en">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
     <catalogRef href="http://www.example.com/events/event-catalog.xml" />
     <itemMeta>
         <itemClass qcode="plinat:newscoverage" />

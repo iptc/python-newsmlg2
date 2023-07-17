@@ -15,11 +15,7 @@ def import_string(dotted_path):
     https://github.com/django/django/blob/main/django/utils/module_loading.py
     """
     dotted_path = "NewsMLG2." + dotted_path
-    try:
-        module_path, class_name = dotted_path.rsplit('.', 1)
-    except ValueError as err:
-        raise ImportError("%s doesn't look like a module path" % dotted_path) from err
-
+    module_path, class_name = dotted_path.rsplit('.', 1)
     module = import_module(module_path)
 
     try:

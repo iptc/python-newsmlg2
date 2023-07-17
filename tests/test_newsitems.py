@@ -342,6 +342,68 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
                               '  </itemMeta>\n'
                               '</newsItem>\n')
 
- 
+    def test_embedded_catalog(self):
+        test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
+<newsItem
+    xmlns="http://iptc.org/std/nar/2006-10-01/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    guid="simplest-test"
+    standard="NewsML-G2"
+    standardversion="2.32"
+    conformance="power"
+    version="1"
+    xml:lang="en-GB">
+    <catalog>
+        <scheme alias="foo" uri="http://example.org/foo/" authority="https://iptc.org/" modified="2023-07-17T12:00:00+00:00">
+            <name xml:lang="en-GB">foo scheme</name>
+            <definition xml:lang="en-GB">scheme "foo" for test</definition>
+        </scheme>
+        <scheme alias="bar" uri="http://example.org/bar/" authority="https://iptc.org/" modified="2023-07-17T12:00:00+00:00">
+            <name xml:lang="en-GB">bar scheme</name>
+            <definition xml:lang="en-GB">scheme "bar" for test</definition>
+        </scheme>
+    </catalog>
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <itemMeta>
+        <itemClass qcode="ninat:text" />
+        <provider qcode="nprov:IPTC" />
+        <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>
+    </itemMeta>
+    <contentSet>
+        <inlineXML contenttype="application/nitf+xml">
+        </inlineXML>
+    </contentSet>
+</newsItem>
+"""
+        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+
+        newsitem = g2doc.get_item()
+        assert newsitem.guid == 'simplest-test'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.32'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+
+        catalogs = newsitem.get_catalogs()
+        assert len(catalogs) == 2
+
+        test_scheme = catalogs.get_scheme_for_alias('prov')
+        assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
+        assert test_scheme.authority == 'https://iptc.org/'
+        assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
+        assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
+
+        test_scheme = catalogs.get_scheme_for_alias('foo')
+        assert test_scheme.uri == 'http://example.org/foo/'
+        assert test_scheme.authority == 'https://iptc.org/'
+        assert test_scheme.modified == '2023-07-17T12:00:00+00:00'
+        assert str(test_scheme.definition) == 'scheme "foo" for test'
+        assert str(test_scheme) == 'foo scheme (foo, http://example.org/foo/)'
+
+        assert type(catalogs[1]) == NewsMLG2.Catalog
+        assert len(catalogs[1]) == 134                 # 134 schemes across our two catalogs
+        assert type(catalogs[1][1]) == NewsMLG2.catalog.Scheme
+
 if __name__ == '__main__':
     unittest.main()

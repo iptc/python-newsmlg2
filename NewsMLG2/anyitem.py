@@ -200,7 +200,7 @@ class AnyItem(I18NAttributes):
             'xml_name': 'standardversion',
             # NOTE: the XML Schema doesn't define a default but
             # we do, for ease of use reasons
-            'default': '2.29'
+            'default': '2.32'
         },
         # The conformance level with which the Item is conformant.
         'conformance': {

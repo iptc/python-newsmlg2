@@ -42,7 +42,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
 
     def test_parse_from_string(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
-<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144" version="1">
+<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144" version="1">
   <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml"/>
   <rightsInfo>
     <copyrightHolder uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
@@ -104,7 +104,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         knowlitem = g2doc.get_item()
         assert knowlitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144'
         assert knowlitem.standard == 'NewsML-G2'
-        assert knowlitem.standardversion == '2.29'
+        assert knowlitem.standardversion == '2.32'
         assert knowlitem.conformance == 'power'
         assert knowlitem.version == '1'
 
@@ -152,7 +152,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         knowledgeitem = g2doc.get_item()
         assert knowledgeitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532'
         assert knowledgeitem.standard == 'NewsML-G2'
-        assert knowledgeitem.standardversion == '2.29'
+        assert knowledgeitem.standardversion == '2.32'
         assert knowledgeitem.conformance == 'power'
 
         # catalog tests

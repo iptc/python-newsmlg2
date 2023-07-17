@@ -36,7 +36,7 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.29"
+    standardversion="2.32"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -58,7 +58,7 @@ newsitem = g2doc.getNewsItem()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.29'
+assert newsitem.standardversion == '2.32'
 assert newsitem.conformance == 'power'
 
 itemmeta = newsitem.itemmeta
@@ -92,7 +92,7 @@ Example:
     output_newsitem = g2doc.get_item()
     assert newsitem.guid == 'test-guid'
     assert newsitem.standard == 'NewsML-G2'
-    assert newsitem.standardversion == '2.29'
+    assert newsitem.standardversion == '2.32'
     assert newsitem.conformance == 'power'
     assert newsitem.version == '1'
     assert newsitem.xml_lang == 'en-GB'
@@ -100,7 +100,7 @@ Example:
     output_xml = g2doc.to_xml()
     assert output_xml == (
         "<?xml version='1.0' encoding='utf-8'?>\n"
-        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="test-guid" version="1">\n'
+        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1">\n'
         '  <itemMeta>\n'
         '    <itemClass qcode="ninat:text"/>\n'
         '    <provider qcode="nprov:IPTC"/>\n'

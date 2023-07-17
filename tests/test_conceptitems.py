@@ -125,7 +125,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
         conceptitem = g2doc.get_item()
         assert conceptitem.get_attr('guid') == '003-concept-item-file-test'
         assert conceptitem.get_attr('standard') == 'NewsML-G2'
-        assert conceptitem.get_attr('standardversion') == '2.29'
+        assert conceptitem.get_attr('standardversion') == '2.32'
         assert conceptitem.get_attr('conformance') == 'power'
 
         # catalog tests

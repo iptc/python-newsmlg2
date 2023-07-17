@@ -13,6 +13,7 @@ from .conceptitem import ConceptItem
 from .knowledgeitem import KnowledgeItem
 from .newsitem import NewsItem
 from .packageitem import PackageItem
+from .planningitem import PlanningItem
 
 
 class NewsMLG2Document():
@@ -49,11 +50,13 @@ class NewsMLG2Document():
                 self.item = PackageItem(
                     xmlelement = self._root_element
                 )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'planningItem':
+                self.item = PlanningItem(
+                    xmlelement = self._root_element
+                )
             else:
                 raise Exception(
-                    "Item types other than CatalogItem, ConceptItem, "
-                    "KnowledgeItem, NewsItem and PackageItem are not yet "
-                    "supported."
+                    "NewsMessage is not yet supported."
                 )
 
     def get_item(self):

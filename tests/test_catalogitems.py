@@ -47,11 +47,11 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/
-        ./NewsML-G2_2.29-spec-All-Power.xsd"
+        ./NewsML-G2_2.32-spec-All-Power.xsd"
     guid="urn:newsml:iptc.org:20130517:catalog"
     version="31"
     standard="NewsML-G2"
-    standardversion="2.29"
+    standardversion="2.32"
     conformance="power"
     xml:lang="en-GB">
     <catalogRef
@@ -91,7 +91,7 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
         assert catitem.standard == 'NewsML-G2'
-        assert catitem.standardversion == '2.29'
+        assert catitem.standardversion == '2.32'
         assert catitem.conformance == 'power'
         assert catitem.version == '31'
 
@@ -128,7 +128,7 @@ class TestNewsMLG2CatalogItemFiles(unittest.TestCase):
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
         assert catitem.standard == 'NewsML-G2'
-        assert catitem.standardversion == '2.29'
+        assert catitem.standardversion == '2.32'
         assert catitem.conformance == 'power'
         assert catitem.version == '31'
 

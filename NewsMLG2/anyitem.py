@@ -181,18 +181,6 @@ class ItemMeta(ItemMetadataType):
         assert self.provider is not None, "provider is required in any NewsML-G2 Item"
         assert self.versioncreated is not None, "versionCreated is required in any NewsML-G2 Item"
 
-    def get_service_uri(self):
-        """Return URI for first service in services array."""
-        return self.get_element_value('service')[0].get_uri()
-
-    def get_signal(self):
-        """Return QCode for first signal in signals array."""
-        return self.get_element_value('signal')[0].get_qcode()
-
-    def get_signal_uri(self):
-        """Return URI for first signal in signals array."""
-        return self.get_element_value('signal')[0].get_uri()
-
 
 class AnyItem(I18NAttributes):
     """
@@ -212,7 +200,7 @@ class AnyItem(I18NAttributes):
             'xml_name': 'standardversion',
             # NOTE: the XML Schema doesn't define a default but
             # we do, for ease of use reasons
-            'default': '2.29'
+            'default': '2.32'
         },
         # The conformance level with which the Item is conformant.
         'conformance': {

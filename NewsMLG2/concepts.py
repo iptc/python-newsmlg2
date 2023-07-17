@@ -596,19 +596,3 @@ class Concept(CommonPowerAttributes, I18NAttributes):
             'element_class': 'extensionproperties.ConceptExtProperty'
         })
     ]
-
-    def get_conceptid(self):
-        """Return QCode for conceptid."""
-        return self.get_element_value('conceptid').get_qcode()
-
-    def get_conceptid_uri(self):
-        """Return URI for conceptid."""
-        return self.get_element_value('conceptid').get_uri()
-
-    def get_type(self):
-        """Return QCode for type."""
-        return self.get_element_value('type').get_qcode()
-
-    def get_type_uri(self):
-        """Return URI for type."""
-        return self.get_element_value('type').get_uri()

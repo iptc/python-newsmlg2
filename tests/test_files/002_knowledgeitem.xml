@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.29" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532" version="1">
-  <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml"/>
+<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532" version="1">
+  <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml"/>
   <rightsInfo>
     <copyrightHolder uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
       <name>IPTC - International Press Telecommunications Council</name>

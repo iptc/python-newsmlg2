@@ -38,7 +38,11 @@ CATALOG_CACHE = {
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_35.xml':
         'catalogs/catalog.IPTC-G2-Standards_35.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml':
-        'catalogs/catalog.IPTC-G2-Standards_36.xml'
+        'catalogs/catalog.IPTC-G2-Standards_36.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_37.xml':
+        'catalogs/catalog.IPTC-G2-Standards_37.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml':
+        'catalogs/catalog.IPTC-G2-Standards_38.xml'
 }
 
 def build_catalog(xmlelement):

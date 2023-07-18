@@ -14,35 +14,30 @@ class URINotFoundInCatalogs(Exception):
     """Catalog URI not found in any catalogs"""
 
 
-class CatalogStore():
+class CatalogStore(list):
     """
     Singleton class to handle all catalogs used
     in this NewsMLG2 processor.
     """
-    _list = []
-    def __init__(self, val = []):
-        self._list = val
-
-    def append(self, rhs):
-        self._list.append(rhs)
-        return self
-        # return CatalogStore(list.__add__(self, rhs))
+    def __add__(self, rhs):
+        return CatalogStore(list.__add__(self, rhs))
 
     def __getitem__(self, item):
         """
         Return a given catalog in our list.
         """
-        return self._list.__getitem__(item)
-
-    def __len__(self):
-        return len(self._list)
+        result = list.__getitem__(self, item)
+        try:
+            return CatalogStore(result)
+        except TypeError:
+            return result
 
     def get_scheme_for_alias(self, alias):
         """
         Return the catalog scheme matching a given alias.
         e.g. 'nrol' would return the Scheme for 'name role'.
         """
-        for catalog in self._list:
+        for catalog in self:
             scheme = catalog.get_scheme_for_alias(alias)
             if scheme is not None:
                 return scheme
@@ -54,7 +49,7 @@ class CatalogStore():
         e.g. 'https://cv.iptc.org/newscodes/scene' would return the Scheme for
         'scene'.
         """
-        for catalog in self._list:
+        for catalog in self:
             scheme = catalog.get_scheme_for_uri(uri)
             if scheme is not None:
                 return scheme

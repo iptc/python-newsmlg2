@@ -45,24 +45,23 @@ CATALOG_CACHE = {
         'catalogs/catalog.IPTC-G2-Standards_38.xml'
 }
 
-
 def build_catalog(xmlelement):
     """
     Load all CVs referenced in local and remote catalogs.
     TODO:
+    - inline catalogs are not yet tested
     - load and cache catalog from catalogRef href
     """
-    CATALOG_STORE.__init__([])
     catalogs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalog')
+    catalog_refs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalogRef')
     for catalog in catalogs:
         add_catalog(xmlelement=catalog)
-    catalog_refs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalogRef')
     for catalog_ref in catalog_refs:
         href = catalog_ref.get('href')
 
         if href in CATALOG_CACHE:
-            # IPTC standard catalogs are built in to this module
-            # to avoid network traffic (and load on IPTC servers)
+            # IPTC standard catalogs are built in, to avoid network traffic
+            # (and load on IPTC servers)
             file = CATALOG_CACHE[href]
             add_catalog(uri=href, file=file)
         else:
@@ -73,8 +72,7 @@ def build_catalog(xmlelement):
 
 def add_catalog(**kwargs):
     """
-    Load an individual catalog from a local file
-    or directly from an XML element.
+    Load an individual catalog from a local file.
     """
     if 'file' in kwargs:
         dirname = os.path.dirname(os.path.realpath(__file__))
@@ -253,6 +251,11 @@ class Catalog(CommonPowerAttributes):
         """Return the scheme matching a given URI"""
         if uri in self._catalog_uri_lookup.keys():
             return self._catalog_uri_lookup[uri]
+        return None
+
+    def __iter__(self):
+        for key in self._catalog:
+            yield key
 
     def __getitem__(self,index):
         return self._catalog[index]

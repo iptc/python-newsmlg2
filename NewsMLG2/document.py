@@ -18,7 +18,7 @@ from .planningitem import PlanningItem
 
 class NewsMLG2Document():
     """
-    Parent class to parse a NewsMLG2 document.
+    Parent class to paarse a NewsMLG2 document.
     """
     _root_element = None
     item = None

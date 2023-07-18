@@ -6,7 +6,6 @@ content.
 """
 
 from .anyitem import ItemMeta
-from .catalog import Catalog
 from .catalogitem import CatalogItem
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
 from .document import NewsMLG2Document

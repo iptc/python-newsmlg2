@@ -157,11 +157,12 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         }
     }
 
+    """
+    don't need this now that we deal with qcodes differently...
+
     def get_rel(self):
-        """
         Return the value of this property as a qcode
         TODO - make this generic in BaseObject
-        """
         qcode = self.get_attr('rel')
         if qcode is not None:
             return qcode
@@ -175,9 +176,7 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         return alias + ':' + code
 
     def get_rel_uri(self):
-        """
         Return the value of this property as a URI
-        """
         uri = self.get_attr('reluri')
         if uri:
             return uri
@@ -189,7 +188,7 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         # look up catalog for alias, get URI
         uri = scheme.uri
         return uri + code
-
+    """
 
 class Link(Link1Type):
     """

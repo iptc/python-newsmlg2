@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+
 """
-Core functions for NewsMLG2 library.
+Core functions for NewsMLG2 library: base objects for most
+of our XML-based elements. Use magic methods to handle
+property accessors to make processing easier.
 """
 
 import re
@@ -113,7 +117,6 @@ class BaseObject():
         if name in elemdefndict:
             # no value, but the element exists - create it on the fly!
             element_definition = elemdefndict[name]
-            # TODO refactor this out - repeated code
             element_class = self.get_element_class(element_definition['element_class'])
             if element_definition['type'] == 'array':
                 self._element_values[name] = GenericArray(
@@ -204,13 +207,8 @@ class BaseObject():
             elem.text = self._text
         for attr_id, attr_defn in self.get_attribute_definitions().items():
             if attr_id in self._attribute_values:
-                if isinstance(attr_defn, str):
-                    # old style - TODO remove after all attr defns are updated
-                    xml_attr = attr_defn
-                else:
-                    xml_attr = attr_defn['xml_name']
+                xml_attr = attr_defn['xml_name']
                 elem.set(xml_attr, self._attribute_values[attr_id])
-            # only check for new-style attribute definitions
             elif not isinstance(attr_defn, str):
                 if 'default' in attr_defn:
                     attr_xml_name = attr_defn['xml_name']
@@ -223,11 +221,7 @@ class BaseObject():
         for child_element_id, child_element_value in self._element_values.items():
             if child_element_value:
                 child_elem_xml = child_element_value.to_xml()
-                if isinstance(child_elem_xml, list):
-                    for child in child_elem_xml:
-                        elem.append(child)
-                else:
-                    elem.append(child_elem_xml)
+                elem.append(child_elem_xml)
         return elem
 
 
@@ -304,9 +298,8 @@ class GenericArray():
         """
         if len(self._array_contents) == 1:
             return str(self._array_contents[0])
-        import pdb; pdb.set_trace()
         return (
-            '<' + self.__class__.__name__ + 'of ' +
+            '<' + self.__class__.__name__ + ' of ' +
             str(len(self._array_contents)) + ' ' +
             self._element_class.__name__ +' objects>'
         )
@@ -329,12 +322,6 @@ class GenericArray():
             return any(bool(item) for item in self._array_contents)
         return False
 
-    def to_xml(self):
-        xml_array = []
-        for elem in self._array_contents:
-            xml_array.append(elem.to_xml())
-        return xml_array
-
     def get_languages(self):
         """
         For repeating elements with xml:lang attributes,
@@ -350,6 +337,8 @@ class GenericArray():
         for elem in self._array_contents:
             if elem.xml_lang == language:
                 return str(elem)
+        # If language is not found, returns None - should we
+        # raise an exception?
         return None
 
 

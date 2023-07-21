@@ -43,6 +43,9 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         with self.assertRaises(AttributeError):
             g2doc = NewsMLG2.NewsItem(xmlelement="foo")
 
+    def test_genericarray_with_no_elementclass(self):
+        with self.assertRaises(AttributeError):
+            g2doc = NewsMLG2.GenericArray(xmlarray=[])
 
 if __name__ == '__main__':
     unittest.main()

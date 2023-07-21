@@ -112,6 +112,9 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 """
         g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
 
+        with self.assertRaises(Exception):
+            g2doc.set_item("foo")
+
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test-2'
 
@@ -234,6 +237,8 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         # Helper function to get a given language version
         assert contentmeta.subject[1].name.get_for_language('en-GB') == 'labour market'
         assert contentmeta.subject[1].name.get_for_language('de') == 'Arbeitsmarkt'
+        # Check that language helper fails where necessary
+        assert contentmeta.subject[1].name.get_for_language('klingon') == None
 
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
@@ -311,6 +316,11 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
             'begins to see some economic progress, Las Vegas is still in the midst '
             'of the economic downturn. (Photo by Spencer Platt/Getty Images)'
         )
+
+        # shortcut helper should fail
+        with self.assertRaises(AttributeError):
+            assert newsitem.contentmeta.subject.broader == 'foo'
+
 
 class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     def test_create_simple_newsitem_in_code(self):
@@ -525,6 +535,33 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert str(catalogs[1]) == '<Catalog>'
         assert len(catalogs[1]) == 134
         assert type(catalogs[1][1]) == NewsMLG2.catalog.Scheme
+
+        # array helper function tests
+        assert str(newsitem.catalog.scheme) == '<GenericArray of 2 Scheme objects>'
+
+        # test replace element in array
+
+        newscheme = NewsMLG2.Scheme()
+        newscheme.alias = "baz"
+        newscheme.uri = "http://example.org/baz/"
+        newscheme.modified = "2023-07-21T12:00:00+00:00"
+        newscheme.name = "baz scheme"
+
+        newsitem.catalog.scheme[1] = newscheme
+
+        assert len(newsitem.catalog.scheme) == 2  # should be same as before
+        assert newsitem.catalog.scheme[0].alias == 'foo'  # should be same as before
+        assert newsitem.catalog.scheme[1].alias == 'baz'  # newly declared scheme
+
+        # test delete from array
+
+        del newsitem.catalog.scheme[0]
+
+        assert len(newsitem.catalog.scheme) == 1
+        # helper function returns first item if the list contains only one item
+        assert str(newsitem.catalog.scheme) == str(newscheme)
+        assert newsitem.catalog.scheme[0].alias == 'baz'
+
 
 if __name__ == '__main__':
     unittest.main()

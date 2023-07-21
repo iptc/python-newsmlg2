@@ -6,10 +6,11 @@ content.
 """
 
 from .anyitem import ItemMeta
-from .catalog import Catalog
+from .catalog import Catalog, Scheme
 from .catalogitem import CatalogItem, CatalogItemContentMeta
 from .catalogstore import CatalogStore, AliasNotFoundInCatalogs, URINotFoundInCatalogs
 from .conceptitem import ConceptItem, ConceptItemContentMeta
+from .core import GenericArray
 from .document import NewsMLG2Document
 from .knowledgeitem import KnowledgeItem, KnowledgeItemContentMeta
 from .newsitem import NewsItem, NewsItemContentMeta

@@ -22,9 +22,7 @@ class BaseObject():
     Implements `attributes` and `elements` handlers.
     """
     _attribute_definitions = None
-    _element_definitions = None
     _attribute_values = {}
-    _attribute_types = {}
     _element_values = {}
 
     def get_attribute_definitions(self):
@@ -39,36 +37,11 @@ class BaseObject():
             self._attribute_definitions.update(attrs)
         return self._attribute_definitions
 
-    def get_attribute_types(self):
-        """
-        Load all 'attribute_types' declared in  any class in the MRO
-        inheritance chain
-        """
-        all_attr_types = {}
-        for otherclass in reversed(self.__class__.__mro__):
-            attr_types = vars(otherclass).get('attribute_types', {})
-            all_attr_types.update(attr_types)
-        return all_attr_types
-
-    def get_attr(self, attr):
-        """
-        Get value of the given XML attribute.
-        """
-        # Only return a value if it exists - otherwise hasattr() causes problems.
-        if attr in self._attribute_values:
-            return self._attribute_values.get(attr, None)
-        raise AttributeError(
-            "'" + self.__class__.__name__ +
-            "' has no element or attribute '" + name + "'"
-        )
-
     def get_element_definitions(self):
         """
         Load all element definitions declared in any class in the MRO
         inheritance chain
         """
-        if self._element_definitions:
-            return self._element_definitions
         self._element_definitions = []
         for otherclass in reversed(self.__class__.__mro__):
             elements = vars(otherclass).get('elements', ())
@@ -131,10 +104,10 @@ class BaseObject():
 
     def __getattr__(self, name):
         """
-        Default getter for all methods where we don't have a defined method
+        Default getter for all property access operations that don't have a defined method
         """
         if name in self._element_values:
-            return self._element_values[name]
+            return self.get_element_value(name)
         # convert our list of tuples to a dict so we can look up keys
         elemdefndict = dict(self._element_definitions)
         if name in elemdefndict:
@@ -149,19 +122,15 @@ class BaseObject():
             else:
                 self._element_values[name] = element_class()
             return self._element_values[name]
+
         if name in self._attribute_definitions:
             if name in self._attribute_values:
                 return self._attribute_values[name]
             if 'default' in self._attribute_definitions[name]:
                 return self._attribute_definitions[name]['default']
             # <name> is a defined attribute of the class but
-            # has not defined value or default: return None
+            # has no defined value or default: return None
             return None
-            #raise AttributeError(
-            #    "'" + name + "' is a defined attribute of " +
-            #    "'" + self.__class__.__name__ + "' " +
-            #    "but has no defined value or default"
-            #)
         raise AttributeError(
             "'" + self.__class__.__name__ +
             "' has no element or attribute '" + name + "'"
@@ -169,7 +138,7 @@ class BaseObject():
 
     def __setattr__(self, name, value):
         """
-        Object setter: this should let us set all NewsMLg2 properties (elements
+        Object setter: this should let us set all NewsML-G2 properties (elements
         and attributes) using Python dot syntax, e.g. "newsitem.version" or
         "newsitem.contentmeta".
         The type of "value" could be anything so we can't validate it unless we
@@ -189,6 +158,13 @@ class BaseObject():
                 element_class_name = elemdefndict[name]['element_class']
                 element_class = self.get_element_class(element_class_name)
                 self._element_values[name] = element_class(text = value)
+            #elif isinstance(value, list):
+            #    if elemdefndict[name]['type'] == 'array':
+            #        self._element_values[name] = GenericArray(xmlarray = value)
+            #    else:
+            #        raise AttributeError(
+            #                "Trying to assign a list to a non-array element"
+            #              )
             else:
                 self._element_values[name] = value
         elif name in self._attribute_definitions:
@@ -199,7 +175,6 @@ class BaseObject():
                 "' has no element or attribute '" + name + "'"
                   )
 
-
     def __bool__(self):
         if any(self._attribute_values.values()):
             return True
@@ -207,10 +182,9 @@ class BaseObject():
             return True
         if getattr(self, '_text', None):
             return True
-        return False
 
     def __str__(self):
-        if hasattr(self, '_text') and self._text is not None:
+        if hasattr(self, '_text') and self._text != '':
             return self._text
         return '<'+self.__class__.__name__+'>'
 
@@ -270,8 +244,10 @@ class GenericArray():
     _element_class = None
 
     def __init__(self, **kwargs):
-        # super().__init__(**kwargs)
         self._array_contents = []
+        self._iterindex = -1
+
+        # Populate array based on initial args
         xmlarray = kwargs.get('xmlarray')
         if isinstance(xmlarray, (list, etree._Element)):
             if 'element_class' in kwargs:
@@ -281,7 +257,22 @@ class GenericArray():
             for xmlelement in xmlarray:
                 array_elem = self._element_class(xmlelement = xmlelement)
                 self._array_contents.append(array_elem)
-        self._iterindex = -1
+        #if 'element_class' in kwargs:
+        #    self._element_class = kwargs['element_class']
+        #else:
+        #    raise AttributeError("'element_class' is required")
+
+        #if xmlarray:
+        #    if isinstance(xmlarray, list):
+        #        for item in xmlarray:
+        #            self._array_contents.append(item)
+        #    elif isinstance(xmlarray, (list, etree._Element)):
+        #        for xmlelement in xmlarray:
+        #            array_elem = self._element_class(xmlelement = xmlelement)
+        #            self._array_contents.append(array_elem)
+        #    else:
+        #        raise AttributeError("'xmlarray' must be an etree _Element "
+        #                             "or a list of objects")
 
     def __iter__(self):
         return self
@@ -313,10 +304,11 @@ class GenericArray():
         """
         if len(self._array_contents) == 1:
             return str(self._array_contents[0])
+        import pdb; pdb.set_trace()
         return (
             '<' + self.__class__.__name__ + 'of ' +
-            len(self._array_contents) + ' ' +
-            self._element_class_name +' objects>'
+            str(len(self._array_contents)) + ' ' +
+            self._element_class.__name__ +' objects>'
         )
 
     def __getattr__(self, name):

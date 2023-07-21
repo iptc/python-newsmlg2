@@ -56,7 +56,7 @@
             href="http://www.example.com/video/407624/index.html"/>
     </itemMeta>
     <contentMeta>
-        <contentCreated> 2008-11-05T19:04:00-08:00</contentCreated>
+        <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>
         <located type="cptype:city" qcode="city:345678">
             <name>Berlin</name>
             <broader type="cptype:statprov" qcode="state:2365">

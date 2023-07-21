@@ -203,7 +203,7 @@ class Address(CommonPowerAttributes):
         ('country', {
             'type': 'single', 'xml_name': 'country', 'element_class': Country
         }),
-        ('postal_code', {
+        ('postalcode', {
             'type': 'single', 'xml_name': 'postalCode',
             'element_class': PostalCode
         })
@@ -270,7 +270,7 @@ class PersonDetails(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'affiliation',
             'element_class': PersonAffiliation
         }),
-        ('contact_info', {
+        ('contactinfo', {
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
         })

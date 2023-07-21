@@ -95,11 +95,11 @@ class Flex1ConceptPropType(Flex1PropType, QuantifyAttributes):
         ('bag', {
             'type': 'single', 'xml_name': 'bag', 'element_class': Bag
         }),
-        ('main_concept', {
+        ('mainconcept', {
             'type': 'single', 'xml_name': 'mainConcept',
             'element_class': MainConcept
         }),
-        ('facet_concept', {
+        ('facetconcept', {
             'type': 'array', 'xml_name': 'facetConcept',
             'element_class': FacetConcept
         })
@@ -112,7 +112,7 @@ class FlexPersonPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
 
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('person_details', {
+        ('persondetails', {
             'type': 'single', 'xml_name': 'personDetails',
             'element_class': 'entities.PersonDetails'
         })
@@ -126,7 +126,7 @@ class FlexOrganisationPropType(CommonPowerAttributes, QualifyingAttributes,
     """
 
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('organisation_details', {
+        ('organisationdetails', {
             'type': 'single', 'xml_name': 'organisationDetails',
             'element_class': 'entities.OrganisationDetails'
         })
@@ -140,11 +140,11 @@ class FlexPartyPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes,
     uncontrolled values
     """
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('person_details', {
+        ('persondetails', {
             'type': 'single', 'xml_name': 'personDetails',
             'element_class': 'entities.PersonDetails'
         }),
-        ('organisation_details', {
+        ('organisationdetails', {
             'type': 'single', 'xml_name': 'organisationDetails',
             'element_class': 'entities.OrganisationDetails'
         })
@@ -218,7 +218,7 @@ class FlexAuthorPropType(FlexPartyPropType):
             'xml_name': 'jobtitleuri',
             'xml_type': 'IRIType',
             'use': 'optional'
-        },
+        }
     }
 
 
@@ -358,20 +358,17 @@ class FlexLocationPropType(FlexAttributes, CommonPowerAttributes,
     """
 
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('geo_area_details', {
+        ('geoareadetails', {
             'type': 'single',
             'xml_name': 'geoAreaDetails',
             'element_class': GeoAreaDetails
         }),
-        ('poi_details', {
+        ('poidetails', {
             'type': 'single',
             'xml_name': 'POIDetails',
             'element_class': 'concepts.POIDetails'
         })
     ]
-
-    def __bool__(self):
-        return self.geo_area_details is not None or self.poi_details is not None
 
 
 class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
@@ -381,7 +378,7 @@ class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
 
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('poi_details', {
+        ('poidetails', {
             'type': 'single',
             'xml_name': 'POIDetails',
             'element_class': 'concepts.POIDetails'
@@ -435,7 +432,7 @@ class FlexGeoAreaPropType(CommonPowerAttributes, FlexAttributes,
     """
 
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
-        ('geo_area_details', {
+        ('geoareadetails', {
             'type': 'single',
             'xml_name': 'geoAreaDetails',
             'element_class': GeoAreaDetails
@@ -540,7 +537,7 @@ EntityDetailsGroup = [
         'type': 'single', 'xml_name': 'personDetails',
         'element_class': 'entities.PersonDetails'
     }),
-    ('organisationDetails', {
+    ('organisationdetails', {
         'type': 'single', 'xml_name': 'organisationDetails',
         'element_class': 'entities.OrganisationDetails'
     }),

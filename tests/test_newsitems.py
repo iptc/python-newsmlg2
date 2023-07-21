@@ -37,7 +37,6 @@ sys.path.append(os.getcwd())
 
 import NewsMLG2
 
-XML_NS = '{http://www.w3.org/XML/1998/namespace}'
 
 class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 
@@ -87,6 +86,45 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert itemmeta.provider.qcode == 'nprov:IPTC'
         assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+
+    def test_failure_cases(self):
+        test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
+<newsItem
+    xmlns="http://iptc.org/std/nar/2006-10-01/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    guid="simplest-test-2"
+    standard="NewsML-G2"
+    standardversion="2.32"
+    conformance="power"
+    version="1"
+    xml:lang="en-GB">
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <itemMeta>
+        <itemClass qcode="ninat:text" />
+        <provider qcode="nprov:IPTC" />
+        <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>
+    </itemMeta>
+    <contentSet>
+        <inlineXML contenttype="application/nitf+xml">
+        </inlineXML>
+    </contentSet>
+</newsItem>
+"""
+        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+
+        newsitem = g2doc.get_item()
+        assert newsitem.guid == 'simplest-test-2'
+
+        # testing attribute with no default
+        assert newsitem.dir == None
+
+        # testing set elem/attibute that was not defined
+        with self.assertRaises(AttributeError):
+            newsitem.foo = "bar"
+
+        # testing str() on un-named element
+        assert str(newsitem.itemmeta) == '<ItemMeta>'
+
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
@@ -181,15 +219,14 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert contentmeta.infosource.uri == 'http://www.example.com'
         assert contentmeta.subject[0].type == 'cpnat:abstract'
         assert contentmeta.subject[0].qcode == 'medtop:04000000'
-        assert contentmeta.subject[0].name[0].get_attr('xml_lang') == 'en-GB'
         assert contentmeta.subject[0].name[0].xml_lang == 'en-GB'
         assert str(contentmeta.subject[0].name) == 'economy, business and finance'
         assert contentmeta.subject[1].type == 'cpnat:abstract'
         assert contentmeta.subject[1].qcode == 'medtop:20000523'
         assert str(contentmeta.subject[1].name[0]) == 'labour market'
-        assert contentmeta.subject[1].name[0].get_attr('xml_lang') == 'en-GB'
+        assert contentmeta.subject[1].name[0].xml_lang == 'en-GB'
         assert str(contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
-        assert contentmeta.subject[1].name[1].get_attr('xml_lang') == 'de'
+        assert contentmeta.subject[1].name[1].xml_lang == 'de'
         assert contentmeta.subject[1].broader.qcode == 'medtop:04000000'
 
         # Helper function to get available language versions
@@ -200,7 +237,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
 
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
-        assert contentmeta.genre.name[0].get_attr('xml_lang') == 'en-GB'
+        assert contentmeta.genre.name[0].xml_lang == 'en-GB'
         assert str(contentmeta.slugline) == 'US-Finance-Fed'
         assert str(contentmeta.headline) == 'Fed to halt QE to avert "bubble"'
 
@@ -216,7 +253,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.standard == 'NewsML-G2'
         assert newsitem.standardversion == '2.32'
         assert newsitem.conformance == 'power'
-        assert newsitem.get_attr('xml_lang') == 'en-US'
+        assert newsitem.xml_lang == 'en-US'
         # TODO catalog tests??
         # <catalogRef
         #     href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
@@ -236,15 +273,15 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.contentmeta.subject[0].qcode == 'gyimeid:104530187'
         assert newsitem.contentmeta.subject[1].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[1].qcode == 'medtop:20000523'
-        assert newsitem.contentmeta.subject[1].name[0].get_attr('xml_lang') == 'en-GB'
+        assert newsitem.contentmeta.subject[1].name[0].xml_lang == 'en-GB'
         assert str(newsitem.contentmeta.subject[1].name[0]) == 'labour market'
-        assert newsitem.contentmeta.subject[1].name[1].get_attr('xml_lang') == 'de'
+        assert newsitem.contentmeta.subject[1].name[1].xml_lang == 'de'
         assert str(newsitem.contentmeta.subject[1].name[1]) == 'Arbeitsmarkt'
         assert newsitem.contentmeta.subject[2].type == 'cpnat:abstract'
         assert newsitem.contentmeta.subject[2].qcode == 'medtop:20000533'
-        assert newsitem.contentmeta.subject[2].name[0].get_attr('xml_lang') == 'en-GB'
+        assert newsitem.contentmeta.subject[2].name[0].xml_lang == 'en-GB'
         assert str(newsitem.contentmeta.subject[2].name[0]) == 'unemployment'
-        assert newsitem.contentmeta.subject[2].name[1].get_attr('xml_lang') == 'de'
+        assert newsitem.contentmeta.subject[2].name[1].xml_lang == 'de'
         assert str(newsitem.contentmeta.subject[2].name[1]) == 'Arbeitslosigkeit'
         assert newsitem.contentmeta.subject[3].type == 'cpnat:geoArea'
         assert str(newsitem.contentmeta.subject[3].name) == 'Las Vegas Boulevard'
@@ -342,6 +379,65 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
                               '  </itemMeta>\n'
                               '</newsItem>\n')
 
+    def test_create_complex_newsitem_in_code(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-complex-newsitem-in-code-guid'
+        newsitem.xml_lang = 'en-GB'
+        itemmeta = NewsMLG2.ItemMeta()
+        itemmeta.itemclass.qcode = "ninat:video"
+        itemmeta.provider.qcode = "nprov:IPTC"
+        itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+        newsitem.itemmeta = itemmeta
+        contentmeta = NewsMLG2.NewsItemContentMeta()
+        contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
+        contentmeta.located.type = 'cptype:city'
+        contentmeta.located.qcode = 'city:345678'
+        contentmeta.located.name = 'Berlin'
+        """ keep these out for now while we're working on the solution
+        broader1 = NewsMLG2.conceptrelationships.Broader()
+        broader1.type = 'cptype:statprov'
+        broader1.qcode = 'state:2365'
+        broader1.name = 'Berlin'
+        broader2 = NewsMLG2.conceptrelationships.Broader()
+        broader2.type = 'cptype:country'
+        broader2.qcode = 'iso3166-1a2:DE'
+        broader2.name = 'Germany'
+        contentmeta.located.broader = [broader1, broader2]
+        contentmeta.creator.qcode = 'codesource:DEZDF'
+        contentmeta.creator.name = 'Zweites Deutsches Fernsehen'
+        contentmeta.creator.organisationdetails.location.name = 'MAINZ'
+        """
+        newsitem.contentmeta = contentmeta
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+        assert newsitem.guid == 'test-complex-newsitem-in-code-guid'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.32'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+
+        output_contentmeta = newsitem.contentmeta
+        assert str(output_contentmeta.contentcreated) == '2008-11-05T19:04:00-08:00'
+        assert output_contentmeta.located.type == 'cptype:city'
+        assert output_contentmeta.located.qcode == 'city:345678'
+        assert str(output_contentmeta.located.name) == 'Berlin'
+
+        output_xml = g2doc.to_xml()
+        assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
+                              '  <itemMeta>\n'
+                              '    <itemClass qcode="ninat:video"/>\n'
+                              '    <provider qcode="nprov:IPTC"/>\n'
+                              '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+                              '  </itemMeta>\n'
+                              '  <contentMeta>\n'
+                              '    <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>\n'
+                              '  </contentMeta>\n'
+                              '</newsItem>\n')
+
     def test_embedded_catalog(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
 <newsItem
@@ -354,6 +450,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     version="1"
     xml:lang="en-GB">
     <catalog>
+        <title>Test embedded catalog</title>
         <scheme alias="foo" uri="http://example.org/foo/" authority="https://iptc.org/" modified="2023-07-17T12:00:00+00:00">
             <name xml:lang="en-GB">foo scheme</name>
             <definition xml:lang="en-GB">scheme "foo" for test</definition>
@@ -388,11 +485,20 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         catalogs = newsitem.get_catalogs()
         assert len(catalogs) == 2
 
-        test_scheme = catalogs.get_scheme_for_alias('prov')
-        assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
+        test_scheme = catalogs.get_scheme_for_alias('nprov')
+        assert test_scheme.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
-        assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
+        assert str(test_scheme.definition) == 'Indicates a News Provider registered with the IPTC.'
+
+        test_scheme = catalogs.get_scheme_for_uri('http://cv.iptc.org/newscodes/newsprovider/')
+        assert test_scheme.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
+        assert test_scheme.authority == 'https://iptc.org/'
+        assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
+        assert str(test_scheme.definition) == 'Indicates a News Provider registered with the IPTC.'
+
+        with self.assertRaises(NewsMLG2.URINotFoundInCatalogs):
+            invalid_scheme = catalogs.get_scheme_for_uri('http://cv.iptc.org/newscodes/nonexistent/')
 
         test_scheme = catalogs.get_scheme_for_alias('foo')
         assert test_scheme.uri == 'http://example.org/foo/'
@@ -401,8 +507,23 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert str(test_scheme.definition) == 'scheme "foo" for test'
         assert str(test_scheme) == 'foo scheme (foo, http://example.org/foo/)'
 
+        test_scheme = catalogs.get_scheme_for_uri('http://example.org/foo/')
+        assert test_scheme.uri == 'http://example.org/foo/'
+        assert test_scheme.authority == 'https://iptc.org/'
+        assert test_scheme.modified == '2023-07-17T12:00:00+00:00'
+        assert str(test_scheme.definition) == 'scheme "foo" for test'
+        assert str(test_scheme) == 'foo scheme (foo, http://example.org/foo/)'
+
+        with self.assertRaises(NewsMLG2.URINotFoundInCatalogs):
+            invalid_scheme = catalogs.get_scheme_for_uri('http://example.org/nonexistentextrascheme/')
+
+        assert type(catalogs[0]) == NewsMLG2.Catalog
+        assert str(catalogs[0]) == '<Catalog "Test embedded catalog">'
+        assert len(catalogs[0]) == 2
+        assert type(catalogs[0][1]) == NewsMLG2.catalog.Scheme
         assert type(catalogs[1]) == NewsMLG2.Catalog
-        assert len(catalogs[1]) == 134                 # 134 schemes across our two catalogs
+        assert str(catalogs[1]) == '<Catalog>'
+        assert len(catalogs[1]) == 134
         assert type(catalogs[1][1]) == NewsMLG2.catalog.Scheme
 
 if __name__ == '__main__':

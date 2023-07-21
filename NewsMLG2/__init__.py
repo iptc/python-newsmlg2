@@ -7,12 +7,14 @@ content.
 
 from .anyitem import ItemMeta
 from .catalog import Catalog
-from .catalogitem import CatalogItem
-from .catalogstore import CatalogStore, AliasNotFoundInCatalogs
+from .catalogitem import CatalogItem, CatalogItemContentMeta
+from .catalogstore import CatalogStore, AliasNotFoundInCatalogs, URINotFoundInCatalogs
+from .conceptitem import ConceptItem, ConceptItemContentMeta
 from .document import NewsMLG2Document
-from .newsitem import NewsItem
-from .packageitem import PackageItem
-from .planningitem import PlanningItem
+from .knowledgeitem import KnowledgeItem, KnowledgeItemContentMeta
+from .newsitem import NewsItem, NewsItemContentMeta
+from .packageitem import PackageItem, PackageItemContentMeta
+from .planningitem import PlanningItem, PlanningItemContentMeta
 from .utils import qcode_to_uri, uri_to_qcode
 
 VERSION = 0.3

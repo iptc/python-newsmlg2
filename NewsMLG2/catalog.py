@@ -50,7 +50,7 @@ def build_catalog(xmlelement):
     """
     Load all CVs referenced in local and remote catalogs.
     TODO:
-    - load and cache catalog from catalogRef href
+    - load and cache catalog from remote catalogRef href
     """
     CATALOG_STORE.__init__([])
     catalogs = xmlelement.findall(NEWSMLG2NSPREFIX+'catalog')
@@ -260,10 +260,10 @@ class Catalog(CommonPowerAttributes):
     def __len__(self):
         return len(self._catalog)
 
-    def str(self):
+    def __str__(self):
         """String representation of the catalog object."""
         if self.title:
-            return '<Catalog '+self.title[0]+'>'
+            return '<Catalog "'+str(self.title[0])+'">'
         return '<Catalog>'
 
 

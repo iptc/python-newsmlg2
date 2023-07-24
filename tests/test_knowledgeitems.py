@@ -132,7 +132,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert conceptset.concept[0].type.qcode == 'cpnat:abstract'
         assert NewsMLG2.qcode_to_uri(conceptset.concept[0].type.qcode) == 'http://cv.iptc.org/newscodes/cpnature/abstract'
         assert str(conceptset.concept[0].name) == 'ACCESSWIRE'
-        assert conceptset.concept[0].name[0].get_attr('xml_lang') == 'en-GB'
+        assert conceptset.concept[0].name[0].xml_lang == 'en-GB'
         assert conceptset.concept[0].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert conceptset.concept[0].related.rel == 'skos:inScheme'
 

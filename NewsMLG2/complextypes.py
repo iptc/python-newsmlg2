@@ -98,7 +98,7 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     XML Schema only)
     """
     xml_element_name = 'name'
-    name = None
+    #name = None
     attributes = {
         # A refinement of the semantics of the name - expressed by a QCode
         'role': {
@@ -120,12 +120,14 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         }
     }
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        xmlelement = kwargs.get('xmlelement')
-        if isinstance(xmlelement, etree._Element):
-            self._name = xmlelement.text and xmlelement.text.strip()
+    # no longer needed...?
+    #def __init__(self, **kwargs):
+    #    super().__init__(**kwargs)
+    #    xmlelement = kwargs.get('xmlelement')
+    #    if isinstance(xmlelement, etree._Element):
+    #        self.name = xmlelement.text and xmlelement.text.strip()
 
+    # TODO this lookup is currently not used...
     _name_role_mappings = {
         # http://cv.iptc.org/newscodes/namerole/
         # http://cv.iptc.org/newscodes/namerole/adjectival
@@ -162,8 +164,8 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         'nrol:last': 'family'
     }
 
-    def __str__(self):
-        return self._name
+    #def __str__(self):
+    #    return self.name
 
 
 class Name(ConceptNameType):

@@ -133,3 +133,5 @@ not yet implemented. Probably quite a few bugs.
 helper functions `uri_to_qcode()` and `qcode_to_uri()`
 * 0.4 - Added catalog v37 and v38. Added PlanningItem support. Fixed bugs. Improved
 magic function support to help hasattr() and more on NewsML-G2 objects.
+* 0.5 - Now has 100% unit test coverage. Fixed more bugs. Implemented changes up to
+NewsML-G2 schema version v2.32.

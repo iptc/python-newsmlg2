@@ -203,7 +203,7 @@ class Address(CommonPowerAttributes):
         ('country', {
             'type': 'single', 'xml_name': 'country', 'element_class': Country
         }),
-        ('postal_code', {
+        ('postalcode', {
             'type': 'single', 'xml_name': 'postalCode',
             'element_class': PostalCode
         })
@@ -270,7 +270,7 @@ class PersonDetails(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'affiliation',
             'element_class': PersonAffiliation
         }),
-        ('contact_info', {
+        ('contactinfo', {
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
         })
@@ -397,9 +397,11 @@ class OrganisationDetails(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
         }),
+        # deprecated in NewsML-G2 2.31 but still allowed
         ('hasinstrument', {
             'type': 'array', 'xml_name': 'hasInstrument',
-            'element_class': HasInstrument
+            'element_class': HasInstrument,
+            'status': 'deprecated'
         })
     ]
 

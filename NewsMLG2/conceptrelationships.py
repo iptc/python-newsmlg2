@@ -257,7 +257,7 @@ class FlexProp2Type(CommonPowerAttributes, FlexAttributes, I18NAttributes):
             'type': 'array', 'xml_name': 'hierarchyInfo',
             'element_class': HierarchyInfo
         }),
-        ('sameAs', {
+        ('sameas', {
             'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
         })
     ]
@@ -289,7 +289,7 @@ class FlexRelatedPropType(FlexProp2Type):
 
 
 ConceptRelationshipsGroup = [
-    ('same_as', {
+    ('sameas', {
         'type': 'array', 'xml_name': 'sameAs', 'element_class': SameAs
     }),
     ('broader', {

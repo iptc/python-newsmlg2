@@ -73,7 +73,8 @@ class NewsMLG2Document():
         """
         if not isinstance(item, AnyItem):
             raise Exception(
-                "Item must be an instance of NewsItem or KnowledgeItem"
+                "Item must be an instance of AnyItem (i.e. NewsItem, CatalogItem, "
+                "ConceptItem, KnowledgeItem or PackageItem)"
             )
         self.item = item
 

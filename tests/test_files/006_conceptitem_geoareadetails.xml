@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conceptItem
+    xmlns="http://iptc.org/std/nar/2006-10-01/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/
+        ./NewsML-G2_2.32-spec-All-Core.xsd"
+    guid="urn:newsml:iptc.org:006-conceptitem-with-geoareadetails-test"
+    version="11"
+    standard="NewsML-G2"
+    standardversion="2.32"
+    conformance="power">
+    <catalogRef
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <rightsInfo>
+        <copyrightHolder>
+            <name>IPTC - International Press Telecommunications Council</name>
+        </copyrightHolder>
+        <copyrightNotice>Copyright 2023, IPTC, www.iptc.org, All Rights Reserved</copyrightNotice>
+    </rightsInfo>
+    <itemMeta>
+        <itemClass qcode="cinat:concept" />
+        <provider qcode="nprov:IPTC" />
+        <versionCreated>2023-07-19T12:00:00Z</versionCreated>
+        <firstCreated>2008-12-29T11:00:00Z</firstCreated>
+        <pubStatus qcode="stat:usable" />
+        <title xml:lang="en">Concept Item describing Kentucky</title>
+    </itemMeta>
+    <concept>
+        <conceptId qcode="apgeography:2f6e294082b310048474df092526b43e"/>
+        <type qcode="cpnat:geoArea" />
+        <name>Kentucky</name>
+        <geoAreaDetails>
+            <position latitude="-84.87762" longitude="38.20042"/>
+            <founded>1792-06-01</founded>
+            <dissolved>2099-12-31</dissolved><!-- just to test the element! not a prediction :-) -->
+            <polygon>
+                <position latitude="-89.57291911219112" longitude="36.49707311372113" />
+                <position latitude="-81.96720514115141" longitude="39.14641319952199" />
+            </polygon>
+        </geoAreaDetails>
+    </concept>
+</conceptItem>

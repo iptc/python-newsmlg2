@@ -8,7 +8,7 @@ from .anyitem import (
     AnyItem, Assert, DerivedFrom, DerivedFromValue, InlineRef
 )
 from .attributegroups import (
-    CommonPowerAttributes
+    AuthorityAttributes, CommonPowerAttributes
 )
 from .catalog import SameAsScheme
 from .complextypes import Name
@@ -25,7 +25,10 @@ class ConceptSet(CommonPowerAttributes):
     """
 
     elements = [
-        ('concept', { 'type': 'array', 'xml_name': 'concept', 'element_class': Concept })
+        ('concept', {
+            'type': 'array', 'xml_name': 'concept',
+            'element_class': Concept
+        })
     ]
 
 
@@ -44,7 +47,7 @@ class SchemeMetaExtProperty(Flex2ExtPropType):
     element_class = SchemeMetaExtPropertyElement
 
 
-class SchemeMeta(CommonPowerAttributes):
+class SchemeMeta(AuthorityAttributes, CommonPowerAttributes):
     """
     Metadata about a scheme conveyed by a Knowledge Item
     """
@@ -54,14 +57,21 @@ class SchemeMeta(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'sameAsScheme',
             'element_class': SameAsScheme
         }),
-        ('name', { 'type': 'array', 'xml_name': 'name', 'element_class': Name }),
+        ('name', {
+            'type': 'array', 'xml_name': 'name',
+            'element_class': Name
+        }),
         ('definition', {
             'type': 'array', 'xml_name': 'definition',
             'element_class': Definition
         }),
-        ('note', { 'type': 'array', 'xml_name': 'note', 'element_class': Note }),
+        ('note', {
+            'type': 'array', 'xml_name': 'note',
+            'element_class': Note
+        }),
         ('related', {
-            'type': 'array', 'xml_name': 'related', 'element_class': Related
+            'type': 'array', 'xml_name': 'related',
+            'element_class': Related
         }),
         ('schememetaextproperty', {
             'type': 'array', 'xml_name': 'schemeMetaExtProperty',
@@ -78,11 +88,6 @@ class SchemeMeta(CommonPowerAttributes):
         # The alias preferred by the schema authority
         'preferredalias': {
             'xml_name': 'preferredalias'
-        },
-        # Defines the authority controlling the scheme
-        'authority': {
-            'xml_name': 'authority',
-            'xml_type': 'IRIType'
         },
         # List of all concept types used within this Knowledge Item
         'concepttype': {

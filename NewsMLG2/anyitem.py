@@ -223,8 +223,6 @@ class AnyItem(I18NAttributes):
     }
 
     elements = [
-        # TODO implement xs:choice either "catalogRef" or "catalog"
-        # (but unlimited number of whichever one exists)
         ('catalogref', { 'type': 'array', 'xml_name': 'catalogRef', 'element_class': CatalogRef }),
         ('catalog', { 'type': 'array', 'xml_name': 'catalog', 'element_class': Catalog }),
         ('hophistory', { 'type': 'single', 'xml_name': 'hopHistory', 'element_class': HopHistory }),

@@ -9,7 +9,9 @@ import os
 from lxml import etree
 
 from .core import NEWSMLG2NSPREFIX, BaseObject
-from .attributegroups import CommonPowerAttributes, I18NAttributes
+from .attributegroups import (
+    AuthorityAttributes, CommonPowerAttributes, I18NAttributes
+)
 from .complextypes import Name
 from .concepts import Definition, Note
 from .conceptrelationships import SameAs
@@ -108,7 +110,7 @@ class SameAsScheme(IRIType, CommonPowerAttributes):
     """
 
 
-class Scheme(CommonPowerAttributes):
+class Scheme(AuthorityAttributes, CommonPowerAttributes):
     """
     A scheme alias-to-URI mapping.
     """
@@ -144,11 +146,6 @@ class Scheme(CommonPowerAttributes):
             'xml_type': 'IRIType',
             'use': 'required'
         },
-        # Defines the authority controlling this scheme
-        'authority': {
-            'xml_name': 'authority',
-            'xml_type': 'IRIType'
-        },
         # The date (and, optionally, the time) when the scheme was created.
         # This must not be later than the creation timestamp of any concepts in the scheme.
         'schemecreated': {
@@ -177,7 +174,7 @@ class Scheme(CommonPowerAttributes):
         return "{} ({}, {})".format(self.name, self.alias, self.uri)
 
 
-class Catalog(CommonPowerAttributes):
+class Catalog(AuthorityAttributes, CommonPowerAttributes):
     """
     A local or remote catalog.
     """
@@ -204,11 +201,6 @@ class Catalog(CommonPowerAttributes):
         # attribute of a catalogRef in an item.)
         'url': {
             'xml_name': 'url',
-            'xml_type': 'IRIType'
-        },
-        # Defines the authority controlling this catalog
-        'authority': {
-            'xml_name': 'authority',
             'xml_type': 'IRIType'
         },
         # Globally Unique Identifier for this kind of catalog as

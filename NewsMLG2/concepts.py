@@ -533,6 +533,10 @@ class Type(QualPropType):
 A group of properties to define the details of specific entities
 """
 EntityDetailsGroup = [
+    ('hasinstrument', {
+        'type': 'array', 'xml_name': 'hasInstrument',
+        'element_class': 'entities.HasInstrument'
+    }),
     ('persondetails', {
         'type': 'single', 'xml_name': 'personDetails',
         'element_class': 'entities.PersonDetails'

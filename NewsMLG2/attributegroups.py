@@ -95,6 +95,31 @@ class I18NAttributes(BaseObject):
     }
 
 
+class AuthorityAttributes(BaseObject):
+    """
+    A group of attributes for defining the authority that manages/maintains
+    a catalog or scheme
+
+    Added in NewsML-G2 2.32
+    """
+    attributes = {
+        # Defines the authority controlling this catalog
+        'authority': {
+            'xml_name': 'authority'
+        },
+        # The status of the Authority associated with the Scheme - expressed as a QCode.
+        'authoritystatus': {
+            'xml_name': 'authoritystatus',
+            'xml_type': 'QCodeType'
+        },
+        # The status of the Authority associated with the Scheme - expressed as a URI.
+        'authoritystatusuri': {
+            'xml_name': 'authoritystatusuri',
+            'xml_type': 'IRIType'
+        }
+    }
+
+
 class QuantifyAttributes(BaseObject):
     """
     A group of attriubutes quantifying the property value

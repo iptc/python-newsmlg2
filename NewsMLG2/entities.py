@@ -397,9 +397,11 @@ class OrganisationDetails(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'contactInfo',
             'element_class': ContactInfo
         }),
+        # deprecated in NewsML-G2 2.31 but still allowed
         ('hasinstrument', {
             'type': 'array', 'xml_name': 'hasInstrument',
-            'element_class': HasInstrument
+            'element_class': HasInstrument,
+            'status': 'deprecated'
         })
     ]
 

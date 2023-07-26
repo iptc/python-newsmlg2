@@ -135,3 +135,4 @@ helper functions `uri_to_qcode()` and `qcode_to_uri()`
 magic function support to help hasattr() and more on NewsML-G2 objects.
 * 0.5 - Now has 100% unit test coverage. Fixed more bugs. Implemented changes up to
 NewsML-G2 schema version v2.32.
+* 0.6 - Implemented NewsMessage.

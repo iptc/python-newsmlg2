@@ -7,7 +7,8 @@ This module is a part-implementation of the standard in Python.  Currently it
 reads itemMeta and contentMeta blocks, catalogs and metadata objects from
 NewsML-G2 XML files and outputs Python objects.
 
-Work in progress.
+Work in progress. See TODO file for outstanding issues and features not yet
+implemented.
 
 Currently built for Python 3 only - please let us know if you require Python 2
 support.

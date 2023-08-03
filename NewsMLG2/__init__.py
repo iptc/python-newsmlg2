@@ -12,6 +12,7 @@ from .catalogstore import CatalogStore, AliasNotFoundInCatalogs, URINotFoundInCa
 from .conceptitem import ConceptItem, ConceptItemContentMeta
 from .core import GenericArray
 from .document import NewsMLG2Document
+from .events import Event, Events, EventDetails
 from .knowledgeitem import KnowledgeItem, KnowledgeItemContentMeta
 from .newsitem import NewsItem, NewsItemContentMeta
 from .newsmessage import NewsMessage

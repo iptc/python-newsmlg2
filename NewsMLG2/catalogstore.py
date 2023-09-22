@@ -26,7 +26,6 @@ class CatalogStore():
     def append(self, rhs):
         self._list.append(rhs)
         return self
-        # return CatalogStore(list.__add__(self, rhs))
 
     def __getitem__(self, item):
         """

@@ -88,7 +88,7 @@ class I18NAttributes(BaseObject):
             'xml_name': XMLNSPREFIX+'lang'
         },
         # The directionality of textual content
-        # (enumeration: ltr, rtl)
+        # (TODO enumeration: ltr, rtl)
         'dir': {
             'xml_name': 'dir'
         }

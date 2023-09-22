@@ -24,7 +24,6 @@ class DateTimePropType(CommonPowerAttributes):
     TODO add helper methods for date/time manipulation, timezone conversion etc
     """
 
-
 class DateOptTimePropType(DateOptTimeType, CommonPowerAttributes):
     """
     The type of a property with date and time
@@ -98,7 +97,6 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
     XML Schema only)
     """
     xml_element_name = 'name'
-    #name = None
     attributes = {
         # A refinement of the semantics of the name - expressed by a QCode
         'role': {
@@ -119,13 +117,6 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
             'xml_name': 'parturi'
         }
     }
-
-    # no longer needed...?
-    #def __init__(self, **kwargs):
-    #    super().__init__(**kwargs)
-    #    xmlelement = kwargs.get('xmlelement')
-    #    if isinstance(xmlelement, etree._Element):
-    #        self.name = xmlelement.text and xmlelement.text.strip()
 
     # TODO this lookup is currently not used...
     _name_role_mappings = {
@@ -163,9 +154,6 @@ class ConceptNameType(TimeValidityAttributes, IntlStringType):
         'nprt:last': 'family',
         'nrol:last': 'family'
     }
-
-    #def __str__(self):
-    #    return self.name
 
 
 class Name(ConceptNameType):

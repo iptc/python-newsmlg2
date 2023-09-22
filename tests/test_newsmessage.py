@@ -104,12 +104,56 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 </newsMessage>
 """
 
-        with self.assertRaises(Exception):
-            g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        newsmessage = g2doc.get_item()
+        header = newsmessage.header
+        assert str(header.sent) == '2018-10-19T11:17:00.150Z'
+        assert header.catalogref[0].href == 'http://www.example.com/std/catalog/NewsNessages_1.xml'
+        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml'
+        assert str(header.sender) == 'thomsonreuters.com'
+        assert str(header.transmitid) == 'tag:reuters.com,2016:newsml_OVE48850O-PKG'
+        assert str(header.priority) == '4'
+        assert str(header.origin) == 'MMS_3'
+        assert header.destination.role == 'nmdest:foobar'
+        assert str(header.destination) == 'UKI'
+        assert str(header.channel[0]) == 'TVS'
+        assert str(header.channel[1]) == 'TTT'
+        assert str(header.channel[2]) == 'WWW'
+        assert header.timestamp[0].role == 'received'
+        assert str(header.timestamp[0]) == '2018-10-19T11:17:00.000Z'
+        assert header.timestamp[1].role == 'transmitted'
+        assert str(header.timestamp[1]) == '2018-10-19T11:17:00.100Z'
+        assert header.signal.qcode == 'nmsig:atomic'
+
+        itemset = newsmessage.itemset
+        # itemset can't be tested right now as it's an xs:any construct which
+        # we don't support yet.
 
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '007_emptynewsmessage.xml')
-        with self.assertRaises(Exception):
-            g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        newsmessage = g2doc.get_item()
+        header = newsmessage.header
+        assert str(header.sent) == '2018-10-19T11:17:00.150Z'
+        assert header.catalogref[0].href == 'http://www.example.com/std/catalog/NewsNessages_1.xml'
+        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml'
+        assert str(header.sender) == 'thomsonreuters.com'
+        assert str(header.transmitid) == 'tag:reuters.com,2016:newsml_OVE48850O-PKG'
+        assert str(header.priority) == '4'
+        assert str(header.origin) == 'MMS_3'
+        assert header.destination.role == 'nmdest:foobar'
+        assert str(header.destination) == 'UKI'
+        assert str(header.channel[0]) == 'TVS'
+        assert str(header.channel[1]) == 'TTT'
+        assert str(header.channel[2]) == 'WWW'
+        assert header.timestamp[0].role == 'received'
+        assert str(header.timestamp[0]) == '2018-10-19T11:17:00.000Z'
+        assert header.timestamp[1].role == 'transmitted'
+        assert str(header.timestamp[1]) == '2018-10-19T11:17:00.100Z'
+        assert header.signal.qcode == 'nmsig:atomic'
+
+        itemset = newsmessage.itemset
+        # itemset can't be tested right now as it's an xs:any construct which
+        # we don't support yet.

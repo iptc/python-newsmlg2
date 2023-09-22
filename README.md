@@ -7,7 +7,8 @@ This module is a part-implementation of the standard in Python.  Currently it
 reads itemMeta and contentMeta blocks, catalogs and metadata objects from
 NewsML-G2 XML files and outputs Python objects.
 
-Work in progress.
+Work in progress. See TODO file for outstanding issues and features not yet
+implemented.
 
 Currently built for Python 3 only - please let us know if you require Python 2
 support.
@@ -135,3 +136,4 @@ helper functions `uri_to_qcode()` and `qcode_to_uri()`
 magic function support to help hasattr() and more on NewsML-G2 objects.
 * 0.5 - Now has 100% unit test coverage. Fixed more bugs. Implemented changes up to
 NewsML-G2 schema version v2.32.
+* 0.6 - Implemented NewsMessage and Events (EventsML-G2).

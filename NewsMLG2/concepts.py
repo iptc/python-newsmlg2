@@ -556,12 +556,11 @@ EntityDetailsGroup = [
     ('objectdetails', {
         'type': 'single', 'xml_name': 'objectDetails',
         'element_class': 'entities.ObjectDetails'
+    }),
+    ('eventdetails', {
+        'type': 'single', 'xml_name': 'eventDetails',
+        'element_class': 'events.EventDetails'
     })
-    # TODO
-    # ('eventdetails': {
-    #     'type': 'single', 'xml_name': 'eventDetails',
-    #     'element_class': EventDetails
-    # })
 ]
 
 

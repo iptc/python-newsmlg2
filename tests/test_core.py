@@ -51,6 +51,5 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         with self.assertRaises(Exception):
             g2doc = NewsMLG2.NewsMLG2Document(string='<foo></foo>')
 
-
 if __name__ == '__main__':
     unittest.main()

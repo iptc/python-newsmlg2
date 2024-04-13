@@ -76,7 +76,7 @@ class BaseObject():
         if xmlelement is None:
             return
         if not isinstance(xmlelement, etree._Element):
-            raise AttributeError("xmlelement should be an instance of _Element")
+            raise AttributeError("xmlelement should be an instance of _Element. Currently it is a "+str(type(xmlelement)))
         for attribute_id, attribute_definition in attr_defns.items():
             attribute_xmlname = attribute_definition['xml_name']
             xmlattr_value = xmlelement.get(attribute_xmlname)
@@ -157,17 +157,17 @@ class BaseObject():
         # convert our list of tuples to a dict so we can look up keys
         elemdefndict = dict(self._element_definitions)
         if name in elemdefndict:
+            element_class_name = elemdefndict[name]['element_class']
+            element_class = self.get_element_class(element_class_name)
             if isinstance(value, str):
-                element_class_name = elemdefndict[name]['element_class']
-                element_class = self.get_element_class(element_class_name)
                 self._element_values[name] = element_class(text = value)
-            #elif isinstance(value, list):
-            #    if elemdefndict[name]['type'] == 'array':
-            #        self._element_values[name] = GenericArray(xmlarray = value)
-            #    else:
-            #        raise AttributeError(
-            #                "Trying to assign a list to a non-array element"
-            #              )
+            elif isinstance(value, list):
+                if elemdefndict[name]['type'] == 'array':
+                    self._element_values[name] = GenericArray(xmlarray = value, element_class = element_class)
+                else:
+                    raise AttributeError(
+                            "Trying to assign a list to a non-array element"
+                          )
             else:
                 self._element_values[name] = value
         elif name in self._attribute_definitions:
@@ -185,10 +185,15 @@ class BaseObject():
             return True
         if getattr(self, '_text', None):
             return True
+        return False
 
     def __str__(self):
         if hasattr(self, '_text') and self._text != '':
             return self._text
+        elif hasattr(self, 'qcode') and self.qcode:
+            return '<'+self.__class__.__name__+' qcode="'+str(self.qcode)+'">'
+        elif hasattr(self, 'uri') and self.uri:
+            return '<'+self.__class__.__name__+' uri="'+str(self.uri)+'">'
         return '<'+self.__class__.__name__+'>'
 
     def to_xml(self):
@@ -220,8 +225,12 @@ class BaseObject():
                     )
         for child_element_id, child_element_value in self._element_values.items():
             if child_element_value:
-                child_elem_xml = child_element_value.to_xml()
-                elem.append(child_elem_xml)
+                if isinstance(child_element_value, GenericArray):
+                    for arrayelem in child_element_value:
+                        elem.append(arrayelem.to_xml())
+                else:
+                    child_elem_xml = child_element_value.to_xml()
+                    elem.append(child_elem_xml)
         return elem
 
 
@@ -248,25 +257,16 @@ class GenericArray():
                 self._element_class = kwargs['element_class']
             else:
                 raise AttributeError("'element_class' is required")
-            for xmlelement in xmlarray:
-                array_elem = self._element_class(xmlelement = xmlelement)
-                self._array_contents.append(array_elem)
-        #if 'element_class' in kwargs:
-        #    self._element_class = kwargs['element_class']
-        #else:
-        #    raise AttributeError("'element_class' is required")
-
-        #if xmlarray:
-        #    if isinstance(xmlarray, list):
-        #        for item in xmlarray:
-        #            self._array_contents.append(item)
-        #    elif isinstance(xmlarray, (list, etree._Element)):
-        #        for xmlelement in xmlarray:
-        #            array_elem = self._element_class(xmlelement = xmlelement)
-        #            self._array_contents.append(array_elem)
-        #    else:
-        #        raise AttributeError("'xmlarray' must be an etree _Element "
-        #                             "or a list of objects")
+            if isinstance(xmlarray, list):
+                for element in xmlarray:
+                    if isinstance(element, etree._Element):
+                        array_elem = self._element_class(xmlelement = element)
+                        self._array_contents.append(array_elem)
+                    else:
+                        self._array_contents.append(element)
+            else:
+                raise AttributeError("'xmlarray' must be an etree _Element "
+                                     "or a list of objects")
 
     def __iter__(self):
         return self
@@ -336,7 +336,7 @@ class GenericArray():
         """
         for elem in self._array_contents:
             if elem.xml_lang == language:
-                return str(elem)
+                return elem
         # If language is not found, returns None - should we
         # raise an exception?
         return None

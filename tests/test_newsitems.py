@@ -235,8 +235,8 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         # Helper function to get available language versions
         assert contentmeta.subject[1].name.get_languages() == ['en-GB', 'de']
         # Helper function to get a given language version
-        assert contentmeta.subject[1].name.get_for_language('en-GB') == 'labour market'
-        assert contentmeta.subject[1].name.get_for_language('de') == 'Arbeitsmarkt'
+        assert str(contentmeta.subject[1].name.get_for_language('en-GB')) == 'labour market'
+        assert str(contentmeta.subject[1].name.get_for_language('de')) == 'Arbeitsmarkt'
         # Check that language helper fails where necessary
         assert contentmeta.subject[1].name.get_for_language('klingon') == None
 
@@ -401,10 +401,14 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem.itemmeta = itemmeta
         contentmeta = NewsMLG2.NewsItemContentMeta()
         contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
-        contentmeta.located.type = 'cptype:city'
-        contentmeta.located.qcode = 'city:345678'
-        contentmeta.located.name = 'Berlin'
-        """ keep these out for now while we're working on the solution
+        located = NewsMLG2.contentmeta.Located()
+        located.type = 'cptype:city'
+        located.qcode = 'city:345678'
+        located.name = 'Berlin'
+        contentmeta.located = located
+        digsrctype = NewsMLG2.contentmeta.DigitalSourceType()
+        digsrctype.uri = 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
+        contentmeta.digitalsourcetype = digsrctype
         broader1 = NewsMLG2.conceptrelationships.Broader()
         broader1.type = 'cptype:statprov'
         broader1.qcode = 'state:2365'
@@ -414,10 +418,18 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         broader2.qcode = 'iso3166-1a2:DE'
         broader2.name = 'Germany'
         contentmeta.located.broader = [broader1, broader2]
-        contentmeta.creator.qcode = 'codesource:DEZDF'
-        contentmeta.creator.name = 'Zweites Deutsches Fernsehen'
-        contentmeta.creator.organisationdetails.location.name = 'MAINZ'
-        """
+        creator = NewsMLG2.contentmeta.Creator()
+        creator.qcode = 'codesource:DEZDF'
+        creator.name = 'Zweites Deutsches Fernsehen'
+        # This implements
+        # contentmeta.creator.organisationdetails.location.name = 'MAINZ'
+        # we have to make each item separately.
+        orgdetails = NewsMLG2.entities.OrganisationDetails()
+        orglocation = NewsMLG2.entities.OrganisationLocation()
+        orglocation.name = 'MAINZ'
+        orgdetails.location = orglocation
+        creator.organisationdetails = orgdetails
+        contentmeta.creator = creator
         newsitem.contentmeta = contentmeta
         g2doc.set_item(newsitem)
 
@@ -433,6 +445,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert str(output_contentmeta.contentcreated) == '2008-11-05T19:04:00-08:00'
         assert output_contentmeta.located.type == 'cptype:city'
         assert output_contentmeta.located.qcode == 'city:345678'
+        assert output_contentmeta.digitalsourcetype.uri == 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
         assert str(output_contentmeta.located.name) == 'Berlin'
 
         output_xml = g2doc.to_xml()
@@ -445,6 +458,24 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
                               '  </itemMeta>\n'
                               '  <contentMeta>\n'
                               '    <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>\n'
+                              '    <located qcode="city:345678" type="cptype:city">\n'
+                              '      <name>Berlin</name>\n'
+                              '      <broader qcode="state:2365" type="cptype:statprov">\n'
+                              '        <name>Berlin</name>\n'
+                              '      </broader>\n'
+                              '      <broader qcode="iso3166-1a2:DE" type="cptype:country">\n'
+                              '        <name>Germany</name>\n'
+                              '      </broader>\n'
+                              '    </located>\n'
+                              '    <digitalSourceType uri="http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"/>\n'
+                              '    <creator qcode="codesource:DEZDF">\n'
+                              '      <name>Zweites Deutsches Fernsehen</name>\n'
+                              '      <organisationDetails>\n'
+                              '        <location>\n'
+                              '          <name>MAINZ</name>\n'
+                              '        </location>\n'
+                              '      </organisationDetails>\n'
+                              '    </creator>\n'
                               '  </contentMeta>\n'
                               '</newsItem>\n')
 

@@ -136,14 +136,16 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert conceptset.concept[0].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert conceptset.concept[0].related.rel == 'skos:inScheme'
 
-        """ TODO concept[1]:
-        <concept id="nprovAFP" modified="2008-07-02T12:00:00+00:00">
-          <conceptId qcode="nprov:AFP" created="2008-07-02T12:00:00+00:00"/>
-          <type qcode="cpnat:abstract"/>
-          <name xml:lang="en-GB">Agence France-Presse</name>
-          <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
-        </concept>
-        """
+        assert conceptset.concept[1].id == 'nprovAFP'
+        assert conceptset.concept[1].modified == '2008-07-02T12:00:00+00:00'
+        assert conceptset.concept[1].conceptid.qcode == 'nprov:AFP'
+        assert conceptset.concept[1].modified == '2008-07-02T12:00:00+00:00'
+        assert conceptset.concept[1].type.qcode == 'cpnat:abstract'
+        assert conceptset.concept[1].name[0].xml_lang == 'en-GB'
+        assert str(conceptset.concept[1].name[0]) == 'Agence France-Presse'
+        assert conceptset.concept[1].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
+        assert conceptset.concept[1].related.rel == 'skos:inScheme'
+
 
 class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):

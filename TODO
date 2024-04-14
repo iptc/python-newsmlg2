@@ -6,6 +6,3 @@ Outstanding issues:
 
 * enumerations are not yet supported. This only affects two places in the NewsML-G2
   schema: 'dir' (ltr|rtl) and 'videoscan' (progressive|interlaced)
-
-* EventsML-G2 constructs (i.e. eventSet, events, eventInfo, recurrenceRule etc) are
-  not yet supported.

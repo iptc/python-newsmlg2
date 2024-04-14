@@ -7,9 +7,6 @@ This module is a part-implementation of the standard in Python.  Currently it
 reads itemMeta and contentMeta blocks, catalogs and metadata objects from
 NewsML-G2 XML files and outputs Python objects.
 
-Work in progress. See TODO file for outstanding issues and features not yet
-implemented.
-
 Currently built for Python 3 only - please let us know if you require Python 2
 support.
 
@@ -37,11 +34,11 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.33"
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
@@ -59,7 +56,7 @@ newsitem = g2doc.getNewsItem()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.32'
+assert newsitem.standardversion == '2.33'
 assert newsitem.conformance == 'power'
 
 itemmeta = newsitem.itemmeta
@@ -93,7 +90,7 @@ Example:
     output_newsitem = g2doc.get_item()
     assert newsitem.guid == 'test-guid'
     assert newsitem.standard == 'NewsML-G2'
-    assert newsitem.standardversion == '2.32'
+    assert newsitem.standardversion == '2.33'
     assert newsitem.conformance == 'power'
     assert newsitem.version == '1'
     assert newsitem.xml_lang == 'en-GB'
@@ -101,7 +98,7 @@ Example:
     output_xml = g2doc.to_xml()
     assert output_xml == (
         "<?xml version='1.0' encoding='utf-8'?>\n"
-        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1">\n'
+        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.33" conformance="power" guid="test-guid" version="1">\n'
         '  <itemMeta>\n'
         '    <itemClass qcode="ninat:text"/>\n'
         '    <provider qcode="nprov:IPTC"/>\n'
@@ -136,4 +133,5 @@ helper functions `uri_to_qcode()` and `qcode_to_uri()`
 magic function support to help hasattr() and more on NewsML-G2 objects.
 * 0.5 - Now has 100% unit test coverage. Fixed more bugs. Implemented changes up to
 NewsML-G2 schema version v2.32.
-* 0.6 - Implemented NewsMessage and Events (EventsML-G2).
+* 0.6 - Implemented NewsMessage and Events (EventsML-G2). Adding arrays using code
+(as opposed to parsing an XML string/file) now works. Almost ready to go to 1.0.

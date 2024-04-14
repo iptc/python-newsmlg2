@@ -13,6 +13,7 @@ from .concepts import (
     FlexAuthorPropType, FlexLocationPropType, Flex1ConceptPropType,
     Flex1PartyPropType, Flex1PropType
 )
+from .conceptrelationships import FlexPropType
 from .complextypes import IntlStringType, TruncatedDateTimePropType
 from .extensionproperties import Flex2ExtPropType
 from .ids import AltId
@@ -37,6 +38,11 @@ class ContentModified(TruncatedDateTimePropType):
     The date (and optionally the time) on which the content was last modified.
     """
 
+
+class DigitalSourceType(FlexPropType):
+    """
+    Indicates the source type from which the content was created. The recommended vocabulary is the IPTC Digital Source Type NewsCodes http://cv.iptc.org/newscodes/digitalsourcetype/
+    """
 
 class Icon(TargetResourceAttributes, CommonPowerAttributes,
     MediaContentCharacteristics1):
@@ -462,6 +468,11 @@ AdministrativeMetadataGroup = [
         'type': 'single',
         'xml_name': 'contentModified',
         'element_class': ContentModified
+    }),
+    ('digitalsourcetype', {
+        'type': 'single',
+        'xml_name': 'digitalSourceType',
+        'element_class': DigitalSourceType
     }),
     ('located', {
         'type': 'array',

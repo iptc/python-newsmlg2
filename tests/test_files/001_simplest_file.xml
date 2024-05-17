@@ -4,7 +4,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test-from-file"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     xml:lang="en-GB">
     <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />

@@ -7,7 +7,7 @@
     guid="urn:newsml:iptc.org:20130517:catalog"
     version="31" 
     standard="NewsML-G2" 
-    standardversion="2.32" 
+    standardversion="2.34"
     conformance="power" 
     xml:lang="en-GB">
     <catalogRef

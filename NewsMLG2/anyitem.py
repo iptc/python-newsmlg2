@@ -6,7 +6,7 @@ AnyItemType definitions
 
 from lxml import etree
 
-from .core import BaseObject, QCodeURIMixin
+from .core import BaseObject, NEWSMLG2_VERSION, QCodeURIMixin
 from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, QuantifyAttributes
 )
@@ -199,8 +199,8 @@ class AnyItem(I18NAttributes):
         'standardversion': {
             'xml_name': 'standardversion',
             # NOTE: the XML Schema doesn't define a default but
-            # we do, for ease of use reasons
-            'default': '2.32'
+            # we default to the most recent version, for ease of use
+            'default': NEWSMLG2_VERSION
         },
         # The conformance level with which the Item is conformant.
         'conformance': {

@@ -47,7 +47,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -68,7 +68,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -94,7 +94,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test-2"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -136,7 +136,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test-from-file'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
 
@@ -165,7 +165,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
         assert newsitem.version == '11'
@@ -256,7 +256,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
         assert newsitem.version == '11'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-US'
         # TODO catalog tests??
@@ -333,7 +333,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -357,7 +357,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
 
         output_xml = g2doc.to_xml()
         assert output_xml == ('<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1"/>\n')
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1"/>\n')
 
     def test_create_valid_newsitem_in_code(self):
         g2doc = NewsMLG2.NewsMLG2Document()
@@ -374,14 +374,14 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
 
         output_xml = g2doc.to_xml()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:text"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -436,7 +436,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-complex-newsitem-in-code-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -450,7 +450,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
 
         output_xml = g2doc.to_xml()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:video"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -486,7 +486,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -518,7 +518,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -561,11 +561,11 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert type(catalogs[0]) == NewsMLG2.Catalog
         assert str(catalogs[0]) == '<Catalog "Test embedded catalog">'
         assert len(catalogs[0]) == 2
-        assert type(catalogs[0][1]) == NewsMLG2.catalog.Scheme
+        assert type(catalogs[0][1]) == NewsMLG2.Scheme
         assert type(catalogs[1]) == NewsMLG2.Catalog
         assert str(catalogs[1]) == '<Catalog>'
         assert len(catalogs[1]) == 134
-        assert type(catalogs[1][1]) == NewsMLG2.catalog.Scheme
+        assert type(catalogs[1][1]) == NewsMLG2.Scheme
 
         # array helper function tests
         assert str(newsitem.catalog.scheme) == '<GenericArray of 2 Scheme objects>'

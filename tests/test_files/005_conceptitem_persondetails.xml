@@ -7,7 +7,7 @@
     guid="urn:newsml:iptc.org:005-conceptitem-with-persondetails-test"
     version="11" 
     standard="NewsML-G2" 
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power">
     <catalogRef
         href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />

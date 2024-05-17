@@ -35,7 +35,6 @@ from .simpletypes import *
 from .utils import *
 
 VERSION = 0.6
-NEWSMLG2_VERSION = 2.33
 DEBUG = True
 
 __version__ = VERSION

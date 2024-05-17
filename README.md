@@ -34,7 +34,7 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.33"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -56,7 +56,7 @@ newsitem = g2doc.getNewsItem()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.33'
+assert newsitem.standardversion == '2.34'
 assert newsitem.conformance == 'power'
 
 itemmeta = newsitem.itemmeta
@@ -72,39 +72,82 @@ assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 etc...
 ```
 
-## Creating NewsML-G2 files from code
+## Creating NewsML-G2 files in Python
+
+There are a few points to note when creating NewsML-G2 directly in Python code (as opposed to
+parsing a string containing XML).
+
+* Elements with multiple values (such as multiple <broader> elements) must be created
+individually and then added to their parent through array assignment. So you should create
 
 Example:
 ```
-    g2doc = NewsMLG2.NewsMLG2Document()
-    newsitem = NewsMLG2.NewsItem()
-    newsitem.guid = 'test-guid'
-    newsitem.xml_lang = 'en-GB'
-    itemmeta = NewsMLG2.ItemMeta()
-    itemmeta.itemclass.qcode = "ninat:text"
-    itemmeta.provider.qcode = "nprov:IPTC"
-    itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
-    newsitem.itemmeta = itemmeta
-    g2doc.set_item(newsitem)
+g2doc = NewsMLG2.NewsMLG2Document()
+newsitem = NewsMLG2.NewsItem()
+newsitem.guid = 'test-guid'
+newsitem.xml_lang = 'en-GB'
+itemmeta = NewsMLG2.ItemMeta()
+itemmeta.itemclass.qcode = "ninat:text"
+itemmeta.provider.qcode = "nprov:IPTC"
+itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+newsitem.itemmeta = itemmeta
+contentmeta = NewsMLG2.NewsItemContentMeta()
+contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
+located = NewsMLG2.Located()
+located.type = 'cptype:city'
+located.qcode = 'city:345678'
+located.name = 'Berlin'
+contentmeta.located = located
+located = NewsMLG2.Located()
+located.type = 'cptype:city'
+located.qcode = 'city:345678'
+located.name = 'Berlin'
+contentmeta.located = located
+digsrctype = NewsMLG2.DigitalSourceType()
+digsrctype.uri = 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
+contentmeta.digitalsourcetype = digsrctype
+broader1 = NewsMLG2.Broader()
+broader1.type = 'cptype:statprov'
+broader1.qcode = 'state:2365'
+broader1.name = 'Berlin'
+broader2 = NewsMLG2.Broader()
+broader2.type = 'cptype:country'
+broader2.qcode = 'iso3166-1a2:DE'
+broader2.name = 'Germany'
+contentmeta.located.broader = [broader1, broader2]
+creator = NewsMLG2.Creator()
+creator.qcode = 'codesource:DEZDF'
+creator.name = 'Zweites Deutsches Fernsehen'
+# This implements
+# contentmeta.creator.organisationdetails.location.name = 'MAINZ'
+# we have to make each item separately.
+orgdetails = NewsMLG2.OrganisationDetails()
+orglocation = NewsMLG2.OrganisationLocation()
+orglocation.name = 'MAINZ'
+orgdetails.location = orglocation
+creator.organisationdetails = orgdetails
+contentmeta.creator = creator
+newsitem.contentmeta = contentmeta
+g2doc.set_item(newsitem)
 
-    output_newsitem = g2doc.get_item()
-    assert newsitem.guid == 'test-guid'
-    assert newsitem.standard == 'NewsML-G2'
-    assert newsitem.standardversion == '2.33'
-    assert newsitem.conformance == 'power'
-    assert newsitem.version == '1'
-    assert newsitem.xml_lang == 'en-GB'
+output_newsitem = g2doc.get_item()
+assert newsitem.guid == 'test-guid'
+assert newsitem.standard == 'NewsML-G2'
+assert newsitem.standardversion == '2.34'
+assert newsitem.conformance == 'power'
+assert newsitem.version == '1'
+assert newsitem.xml_lang == 'en-GB'
 
-    output_xml = g2doc.to_xml()
-    assert output_xml == (
-        "<?xml version='1.0' encoding='utf-8'?>\n"
-        '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.33" conformance="power" guid="test-guid" version="1">\n'
-        '  <itemMeta>\n'
-        '    <itemClass qcode="ninat:text"/>\n'
-        '    <provider qcode="nprov:IPTC"/>\n'
-        '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
-        '  </itemMeta>\n'
-        '</newsItem>\n')
+output_xml = g2doc.to_xml()
+assert output_xml == (
+    "<?xml version='1.0' encoding='utf-8'?>\n"
+    '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1">\n'
+    '  <itemMeta>\n'
+    '    <itemClass qcode="ninat:text"/>\n'
+    '    <provider qcode="nprov:IPTC"/>\n'
+    '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+    '  </itemMeta>\n'
+    '</newsItem>\n')
 ```
 
 ## Testing

@@ -138,7 +138,7 @@ class TestNewsMLG2EventFiles(unittest.TestCase):
         planningitem = g2doc.get_item()
         assert planningitem.guid == 'urn:newsml:iptc.org:20211029:gbmdrmdreis4711'
         assert planningitem.standard == 'NewsML-G2'
-        assert planningitem.standardversion == '2.30'
+        assert planningitem.standardversion == '2.34'
         assert planningitem.conformance == 'power'
 
         # catalog tests

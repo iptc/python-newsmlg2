@@ -45,9 +45,9 @@ class TestNewsMLG2PackageItems(unittest.TestCase):
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/
-        ./NewsML-G2_2.32-spec-All-Power.xsd"
+        ./NewsML-G2_2.34-spec-All-Power.xsd"
      standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     guid="tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658" version="11">
     <catalogRef
@@ -117,7 +117,7 @@ class TestNewsMLG2PackageItems(unittest.TestCase):
         packageitem = g2doc.get_item()
         assert packageitem.guid == 'tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658'
         assert packageitem.standard == 'NewsML-G2'
-        assert packageitem.standardversion == '2.32'
+        assert packageitem.standardversion == '2.34'
         assert packageitem.conformance == 'power'
         assert packageitem.version == '11'
 
@@ -194,7 +194,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         packageitem = g2doc.get_item()
         assert packageitem.guid == 'tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658'
         assert packageitem.standard == 'NewsML-G2'
-        assert packageitem.standardversion == '2.32'
+        assert packageitem.standardversion == '2.34'
         assert packageitem.conformance == 'power'
         assert packageitem.version == '11'
 

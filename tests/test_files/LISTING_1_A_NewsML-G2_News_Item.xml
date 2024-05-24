@@ -7,7 +7,7 @@
     guid="urn:newsml:acmenews.com:20161018:US-FINANCE-FED"
     version="11" 
     standard="NewsML-G2" 
-    standardversion="2.32" 
+    standardversion="2.34" 
     conformance="power"
     xml:lang="en-GB">
     <catalogRef

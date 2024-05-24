@@ -42,7 +42,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
 
     def test_parse_from_string(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
-<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144" version="1">
+<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144" version="1">
   <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml"/>
   <rightsInfo>
     <copyrightHolder uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
@@ -104,7 +104,7 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         knowlitem = g2doc.get_item()
         assert knowlitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-medtop-TS201901110952144'
         assert knowlitem.standard == 'NewsML-G2'
-        assert knowlitem.standardversion == '2.32'
+        assert knowlitem.standardversion == '2.34'
         assert knowlitem.conformance == 'power'
         assert knowlitem.version == '1'
 
@@ -136,14 +136,16 @@ class TestNewsMLG2KnowledgeItems(unittest.TestCase):
         assert conceptset.concept[0].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
         assert conceptset.concept[0].related.rel == 'skos:inScheme'
 
-        """ TODO concept[1]:
-        <concept id="nprovAFP" modified="2008-07-02T12:00:00+00:00">
-          <conceptId qcode="nprov:AFP" created="2008-07-02T12:00:00+00:00"/>
-          <type qcode="cpnat:abstract"/>
-          <name xml:lang="en-GB">Agence France-Presse</name>
-          <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
-        </concept>
-        """
+        assert conceptset.concept[1].id == 'nprovAFP'
+        assert conceptset.concept[1].modified == '2008-07-02T12:00:00+00:00'
+        assert conceptset.concept[1].conceptid.qcode == 'nprov:AFP'
+        assert conceptset.concept[1].modified == '2008-07-02T12:00:00+00:00'
+        assert conceptset.concept[1].type.qcode == 'cpnat:abstract'
+        assert conceptset.concept[1].name[0].xml_lang == 'en-GB'
+        assert str(conceptset.concept[1].name[0]) == 'Agence France-Presse'
+        assert conceptset.concept[1].related.uri == 'http://cv.iptc.org/newscodes/newsprovider/'
+        assert conceptset.concept[1].related.rel == 'skos:inScheme'
+
 
 class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):
@@ -152,7 +154,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         knowledgeitem = g2doc.get_item()
         assert knowledgeitem.guid == 'urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532'
         assert knowledgeitem.standard == 'NewsML-G2'
-        assert knowledgeitem.standardversion == '2.32'
+        assert knowledgeitem.standardversion == '2.34'
         assert knowledgeitem.conformance == 'power'
 
         # catalog tests

@@ -47,7 +47,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -68,10 +68,11 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
+        assert str(newsitem.itemmeta.itemclass) == '<ItemClass qcode="ninat:text">'
 
         catalogs = newsitem.get_catalogs()
         test_scheme = catalogs.get_scheme_for_alias('prov')
@@ -79,6 +80,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
+        assert str(test_scheme) == "Provider (deprecated) (prov, http://cv.iptc.org/newscodes/provider/)"
 
         itemmeta = newsitem.itemmeta
         assert itemmeta.itemclass.qcode == 'ninat:text'
@@ -87,6 +89,8 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
 
+        assert type(newsitem.itemmeta.generator) == NewsMLG2.GenericArray
+
     def test_failure_cases(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
 <newsItem
@@ -94,7 +98,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test-2"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -128,6 +132,11 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         # testing str() on un-named element
         assert str(newsitem.itemmeta) == '<ItemMeta>'
 
+        with self.assertRaises(Exception):
+            arr = NewsMLG2.GenericArray(xmlarray = "string")
+
+        broader = NewsMLG2.Broader()
+        assert bool(broader) == False
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
@@ -136,7 +145,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test-from-file'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
 
@@ -165,13 +174,14 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
         assert newsitem.version == '11'
 
         rightsinfo = newsitem.rightsinfo
         assert rightsinfo.copyrightholder.uri == 'http://www.example.com/about.html#copyright' 
+        assert str(rightsinfo.copyrightholder) == '<CopyrightHolder uri="http://www.example.com/about.html#copyright">'
         assert str(rightsinfo.copyrightholder.name) == 'Example Enews LLP'
         assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
         assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
@@ -235,10 +245,12 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         # Helper function to get available language versions
         assert contentmeta.subject[1].name.get_languages() == ['en-GB', 'de']
         # Helper function to get a given language version
-        assert contentmeta.subject[1].name.get_for_language('en-GB') == 'labour market'
-        assert contentmeta.subject[1].name.get_for_language('de') == 'Arbeitsmarkt'
+        assert str(contentmeta.subject[1].name.get_for_language('en-GB')) == 'labour market'
+        assert str(contentmeta.subject[1].name.get_for_language('de')) == 'Arbeitsmarkt'
         # Check that language helper fails where necessary
         assert contentmeta.subject[1].name.get_for_language('klingon') == None
+
+        assert type(contentmeta.language) == NewsMLG2.GenericArray
 
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
@@ -256,7 +268,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
         assert newsitem.version == '11'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-US'
         # TODO catalog tests??
@@ -333,7 +345,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -357,7 +369,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
 
         output_xml = g2doc.to_xml()
         assert output_xml == ('<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1"/>\n')
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1"/>\n')
 
     def test_create_valid_newsitem_in_code(self):
         g2doc = NewsMLG2.NewsMLG2Document()
@@ -374,14 +386,14 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
 
         output_xml = g2doc.to_xml()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:text"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -401,30 +413,47 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem.itemmeta = itemmeta
         contentmeta = NewsMLG2.NewsItemContentMeta()
         contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
-        contentmeta.located.type = 'cptype:city'
-        contentmeta.located.qcode = 'city:345678'
-        contentmeta.located.name = 'Berlin'
-        """ keep these out for now while we're working on the solution
-        broader1 = NewsMLG2.conceptrelationships.Broader()
+        located = NewsMLG2.Located()
+        located.type = 'cptype:city'
+        located.qcode = 'city:345678'
+        located.name = 'Berlin'
+        contentmeta.located = located
+        digsrctype = NewsMLG2.DigitalSourceType()
+        digsrctype.uri = 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
+        contentmeta.digitalsourcetype = digsrctype
+        broader1 = NewsMLG2.Broader()
         broader1.type = 'cptype:statprov'
         broader1.qcode = 'state:2365'
         broader1.name = 'Berlin'
-        broader2 = NewsMLG2.conceptrelationships.Broader()
+        broader2 = NewsMLG2.Broader()
         broader2.type = 'cptype:country'
         broader2.qcode = 'iso3166-1a2:DE'
         broader2.name = 'Germany'
         contentmeta.located.broader = [broader1, broader2]
-        contentmeta.creator.qcode = 'codesource:DEZDF'
-        contentmeta.creator.name = 'Zweites Deutsches Fernsehen'
-        contentmeta.creator.organisationdetails.location.name = 'MAINZ'
-        """
+
+        # Check that we can't assign a list to a non-array type
+        with self.assertRaises(AttributeError):
+            contentmeta.digitalsourcetype = [broader1, broader2]
+
+        creator = NewsMLG2.Creator()
+        creator.qcode = 'codesource:DEZDF'
+        creator.name = 'Zweites Deutsches Fernsehen'
+        # This implements
+        # contentmeta.creator.organisationdetails.location.name = 'MAINZ'
+        # we have to make each item separately.
+        orgdetails = NewsMLG2.OrganisationDetails()
+        orglocation = NewsMLG2.OrganisationLocation()
+        orglocation.name = 'MAINZ'
+        orgdetails.location = orglocation
+        creator.organisationdetails = orgdetails
+        contentmeta.creator = creator
         newsitem.contentmeta = contentmeta
         g2doc.set_item(newsitem)
 
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-complex-newsitem-in-code-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -433,11 +462,12 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert str(output_contentmeta.contentcreated) == '2008-11-05T19:04:00-08:00'
         assert output_contentmeta.located.type == 'cptype:city'
         assert output_contentmeta.located.qcode == 'city:345678'
+        assert output_contentmeta.digitalsourcetype.uri == 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
         assert str(output_contentmeta.located.name) == 'Berlin'
 
         output_xml = g2doc.to_xml()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.32" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:video"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -445,6 +475,24 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
                               '  </itemMeta>\n'
                               '  <contentMeta>\n'
                               '    <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>\n'
+                              '    <located qcode="city:345678" type="cptype:city">\n'
+                              '      <name>Berlin</name>\n'
+                              '      <broader qcode="state:2365" type="cptype:statprov">\n'
+                              '        <name>Berlin</name>\n'
+                              '      </broader>\n'
+                              '      <broader qcode="iso3166-1a2:DE" type="cptype:country">\n'
+                              '        <name>Germany</name>\n'
+                              '      </broader>\n'
+                              '    </located>\n'
+                              '    <digitalSourceType uri="http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"/>\n'
+                              '    <creator qcode="codesource:DEZDF">\n'
+                              '      <name>Zweites Deutsches Fernsehen</name>\n'
+                              '      <organisationDetails>\n'
+                              '        <location>\n'
+                              '          <name>MAINZ</name>\n'
+                              '        </location>\n'
+                              '      </organisationDetails>\n'
+                              '    </creator>\n'
                               '  </contentMeta>\n'
                               '</newsItem>\n')
 
@@ -455,7 +503,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -487,7 +535,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.32'
+        assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -530,11 +578,11 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert type(catalogs[0]) == NewsMLG2.Catalog
         assert str(catalogs[0]) == '<Catalog "Test embedded catalog">'
         assert len(catalogs[0]) == 2
-        assert type(catalogs[0][1]) == NewsMLG2.catalog.Scheme
+        assert type(catalogs[0][1]) == NewsMLG2.Scheme
         assert type(catalogs[1]) == NewsMLG2.Catalog
         assert str(catalogs[1]) == '<Catalog>'
         assert len(catalogs[1]) == 134
-        assert type(catalogs[1][1]) == NewsMLG2.catalog.Scheme
+        assert type(catalogs[1][1]) == NewsMLG2.Scheme
 
         # array helper function tests
         assert str(newsitem.catalog.scheme) == '<GenericArray of 2 Scheme objects>'

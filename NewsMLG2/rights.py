@@ -8,6 +8,7 @@ from .attributegroups import (
     CommonPowerAttributes, I18NAttributes, TimeValidityAttributes
 )
 from .concepts import FlexPartyPropType, FlexPersonPropType
+from .conceptrelationships import FlexPropType
 from .extensionproperties import Flex2ExtPropType
 from .labeltypes import BlockType
 from .link import Link
@@ -92,6 +93,12 @@ class RightsExpressionData(CommonPowerAttributes):
             'use': 'required'
         }
     }
+
+
+class DataMining(FlexPropType):
+    """
+    Data mining prohibition or permission, optionally with constraints
+    """
 
 
 class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
@@ -180,5 +187,9 @@ class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
         ('rightsexpressiondata', {
             'type': 'array', 'xml_name': 'rightsExpressionData',
             'element_class': RightsExpressionData
+        }),
+        ('datamining', {
+            'type': 'single', 'xml_name': 'dataMining',
+            'element_class': DataMining
         })
     ]

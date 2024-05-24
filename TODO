@@ -1,0 +1,10 @@
+Outstanding issues:
+
+* xs:any constructs are not yet supported. These are spread throughout the schema
+  and are critical to some areas such as <assert> and <itemSet>. These will have
+  limited usefulness until xs:any is implemented.
+
+* enumerations are not yet supported. This only affects two places in the NewsML-G2
+  schema: 'dir' (ltr|rtl) and 'videoscan' (progressive|interlaced)
+
+* Remote catalog loading over HTTP is not yet supported.

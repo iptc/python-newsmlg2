@@ -47,11 +47,11 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/
-        ./NewsML-G2_2.32-spec-All-Power.xsd"
+        ./NewsML-G2_2.34-spec-All-Power.xsd"
     guid="urn:newsml:iptc.org:20130517:catalog"
     version="31"
     standard="NewsML-G2"
-    standardversion="2.32"
+    standardversion="2.34"
     conformance="power"
     xml:lang="en-GB">
     <catalogRef
@@ -91,7 +91,7 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
         assert catitem.standard == 'NewsML-G2'
-        assert catitem.standardversion == '2.32'
+        assert catitem.standardversion == '2.34'
         assert catitem.conformance == 'power'
         assert catitem.version == '31'
 
@@ -128,7 +128,7 @@ class TestNewsMLG2CatalogItemFiles(unittest.TestCase):
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
         assert catitem.standard == 'NewsML-G2'
-        assert catitem.standardversion == '2.32'
+        assert catitem.standardversion == '2.34'
         assert catitem.conformance == 'power'
         assert catitem.version == '31'
 
@@ -136,8 +136,7 @@ class TestNewsMLG2CatalogItemFiles(unittest.TestCase):
         # catalogs should work the same as for news items.
         test_scheme = catalogs.get_scheme_for_alias('prov')
         assert test_scheme.uri == 'http://cv.iptc.org/newscodes/provider/'
-        # the listing refers to catalog v32 which doesn't have authority elements
-        # assert test_scheme.authority == 'https://iptc.org/'
+        assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
 

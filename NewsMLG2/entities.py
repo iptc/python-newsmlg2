@@ -281,18 +281,21 @@ class OrganisationFounded(TruncatedDateTimePropType):
     """
     The date the organisation was founded/established.
     """
+    xml_element_name = 'founded'
 
 
 class OrganisationDissolved(TruncatedDateTimePropType):
     """
     The date the organisation was dissolved.
     """
+    xml_element_name = 'dissolved'
 
 
 class OrganisationLocation(FlexLocationPropType):
     """
     A place where the organisation is located.
     """
+    xml_element_name = 'location'
 
 
 class OrganisationAffiliationType(FlexOrganisationPropType, TimeValidityAttributes):
@@ -306,6 +309,7 @@ class OrganisationAffiliation(OrganisationAffiliationType):
     """
     An affiliation of the organisation with another organisation.
     """
+    xml_element_name = 'affiliation'
 
 
 class HasInstrument(CommonPowerAttributes):

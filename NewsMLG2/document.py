@@ -12,6 +12,7 @@ from .catalogitem import CatalogItem
 from .conceptitem import ConceptItem
 from .knowledgeitem import KnowledgeItem
 from .newsitem import NewsItem
+from .newsmessage import NewsMessage
 from .packageitem import PackageItem
 from .planningitem import PlanningItem
 
@@ -54,9 +55,13 @@ class NewsMLG2Document():
                 self.item = PlanningItem(
                     xmlelement = self._root_element
                 )
+            elif self._root_element.tag == NEWSMLG2NSPREFIX+'newsMessage':
+                self.item = NewsMessage(
+                    xmlelement = self._root_element
+                )
             else:
                 raise Exception(
-                    "NewsMessage is not yet supported."
+                    "Root element is not a NewsML-G2 specified document root."
                 )
 
     def get_item(self):

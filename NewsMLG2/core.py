@@ -116,15 +116,10 @@ class BaseObject():
         # convert our list of tuples to a dict so we can look up keys
         elemdefndict = dict(self._element_definitions)
         if name in elemdefndict:
-            # no value, but the element exists - create it on the fly!
+            # no value, but the element definition exists - so create an empty object on the fly
             element_definition = elemdefndict[name]
             element_class = self.get_element_class(element_definition['element_class'])
-            if element_definition['type'] == 'array':
-                self._element_values[name] = GenericArray(
-                    element_class = element_definition['element_class']
-                )
-            else:
-                self._element_values[name] = element_class()
+            self._element_values[name] = element_class()
             return self._element_values[name]
 
         if name in self._attribute_definitions:
@@ -164,7 +159,10 @@ class BaseObject():
                 self._element_values[name] = element_class(text = value)
             elif isinstance(value, list):
                 if elemdefndict[name]['type'] == 'array':
-                    self._element_values[name] = GenericArray(xmlarray = value, element_class = element_class)
+                    self._element_values[name] = GenericArray(
+                        xmlarray = value,
+                        element_class = element_class
+                    )
                 else:
                     raise AttributeError(
                             "Trying to assign a list to a non-array element"
@@ -265,9 +263,9 @@ class GenericArray():
                         self._array_contents.append(array_elem)
                     else:
                         self._array_contents.append(element)
-            else:
-                raise AttributeError("'xmlarray' must be an etree _Element "
-                                     "or a list of objects")
+        else:
+            raise AttributeError("'xmlarray' must be an etree _Element "
+                                 "or a list of objects")
 
     def __iter__(self):
         return self

@@ -72,6 +72,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
+        assert str(newsitem.itemmeta.itemclass) == '<ItemClass qcode="ninat:text">'
 
         catalogs = newsitem.get_catalogs()
         test_scheme = catalogs.get_scheme_for_alias('prov')
@@ -79,6 +80,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert test_scheme.authority == 'https://iptc.org/'
         assert test_scheme.modified == '2019-09-13T12:00:00+00:00'
         assert str(test_scheme.definition) == 'Indicates a company, publication or service provider.'
+        assert str(test_scheme) == "Provider (deprecated) (prov, http://cv.iptc.org/newscodes/provider/)"
 
         itemmeta = newsitem.itemmeta
         assert itemmeta.itemclass.qcode == 'ninat:text'
@@ -86,6 +88,8 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert itemmeta.provider.qcode == 'nprov:IPTC'
         assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
         assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+
+        assert type(newsitem.itemmeta.generator) == NewsMLG2.GenericArray
 
     def test_failure_cases(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
@@ -128,6 +132,11 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         # testing str() on un-named element
         assert str(newsitem.itemmeta) == '<ItemMeta>'
 
+        with self.assertRaises(Exception):
+            arr = NewsMLG2.GenericArray(xmlarray = "string")
+
+        broader = NewsMLG2.Broader()
+        assert bool(broader) == False
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
@@ -172,6 +181,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
 
         rightsinfo = newsitem.rightsinfo
         assert rightsinfo.copyrightholder.uri == 'http://www.example.com/about.html#copyright' 
+        assert str(rightsinfo.copyrightholder) == '<CopyrightHolder uri="http://www.example.com/about.html#copyright">'
         assert str(rightsinfo.copyrightholder.name) == 'Example Enews LLP'
         assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
         assert str(rightsinfo.copyrightnotice) == 'Copyright 2017-18 Example Enews LLP, all rights reserved'
@@ -239,6 +249,8 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert str(contentmeta.subject[1].name.get_for_language('de')) == 'Arbeitsmarkt'
         # Check that language helper fails where necessary
         assert contentmeta.subject[1].name.get_for_language('klingon') == None
+
+        assert type(contentmeta.language) == NewsMLG2.GenericArray
 
         assert contentmeta.genre.qcode == 'genre:interview'
         assert str(contentmeta.genre.name) == 'Interview'
@@ -418,6 +430,11 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         broader2.qcode = 'iso3166-1a2:DE'
         broader2.name = 'Germany'
         contentmeta.located.broader = [broader1, broader2]
+
+        # Check that we can't assign a list to a non-array type
+        with self.assertRaises(AttributeError):
+            contentmeta.digitalsourcetype = [broader1, broader2]
+
         creator = NewsMLG2.Creator()
         creator.qcode = 'codesource:DEZDF'
         creator.name = 'Zweites Deutsches Fernsehen'

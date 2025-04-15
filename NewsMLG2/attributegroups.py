@@ -88,9 +88,13 @@ class I18NAttributes(BaseObject):
             'xml_name': XMLNSPREFIX+'lang'
         },
         # The directionality of textual content
-        # (TODO enumeration: ltr, rtl)
         'dir': {
             'xml_name': 'dir'
+            'xml_type': 'xs:enumeration',
+            'enum_values': [
+                'ltr',
+                'rtl'
+            ]
         }
     }
 
@@ -829,6 +833,11 @@ class NewsContentCharacteristics(BaseObject):
         'videoscan': {
             'xml_name': 'videoscan',
             # TODO <xs:enumeration value="progressive"/> <xs:enumeration value="interlaced"/>
+            'xml_type': 'xs:enumeration',
+            'enum_values': [
+                'progressive',
+                'interlaced'
+            ]
         },
         # The video aspect ratio
         'videoaspectratio': {

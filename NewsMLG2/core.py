@@ -156,6 +156,12 @@ class BaseObject():
             element_class_name = elemdefndict[name]['element_class']
             element_class = self.get_element_class(element_class_name)
             if isinstance(value, str):
+                if self._element_definitions['xml_type'] == 'xs:enumeration' and
+                    value not in self._element_definitions['enum_values']:
+                    # validate that value is defined in the enum
+                    raise AttributeError(
+                            "Trying to assign a value not defined in enumeration"
+                          )
                 self._element_values[name] = element_class(text = value)
             elif isinstance(value, list):
                 if elemdefndict[name]['type'] == 'array':

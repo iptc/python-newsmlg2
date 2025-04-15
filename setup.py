@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-VERSION = '0.3'
+VERSION = '0.7'
 
 setup(
   name = 'newsmlg2',
@@ -22,7 +22,7 @@ setup(
   download_url = 'https://github.com/iptc/python-newsmlg2/archive/v'+VERSION+'.tar.gz',
   keywords = ['api', 'media', 'publishing', 'news', 'syndication'],
   classifiers = [
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python :: 3',

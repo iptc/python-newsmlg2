@@ -178,3 +178,8 @@ magic function support to help hasattr() and more on NewsML-G2 objects.
 NewsML-G2 schema version v2.32.
 * 0.6 - Implemented NewsMessage and Events (EventsML-G2). Adding arrays using code
 (as opposed to parsing an XML string/file) now works. Almost ready to go to 1.0.
+* 0.7 - Fixed a bug whereby IPTC catalog files were not included in the distribution
+package.
+* 0.8 - Switched to latest setuptools packaging configuration.
+* 0.9 - Fixed a bug with packaging in the previous version. Added support for XML
+enumerations. Updated catalog cache to include latest versions.

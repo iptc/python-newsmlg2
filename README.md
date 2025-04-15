@@ -183,3 +183,4 @@ package.
 * 0.8 - Switched to latest setuptools packaging configuration.
 * 0.9 - Fixed a bug with packaging in the previous version. Added support for XML
 enumerations. Updated catalog cache to include latest versions.
+* 0.10 - Fixed more packaging bugs.

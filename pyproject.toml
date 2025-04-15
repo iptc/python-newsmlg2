@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = 'newsmlg2'
-version = '0.9'
+version = '0.10'
 description = 'Python implementation of the NewsML-G2 standard (https://iptc.org/standards/newsml-g2/)'
 readme = "README.md"
 authors = [{ name = "Brendan Quinn", email = "office@iptc.org" }]
@@ -24,8 +24,12 @@ dependencies = [
 ]
 requires-python = ">=3"
 
-[tool.setuptools.packages.find]
-where = ["NewsMLG2", "NewsMLG2/catalogs"]
+[tool.setuptools]
+packages = ["NewsMLG2"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"NewsMLG2" = ["catalogs/*.xml"]
 
 [project.urls]
 Homepage = 'https://github.com/iptc/python-newsmlg2/'

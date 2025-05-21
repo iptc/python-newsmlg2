@@ -89,7 +89,7 @@ class I18NAttributes(BaseObject):
         },
         # The directionality of textual content
         'dir': {
-            'xml_name': 'dir'
+            'xml_name': 'dir',
             'xml_type': 'xs:enumeration',
             'enum_values': [
                 'ltr',

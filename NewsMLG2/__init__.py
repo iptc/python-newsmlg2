@@ -34,7 +34,7 @@ from .rights import *
 from .simpletypes import *
 from .utils import *
 
-VERSION = 0.10
+VERSION = 1.0
 DEBUG = True
 
 __version__ = VERSION

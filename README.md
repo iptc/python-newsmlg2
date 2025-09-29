@@ -34,15 +34,15 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
-        <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>
+        <versionCreated>2025-09-29T12:00:00+03:00</versionCreated>
     </itemMeta>
     <contentSet>
         <inlineXML contenttype="application/nitf+xml">
@@ -56,7 +56,7 @@ newsitem = g2doc.getNewsItem()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.34'
+assert newsitem.standardversion == '2.35'
 assert newsitem.conformance == 'power'
 
 itemmeta = newsitem.itemmeta
@@ -67,7 +67,7 @@ assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/ne
 assert itemmeta.provider.qcode == 'nprov:IPTC'
 assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
 # Elements that contain a simple text string can be read with str(class)
-assert str(itemmeta.versioncreated) == '2020-06-22T12:00:00+03:00'
+assert str(itemmeta.versioncreated) == '2025-09-28T12:00:00+03:00'
 
 etc...
 ```
@@ -89,7 +89,7 @@ newsitem.xml_lang = 'en-GB'
 itemmeta = NewsMLG2.ItemMeta()
 itemmeta.itemclass.qcode = "ninat:text"
 itemmeta.provider.qcode = "nprov:IPTC"
-itemmeta.versioncreated = "2020-06-22T12:00:00+03:00"
+itemmeta.versioncreated = "2025-09-29T12:00:00+03:00"
 newsitem.itemmeta = itemmeta
 contentmeta = NewsMLG2.NewsItemContentMeta()
 contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
@@ -141,11 +141,11 @@ assert newsitem.xml_lang == 'en-GB'
 output_xml = g2doc.to_xml()
 assert output_xml == (
     "<?xml version='1.0' encoding='utf-8'?>\n"
-    '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1">\n'
+    '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1">\n'
     '  <itemMeta>\n'
     '    <itemClass qcode="ninat:text"/>\n'
     '    <provider qcode="nprov:IPTC"/>\n'
-    '    <versionCreated>2020-06-22T12:00:00+03:00</versionCreated>\n'
+    '    <versionCreated>2025-09-29T12:00:00+03:00</versionCreated>\n'
     '  </itemMeta>\n'
     '</newsItem>\n')
 ```
@@ -184,3 +184,4 @@ package.
 * 0.9 - Fixed a bug with packaging in the previous version. Added support for XML
 enumerations. Updated catalog cache to include latest versions.
 * 0.10 - Fixed more packaging bugs.
+* 1.0 - First stable release. Added xs:any support and roundtrip tests.

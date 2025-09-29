@@ -6,15 +6,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = 'newsmlg2'
-version = '0.10'
+version = '1.0'
 description = 'Python implementation of the NewsML-G2 standard (https://iptc.org/standards/newsml-g2/)'
 readme = "README.md"
 authors = [{ name = "Brendan Quinn", email = "office@iptc.org" }]
-license = { file = "LICENSE" }
+license = "MIT"
 classifiers = [
-    'Development Status :: 4 - Beta',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
 ]

@@ -9,7 +9,7 @@
     standardversion="2.32" 
     conformance="power" >
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <itemMeta>
         <itemClass qcode="cinat:scheme" />
         <provider qcode="nprov:IPTC" />

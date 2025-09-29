@@ -44,7 +44,13 @@ CATALOG_CACHE = {
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_37.xml':
         'catalogs/catalog.IPTC-G2-Standards_37.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml':
-        'catalogs/catalog.IPTC-G2-Standards_38.xml'
+        'catalogs/catalog.IPTC-G2-Standards_38.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_39.xml':
+        'catalogs/catalog.IPTC-G2-Standards_39.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_40.xml':
+        'catalogs/catalog.IPTC-G2-Standards_40.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml':
+        'catalogs/catalog.IPTC-G2-Standards_41.xml'
 }
 
 

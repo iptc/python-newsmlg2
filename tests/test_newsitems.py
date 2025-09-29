@@ -51,7 +51,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
@@ -102,7 +102,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     conformance="power"
     version="1"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <itemMeta>
         <itemClass qcode="ninat:text" />
         <provider qcode="nprov:IPTC" />
@@ -271,7 +271,6 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.standardversion == '2.34'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-US'
-        # TODO catalog tests??
         # <catalogRef
         #     href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
         # <catalogRef href="http://cv.gettyimages.com/nml2catalog4customers-1.xml" />

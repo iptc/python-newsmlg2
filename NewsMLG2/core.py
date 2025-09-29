@@ -22,6 +22,31 @@ XMLNSPREFIX = '{%s}' % XML_NS
 NSMAP = {None : NEWSMLG2_NS, 'xml': XML_NS, 'nitf': NITF_NS}
 
 
+class ExtensionElement():
+    """
+    Handles NewsML-G2 elements that use xs:any constructs to allow non-G2 content.
+    These elements are preserved as-is during parsing and serialization.
+    """
+    def __init__(self, xmlelement=None, **kwargs):
+        self._xmlelement = xmlelement
+        self._text = kwargs.get('text', '')
+
+    def to_xml(self):
+        """Return the original XML element unchanged."""
+        if self._xmlelement is not None:
+            return self._xmlelement
+        # If no original element, create a minimal one
+        return etree.Element("extension")
+
+    def __str__(self):
+        if self._text:
+            return self._text
+        return '<ExtensionElement>'
+
+    def __bool__(self):
+        return self._xmlelement is not None or bool(self._text)
+
+
 class BaseObject():
     """
     Implements `attributes` and `elements` handlers.
@@ -29,6 +54,7 @@ class BaseObject():
     _attribute_definitions = None
     _attribute_values = {}
     _element_values = {}
+    _extension_elements = {}  # Store xs:any elements
 
     def get_attribute_definitions(self):
         """
@@ -69,6 +95,8 @@ class BaseObject():
         """
         self._attribute_values = {}
         self._element_values = {}
+        self._extension_elements = {}
+        self._xs_any_content = []
         xmlelement = kwargs.get('xmlelement')
         attr_defns = self.get_attribute_definitions()
         element_defns = self.get_element_definitions()
@@ -78,11 +106,15 @@ class BaseObject():
             return
         if not isinstance(xmlelement, etree._Element):
             raise AttributeError("xmlelement should be an instance of _Element. Currently it is a "+str(type(xmlelement)))
+
+        # Process attributes
         for attribute_id, attribute_definition in attr_defns.items():
             attribute_xmlname = attribute_definition['xml_name']
             xmlattr_value = xmlelement.get(attribute_xmlname)
             if xmlattr_value is not None:
                 self._attribute_values[attribute_id] = xmlattr_value
+
+        # Process defined child elements
         for (element_id, element_definition) in element_defns:
             element_class = self.get_element_class(element_definition['element_class'])
             if element_definition['type'] == 'array':
@@ -98,8 +130,124 @@ class BaseObject():
                                     NEWSMLG2NSPREFIX+element_definition['xml_name']
                                  )
                 )
+
+        # Process extension elements (xs:any)
+        self._process_extension_elements(xmlelement, element_defns)
+
         if xmlelement.text:
             self._text = re.sub(r"\s+", " ", xmlelement.text).strip()
+
+    def get_extension_elements(self):
+        """
+        Return all extension elements (xs:any) found in this object.
+        """
+        return self._extension_elements
+
+    def get_extension_element(self, name):
+        """
+        Get a specific extension element by name.
+        """
+        extension_key = f"extension_{name}"
+        return self._extension_elements.get(extension_key)
+
+    def set_extension_element(self, name, element):
+        """
+        Set an extension element by name.
+        """
+        extension_key = f"extension_{name}"
+        if isinstance(element, etree._Element):
+            self._extension_elements[extension_key] = ExtensionElement(xmlelement=element)
+        else:
+            self._extension_elements[extension_key] = ExtensionElement(text=str(element))
+
+    def _process_extension_elements(self, xmlelement, element_defns):
+        """
+        Process any elements that are not defined in the schema (xs:any).
+        These are stored as ExtensionElement objects and preserved during serialization.
+        """
+        # Check if this class supports xs:any
+        xs_any_value = getattr(self, 'xsAny', None)
+        has_xs_any = xs_any_value is not None
+
+        if has_xs_any:
+            self._xs_any_content = []
+            
+            # Get all defined element names to identify extensions
+            defined_names = set()
+            for (element_id, element_definition) in element_defns:
+                defined_names.add(element_definition['xml_name'])
+
+            # Find all child elements
+            for child in xmlelement:
+                if child.tag is not None and isinstance(child.tag, str):  # Skip comments, processing instructions, etc.
+                    # Check if this element should be processed as xs:any content
+                    should_process = self._should_process_as_xs_any(child, xs_any_value, defined_names)
+                    
+                    if should_process:
+                        self._xs_any_content.append(child)
+                    else:
+                        # Process as extension element if not handled by xs:any
+                        local_name = child.tag
+                        if local_name.startswith(NEWSMLG2NSPREFIX):
+                            local_name = local_name[len(NEWSMLG2NSPREFIX):]
+                        elif local_name.startswith(NITFNSPREFIX):
+                            local_name = local_name[len(NITFNSPREFIX):]
+                        elif local_name.startswith(XMLNSPREFIX):
+                            local_name = local_name[len(XMLNSPREFIX):]
+
+                        # If this element is not defined in our schema, treat it as an extension
+                        if local_name not in defined_names:
+                            # Use the full tag as the key to preserve namespace information
+                            extension_key = f"extension_{local_name}"
+                            self._extension_elements[extension_key] = ExtensionElement(xmlelement=child)
+        else:
+            # For classes that don't support xs:any, process undefined elements as extensions
+            # Get all defined element names to identify extensions
+            defined_names = set()
+            for (element_id, element_definition) in element_defns:
+                defined_names.add(element_definition['xml_name'])
+
+            # Find all child elements
+            for child in xmlelement:
+                if child.tag is not None and isinstance(child.tag, str):  # Skip comments, processing instructions, etc.
+                    # Remove namespace prefix to get local name
+                    local_name = child.tag
+                    if local_name.startswith(NEWSMLG2NSPREFIX):
+                        local_name = local_name[len(NEWSMLG2NSPREFIX):]
+                    elif local_name.startswith(NITFNSPREFIX):
+                        local_name = local_name[len(NITFNSPREFIX):]
+                    elif local_name.startswith(XMLNSPREFIX):
+                        local_name = local_name[len(XMLNSPREFIX):]
+
+                    # If this element is not defined in our schema, treat it as an extension
+                    if local_name not in defined_names:
+                        # Use the full tag as the key to preserve namespace information
+                        extension_key = f"extension_{local_name}"
+                        self._extension_elements[extension_key] = ExtensionElement(xmlelement=child)
+
+    def _should_process_as_xs_any(self, child_element, xs_any_value, defined_names):
+        """
+        Determine if a child element should be processed as xs:any content
+        based on the xsAny value.
+        """
+        if xs_any_value == "any":
+            # "any" means literally any XML namespace is valid
+            return True
+        elif xs_any_value == "other":
+            # "other" means any namespace other than the NewsML-G2 namespace is valid
+            return not child_element.tag.startswith(NEWSMLG2NSPREFIX)
+        elif xs_any_value.startswith("http://") or xs_any_value.startswith("https://"):
+            # Specific namespace URI means only elements in that namespace are valid
+            # Extract namespace from the element tag
+            if '}' in child_element.tag:
+                element_ns = child_element.tag.split('}')[0][1:]  # Remove { and }
+                return element_ns == xs_any_value
+            else:
+                # Element has no namespace, so it doesn't match the specific namespace
+                return False
+        else:
+            # Unknown xsAny value, don't process as xs:any content
+            return False
 
     def get_element_value(self, item):
         """
@@ -156,8 +304,9 @@ class BaseObject():
             element_class_name = elemdefndict[name]['element_class']
             element_class = self.get_element_class(element_class_name)
             if isinstance(value, str):
-                if self._element_definitions['xml_type'] == 'xs:enumeration' and
-                    value not in self._element_definitions['enum_values']:
+                if ('xml_type' in elemdefndict[name]
+                    and elemdefndict[name]['xml_type'] == 'xs:enumeration'
+                    and value not in self._element_definitions['enum_values']):
                     # validate that value is defined in the enum
                     raise AttributeError(
                             "Trying to assign a value not defined in enumeration"
@@ -236,6 +385,20 @@ class BaseObject():
                 else:
                     child_elem_xml = child_element_value.to_xml()
                     elem.append(child_elem_xml)
+
+        # Add extension elements (xs:any)
+        for extension_key, extension_element in self._extension_elements.items():
+            if extension_element:
+                elem.append(extension_element.to_xml())
+
+        # If this class supports xs:any, add all content elements
+        if hasattr(self, '_xs_any_content') and self._xs_any_content:
+            for content_elem in self._xs_any_content:
+                # Create a deep copy to avoid modifying the original
+                # and preserve the original namespace context
+                copied_elem = etree.fromstring(etree.tostring(content_elem, encoding='unicode'))
+                elem.append(copied_elem)
+
         return elem
 
 

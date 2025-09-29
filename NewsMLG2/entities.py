@@ -251,6 +251,8 @@ class ContactInfoType(CommonPowerAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class ContactInfo(ContactInfoType):
     """
@@ -276,6 +278,7 @@ class PersonDetails(CommonPowerAttributes):
         })
     ]
 
+    xsAny = "other"
 
 class OrganisationFounded(TruncatedDateTimePropType):
     """
@@ -409,6 +412,8 @@ class OrganisationDetails(CommonPowerAttributes):
         })
     ]
 
+    xsAny = "other"
+
 
 class ObjectCreated(TruncatedDateTimePropType):
     """
@@ -445,3 +450,5 @@ class ObjectDetails(CommonPowerAttributes):
             'element_class': ObjectCeasedToExist
         })
     ]
+
+    xsAny = "other"

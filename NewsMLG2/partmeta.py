@@ -224,6 +224,8 @@ class PartMetaPropType(I18NAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class PartMeta(PartMetaPropType):
     """

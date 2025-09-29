@@ -120,6 +120,7 @@ class SchemeMeta(AuthorityAttributes, CommonPowerAttributes):
             'use': 'optional'
         }
     }
+    xsAny = "other"
 
 
 class KnowledgeItemContentMeta(ContentMetadataAcDType):

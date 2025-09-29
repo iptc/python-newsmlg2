@@ -157,6 +157,7 @@ class Link1Type(TargetResourceAttributes, TimeValidityAttributes,
         }
     }
 
+    xsAny = "any"
 
 class Link(Link1Type):
     """

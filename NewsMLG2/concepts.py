@@ -65,14 +65,19 @@ class Flex1PropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
           sequence so we may have to handle this differently if we want to output
           schema-compliant documents
     """
+
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup
+
+    xsAny = "other"
 
 
 class Flex1RolePropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
     Flexible generic PCL-type for both controlled and uncontrolled values
     """
+
     elements = ConceptDefinitionGroup + ConceptRelationshipsGroup
+
     attributes = {
         # Refines the semantics of the property - expressed by a QCode
         'role': {
@@ -83,6 +88,8 @@ class Flex1RolePropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
             'xml_name': 'roleuri'
         }
     }
+
+    xsAny = "other"
 
 
 class Flex1ConceptPropType(Flex1PropType, QuantifyAttributes):
@@ -118,6 +125,8 @@ class FlexPersonPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
         })
     ]
 
+    xsAny = "other"
+
 
 class FlexOrganisationPropType(CommonPowerAttributes, QualifyingAttributes,
     I18NAttributes):
@@ -131,6 +140,8 @@ class FlexOrganisationPropType(CommonPowerAttributes, QualifyingAttributes,
             'element_class': 'entities.OrganisationDetails'
         })
     ]
+
+    xsAny = "other"
 
 
 class FlexPartyPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes,
@@ -149,6 +160,8 @@ class FlexPartyPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes,
             'element_class': 'entities.OrganisationDetails'
         })
     ]
+
+    xsAny = "other"
 
 
 class Party(FlexPartyPropType):
@@ -253,6 +266,8 @@ class GeoCoordinatesType(CommonPowerAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class Position(GeoCoordinatesType):
     """
@@ -349,6 +364,8 @@ class GeoAreaDetails(CommonPowerAttributes):
         })
     ]
 
+    xsAny = "other"
+
 
 class FlexLocationPropType(FlexAttributes, CommonPowerAttributes,
     I18NAttributes):
@@ -370,6 +387,8 @@ class FlexLocationPropType(FlexAttributes, CommonPowerAttributes,
         })
     ]
 
+    xsAny = "other"
+
 
 class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     """
@@ -384,6 +403,8 @@ class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
             'element_class': 'concepts.POIDetails'
         })
     ]
+
+    xsAny = "other"
 
 
 class OpenHours(Label1Type):
@@ -439,6 +460,8 @@ class FlexGeoAreaPropType(CommonPowerAttributes, FlexAttributes,
         })
     ]
 
+    xsAny = "other"
+
 
 class POIDetails(CommonPowerAttributes):
     """
@@ -478,6 +501,8 @@ class POIDetails(CommonPowerAttributes):
             'element_class': POICeasedToExist
         })
     ]
+
+    xsAny = "other"
 
 
 class ConceptIdType(QCodeURIMixin, CommonPowerAttributes):
@@ -596,3 +621,5 @@ class Concept(CommonPowerAttributes, I18NAttributes):
             'element_class': 'extensionproperties.ConceptExtProperty'
         })
     ]
+
+    xsAny = "other"

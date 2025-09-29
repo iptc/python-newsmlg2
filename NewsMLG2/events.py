@@ -476,12 +476,14 @@ class NewsCoverage(BaseObject):
         }
     }
 
+    xsAny = "other"
+
 
 class EventDetails(CommonPowerAttributes):
     """
     A set of properties with details about an event (Used in the scope of EventsML-G2)
     """
-    elements = [ 
+    elements = [
         ('dates', { 
             'type': 'single', 'xml_name': 'dates', 'element_class': Dates
         }),
@@ -525,6 +527,8 @@ class EventDetails(CommonPowerAttributes):
             'type': 'array', 'xml_name': 'newsCoverage', 'element_class': NewsCoverage
         })
     ]
+
+    xsAny = "other"
 
 
 class Event(CommonPowerAttributes):

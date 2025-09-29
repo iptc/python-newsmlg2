@@ -149,6 +149,7 @@ class Header(BaseObject):
             'element_class': HeaderExtProperty
         })
     ]
+    xsAny = "other"
 
 
 class ItemSet(CommonPowerAttributes):
@@ -158,6 +159,7 @@ class ItemSet(CommonPowerAttributes):
      any number of elements from the NewsML-G2 spec to be used. We don't yet
      implement xs:any so currently newsMessage is of limited use)
     """
+    xsAny = "http://iptc.org/std/nar/2006-10-01/"
 
 
 class NewsMessage(BaseObject):

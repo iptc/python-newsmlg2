@@ -26,6 +26,7 @@ class InlineXML(NewsContentAttributes, NewsContentTypeAttributes,
     """
     A rendition of the content using an XML language
     """
+    xsAny = "any"
 
 
 class InlineData(NewsContentAttributes, NewsContentTypeAttributes,
@@ -172,6 +173,7 @@ class RemoteContentPropType(NewsContentAttributes, TargetResourceAttributes,
             'xml_type': 'xs:language'
         }
     }
+    xsAny = "other"
 
 
 class RemoteContent(RemoteContentPropType):

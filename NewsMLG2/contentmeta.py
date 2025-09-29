@@ -538,6 +538,7 @@ class ContentMetadataAcDType(CommonPowerAttributes,I18NAttributes):
         })
     ]
 
+    xsAny = "other"
 
 class ContentMetadataAfDType(CommonPowerAttributes,I18NAttributes):
     """
@@ -554,6 +555,8 @@ class ContentMetadataAfDType(CommonPowerAttributes,I18NAttributes):
             'element_class': ContentMetaExtProperty
         })
     ]
+
+    xsAny = "other"
 
 
 class ContentMetadataCatType(CommonPowerAttributes, I18NAttributes):
@@ -588,3 +591,5 @@ class ContentMetadataCatType(CommonPowerAttributes, I18NAttributes):
             'element_class': AltId
         })
     ]
+
+    xsAny = "other"

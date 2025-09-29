@@ -128,6 +128,7 @@ class Group(CommonPowerAttributes, I18NAttributes):
             'use': 'optional'
         }
     }
+    xsAny = "other"
 
 
 class GroupSet(CommonPowerAttributes):

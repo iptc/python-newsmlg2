@@ -176,6 +176,8 @@ class Planning(CommonPowerAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class DeliveredItemRef(Link1Type):
     """
@@ -195,6 +197,8 @@ class Delivery(CommonPowerAttributes):
             'element_class': DeliveredItemRef
         })
     ]
+
+    xsAny = "other"
 
 
 class NewsCoverageExtProperty(Flex2ExtPropType):
@@ -295,6 +299,8 @@ class NewsCoverage(BaseObject):
             'use': 'optional'
         }
     }
+
+    xsAny = "other"
 
 
 class NewsCoverageSet(CommonPowerAttributes):

@@ -73,6 +73,8 @@ class RightsExpressionXML(CommonPowerAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class RightsExpressionData(CommonPowerAttributes):
     """
@@ -193,3 +195,5 @@ class RightsInfo(CommonPowerAttributes, I18NAttributes, TimeValidityAttributes):
             'element_class': DataMining
         })
     ]
+
+    xsAny = "other"

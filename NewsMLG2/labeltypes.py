@@ -52,6 +52,8 @@ class Span(CommonPowerAttributes, I18NAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class Inline(CommonPowerAttributes, FlexAttributes, I18NAttributes,
     QuantifyAttributes):
@@ -72,6 +74,8 @@ class Inline(CommonPowerAttributes, FlexAttributes, I18NAttributes,
             'use': 'optional'
         }
     }
+
+    xsAny = "other"
 
 
 class A(CommonPowerAttributes, I18NAttributes):
@@ -118,6 +122,8 @@ class A(CommonPowerAttributes, I18NAttributes):
         }
     }
 
+    xsAny = "other"
+
 
 class Label1Type(CommonPowerAttributes, I18NAttributes):
     """
@@ -130,6 +136,7 @@ class Label1Type(CommonPowerAttributes, I18NAttributes):
         ('ruby', { 'type': 'array', 'xml_name': 'ruby', 'element_class': Ruby }),
         ('inline', { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline })
     ]
+
     attributes = {
         # A refinement of the semantics of the label - expressed by a QCode
         'role': {
@@ -152,6 +159,7 @@ class Label1Type(CommonPowerAttributes, I18NAttributes):
         }
     }
 
+    xsAny = "other"
 
 class BlockType(CommonPowerAttributes, I18NAttributes):
     """
@@ -165,6 +173,7 @@ class BlockType(CommonPowerAttributes, I18NAttributes):
         ('br', { 'type': 'array', 'xml_name': 'br', 'element_class': BR }),
         ('inline', { 'type': 'array', 'xml_name': 'inline', 'element_class': Inline })
     ]
+
     attributes = {
         # An indication of the target media type(s) values as
         # defined by the Cascading Style Sheets (CSS) specification.
@@ -181,3 +190,5 @@ class BlockType(CommonPowerAttributes, I18NAttributes):
             'xml_type': 'IRIType'
         }
     }
+
+    xsAny = "other"

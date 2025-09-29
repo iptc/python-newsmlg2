@@ -125,6 +125,7 @@ class Published(CommonPowerAttributes, QCodeURIMixin):
             'element_class': PublishedExtProperty
         })
     ]
+
     attributes = {
         # A free-text value assigned as property value.
         'literal': {
@@ -133,6 +134,7 @@ class Published(CommonPowerAttributes, QCodeURIMixin):
 		}
     }
 
+    xsAny = "other"
 
 class PubHistory(BaseObject):
     """
@@ -169,6 +171,8 @@ class ItemMetadataType(CommonPowerAttributes, I18NAttributes):
             'element_class': ItemMetaExtProperty
         })
     ]
+
+    xsAny = "other"
 
 
 class ItemMeta(ItemMetadataType):
@@ -231,6 +235,10 @@ class AnyItem(I18NAttributes):
         ('itemmeta', { 'type': 'single', 'xml_name': 'itemMeta', 'element_class': ItemMeta })
     ]
 
+    # W3C XML Signature is allowed at the top of any item
+    # (NOTE we don't check for order at this time)
+    xsAny = "http://www.w3.org/2000/09/xmldsig#"
+
     def __init__(self,  **kwargs):
         super().__init__(**kwargs)
         xmlelement = kwargs.get('xmlelement')
@@ -270,6 +278,8 @@ class AssertType(CommonPowerAttributes, I18NAttributes):
             'use': 'optional'
 		}
     }
+
+    xsAny = "other"
 
 
 class Assert(AssertType):

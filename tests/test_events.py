@@ -96,7 +96,7 @@ class TestNewsMLG2Events(unittest.TestCase):
     </concept>
 </conceptItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'urn:newsml:iptc.org:20160422:qqwpiruuew4711'
@@ -134,7 +134,7 @@ class TestNewsMLG2Events(unittest.TestCase):
 class TestNewsMLG2EventFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '004_planningitem.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         planningitem = g2doc.get_item()
         assert planningitem.guid == 'urn:newsml:iptc.org:20211029:gbmdrmdreis4711'
         assert planningitem.standard == 'NewsML-G2'

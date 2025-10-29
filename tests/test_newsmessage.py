@@ -104,7 +104,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 </newsMessage>
 """
 
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
         newsmessage = g2doc.get_item()
         header = newsmessage.header
         assert str(header.sent) == '2018-10-19T11:17:00.150Z'
@@ -133,7 +133,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '007_emptynewsmessage.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         newsmessage = g2doc.get_item()
         header = newsmessage.header
         assert str(header.sent) == '2018-10-19T11:17:00.150Z'

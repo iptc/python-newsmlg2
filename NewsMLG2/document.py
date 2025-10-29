@@ -24,12 +24,12 @@ class NewsMLG2Document():
     _root_element = None
     item = None
 
-    def __init__(self, filename=None, string=None):
-        if isinstance(filename, str):
-            tree = etree.parse(filename)
+    def __init__(self, filename_or_string=None):
+        if isinstance(filename_or_string, str):
+            tree = etree.parse(filename_or_string)
             self._root_element = tree.getroot()
-        elif isinstance(string, (str, bytes)):
-            self._root_element = etree.fromstring(string)
+        elif isinstance(filename_or_string, (str, bytes)):
+            self._root_element = etree.fromstring(filename_or_string)
         if self._root_element is not None:
             if self._root_element.tag == NEWSMLG2NSPREFIX+'catalogItem':
                 self.item = CatalogItem(

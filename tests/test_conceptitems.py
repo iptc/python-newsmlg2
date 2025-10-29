@@ -73,7 +73,7 @@ class TestNewsMLG2ConceptItems(unittest.TestCase):
     </concept>
 </conceptItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'conceptitem-string-test'
@@ -107,7 +107,7 @@ class TestNewsMLG2ConceptItems(unittest.TestCase):
 class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
     def test_parse_conceptitem_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '003_conceptitem.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == '003-concept-item-file-test'
         assert conceptitem.standard == 'NewsML-G2'
@@ -133,7 +133,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
 
     def test_parse_conceptitem_with_persondetails_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '005_conceptitem_persondetails.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'urn:newsml:iptc.org:005-conceptitem-with-persondetails-test'
         assert conceptitem.standard == 'NewsML-G2'
@@ -198,7 +198,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
 
     def test_parse_conceptitem_with_geoareadetails_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '006_conceptitem_geoareadetails.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'urn:newsml:iptc.org:006-conceptitem-with-geoareadetails-test'
         assert conceptitem.standard == 'NewsML-G2'

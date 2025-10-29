@@ -63,7 +63,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     </contentSet>
 </newsItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
@@ -91,6 +91,52 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 
         assert type(newsitem.itemmeta.generator) == NewsMLG2.GenericArray
 
+    def test_parse_from_string_readme(self):
+        """
+        Exact copy of the test in the README.md file.
+        """
+        # load NewsML-G2 from a string
+        g2doc = NewsMLG2.NewsMLG2Document(
+            b"""<?xml version="1.0" encoding="UTF-8"?>
+<newsItem
+    xmlns="http://iptc.org/std/nar/2006-10-01/"
+    guid="simplest-test"
+    standard="NewsML-G2"
+    standardversion="2.35"
+    conformance="power"
+    version="1"
+    xml:lang="en-GB">
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
+    <itemMeta>
+        <itemClass qcode="ninat:text" />
+        <provider qcode="nprov:IPTC" />
+        <versionCreated>2025-09-29T12:00:00+03:00</versionCreated>
+    </itemMeta>
+    <contentSet>
+        <inlineXML contenttype="application/nitf+xml">
+        </inlineXML>
+    </contentSet>
+</newsItem>
+""")
+
+        # get the newsItem from the parsed object
+        newsitem = g2doc.get_item()
+        # test various elements and attributes using our shortcut dot syntax
+        assert newsitem.guid == 'simplest-test'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.35'
+        assert newsitem.conformance == 'power'
+
+        itemmeta = newsitem.itemmeta
+        # you can choose whether to use qcodes or URIs, we do the conversion for you
+        # using the catalog declared in the NewsML-G2 file
+        assert itemmeta.itemclass.qcode == 'ninat:text'
+        assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/newscodes/ninature/text'
+        assert itemmeta.provider.qcode == 'nprov:IPTC'
+        assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
+        # Elements that contain a simple text string can be read with str(class)
+        assert str(itemmeta.versioncreated) == '2025-09-29T12:00:00+03:00'
+
     def test_failure_cases(self):
         test_newsmlg2_string = b"""<?xml version="1.0" encoding="UTF-8"?>
 <newsItem
@@ -114,7 +160,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     </contentSet>
 </newsItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         with self.assertRaises(Exception):
             g2doc.set_item("foo")
@@ -141,7 +187,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '001_simplest_file.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test-from-file'
         assert newsitem.standard == 'NewsML-G2'
@@ -169,7 +215,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
 
     def test_example_1_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_1_A_NewsML-G2_News_Item.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
 
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
@@ -262,7 +308,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
 
     def test_example_3_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_3_Photo_in_NewsML-G2.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
 
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
@@ -462,6 +508,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert output_contentmeta.located.type == 'cptype:city'
         assert output_contentmeta.located.qcode == 'city:345678'
         assert output_contentmeta.digitalsourcetype.uri == 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
+        assert newsitem.contentmeta.digitalsourcetype.uri == 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
         assert str(output_contentmeta.located.name) == 'Berlin'
 
         output_xml = g2doc.to_xml()
@@ -529,7 +576,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     </contentSet>
 </newsItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'

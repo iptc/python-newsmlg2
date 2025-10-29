@@ -112,7 +112,7 @@ class TestNewsMLG2PackageItems(unittest.TestCase):
     </groupSet>
 </packageItem>""".encode('utf-8')
 
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         packageitem = g2doc.get_item()
         assert packageitem.guid == 'tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658'
@@ -190,7 +190,7 @@ class TestNewsMLG2PackageItems(unittest.TestCase):
 class TestNewsMLG2Files(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_6_Simple_NewsML-G2_Package.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         packageitem = g2doc.get_item()
         assert packageitem.guid == 'tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658'
         assert packageitem.standard == 'NewsML-G2'

@@ -54,13 +54,13 @@ class TestNewsMLG2Roundtrip(unittest.TestCase):
   </contentSet>
 </newsItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
         roundtrip_version = bytes(g2doc.to_xml(), 'utf-8')
         assert test_newsmlg2_string == roundtrip_version
         
     def test_roundtrip_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', '008_roundtrip_test.xml')
         test_newsml_g2_file_as_bytes = bytes(open(test_newsmlg2_file).read(), 'utf-8')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         roundtrip_version = bytes(g2doc.to_xml(), 'utf-8')
         assert test_newsml_g2_file_as_bytes == roundtrip_version

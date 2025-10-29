@@ -86,7 +86,7 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
     </catalogContainer>
 </catalogItem>
 """
-        g2doc = NewsMLG2.NewsMLG2Document(string=test_newsmlg2_string)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_string)
 
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
@@ -124,7 +124,7 @@ class TestNewsMLG2CatalogItems(unittest.TestCase):
 class TestNewsMLG2CatalogItemFiles(unittest.TestCase):
     def test_from_file(self):
         test_newsmlg2_file = os.path.join('tests', 'test_files', 'LISTING_13_Complete_Catalog_Item.xml')
-        g2doc = NewsMLG2.NewsMLG2Document(filename=test_newsmlg2_file)
+        g2doc = NewsMLG2.NewsMLG2Document(test_newsmlg2_file)
         catitem = g2doc.get_item()
         assert catitem.guid == 'urn:newsml:iptc.org:20130517:catalog'
         assert catitem.standard == 'NewsML-G2'

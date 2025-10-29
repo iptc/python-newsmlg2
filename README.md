@@ -52,7 +52,7 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
 """)
 
 # get the newsItem from the parsed object
-newsitem = g2doc.getNewsItem()
+newsitem = g2doc.get_item()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
@@ -67,7 +67,7 @@ assert NewsMLG2.qcode_to_uri(itemmeta.itemclass.qcode) == 'http://cv.iptc.org/ne
 assert itemmeta.provider.qcode == 'nprov:IPTC'
 assert NewsMLG2.qcode_to_uri(itemmeta.provider.qcode) == 'http://cv.iptc.org/newscodes/newsprovider/IPTC'
 # Elements that contain a simple text string can be read with str(class)
-assert str(itemmeta.versioncreated) == '2025-09-28T12:00:00+03:00'
+assert str(itemmeta.versioncreated) == '2025-09-29T12:00:00+03:00'
 
 etc...
 ```

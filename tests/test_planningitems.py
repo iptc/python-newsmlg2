@@ -46,11 +46,11 @@ class TestNewsMLG2PlanningItems(unittest.TestCase):
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/
-        ./NewsML-G2_2.34-spec-All-Power.xsd"
+        ./NewsML-G2_2.35-spec-All-Power.xsd"
     guid="urn:newsml:iptc.org:20101025:gbmrmdreis4711"
     version="11"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     xml:lang="en">
     <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_36.xml" />
@@ -113,7 +113,7 @@ class TestNewsMLG2PlanningItems(unittest.TestCase):
         planningitem = g2doc.get_item()
         assert planningitem.guid == 'urn:newsml:iptc.org:20101025:gbmrmdreis4711'
         assert planningitem.standard == 'NewsML-G2'
-        assert planningitem.standardversion == '2.34'
+        assert planningitem.standardversion == '2.35'
         assert planningitem.conformance == 'power'
         assert planningitem.version == '11'
 
@@ -181,7 +181,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         planningitem = g2doc.get_item()
         assert planningitem.guid == 'urn:newsml:iptc.org:20211029:gbmdrmdreis4711'
         assert planningitem.standard == 'NewsML-G2'
-        assert planningitem.standardversion == '2.34'
+        assert planningitem.standardversion == '2.35'
         assert planningitem.conformance == 'power'
 
         # catalog tests

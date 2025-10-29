@@ -5,11 +5,11 @@
     xsi:schemaLocation="http://iptc.org/std/nar/2006-10-01/ 
         ./NewsML-G2_2.32-spec-All-Power.xsd"
      standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     guid="tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658" version="11">
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <catalogRef 
         href="http:/www.example.com/customer/cv/catalog4customers-1.xml" />
     <itemMeta>

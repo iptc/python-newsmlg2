@@ -45,7 +45,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     <header>
         <sent>2018-10-19T11:17:00.150Z</sent>
         <catalogRef href="http://www.example.com/std/catalog/NewsNessages_1.xml" />
-        <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
+        <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
         <sender>thomsonreuters.com</sender>
         <transmitId>tag:reuters.com,2016:newsml_OVE48850O-PKG</transmitId>
         <priority>4</priority>
@@ -86,10 +86,10 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             guid="N1"
             standard="NewsML-G2"
-            standardversion="2.32"
+            standardversion="2.35"
             conformance="power"
             xml:lang="en-GB">
-            <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+            <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
             <itemMeta>
                 <itemClass qcode="ninat:text"/>
                 <provider uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
@@ -109,7 +109,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         header = newsmessage.header
         assert str(header.sent) == '2018-10-19T11:17:00.150Z'
         assert header.catalogref[0].href == 'http://www.example.com/std/catalog/NewsNessages_1.xml'
-        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml'
+        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml'
         assert str(header.sender) == 'thomsonreuters.com'
         assert str(header.transmitid) == 'tag:reuters.com,2016:newsml_OVE48850O-PKG'
         assert str(header.priority) == '4'
@@ -126,9 +126,40 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         assert header.signal.qcode == 'nmsig:atomic'
 
         itemset = newsmessage.itemset
-        # itemset can't be tested right now as it's an xs:any construct which
-        # we don't support yet.
-
+        # itemSet is an xs:any constrained to NAR namespace, so we store and
+        # retrieve G2 content as XML but we don't process it (yet).
+        # TODO perhaps improve this handling in future versions..?
+        assert itemset.to_xml_string() == (
+            '<itemSet xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/">\n'
+            '  <packageItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="news-message-example" standard="NewsML-G2" standardversion="2.32" conformance="power" xml:lang="en-GB">\n'
+            '            <itemMeta>\n'
+            '                <itemClass qcode="ninat:text"/>\n'
+            '                <provider uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">\n'
+            '                    <name>IPTC</name>\n'
+            '                </provider>\n'
+            '                <versionCreated>2021-04-21T12:00:00+00:00</versionCreated>\n'
+            '                <firstCreated>2008-02-29T12:00:00+00:00</firstCreated>\n'
+            '                <pubStatus qcode="stat:usable"/>\n'
+            '            </itemMeta>\n'
+            '            <groupSet root="N1">\n'
+            '                <group>\n'
+            '                    <itemRef residref="N1"/>\n'
+            '                </group>\n'
+            '            </groupSet>\n'
+            '        </packageItem>\n'
+            '  <newsItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="N1" standard="NewsML-G2" standardversion="2.35" conformance="power" xml:lang="en-GB">\n'
+            '            <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml"/>\n'
+            '            <itemMeta>\n'
+            '                <itemClass qcode="ninat:text"/>\n'
+            '                <provider uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">\n'
+            '                    <name>IPTC</name>\n'
+            '                </provider>\n'
+            '                <versionCreated>2021-04-21T12:00:00+00:00</versionCreated>\n'
+            '                <firstCreated>2008-02-29T12:00:00+00:00</firstCreated>\n'
+            '                <pubStatus qcode="stat:usable"/>\n'
+            '            </itemMeta>\n'
+            '        </newsItem>\n'
+            '</itemSet>\n')
 
 class TestNewsMLG2NewsItemFiles(unittest.TestCase):
     def test_from_file(self):
@@ -138,7 +169,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         header = newsmessage.header
         assert str(header.sent) == '2018-10-19T11:17:00.150Z'
         assert header.catalogref[0].href == 'http://www.example.com/std/catalog/NewsNessages_1.xml'
-        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml'
+        assert header.catalogref[1].href == 'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml'
         assert str(header.sender) == 'thomsonreuters.com'
         assert str(header.transmitid) == 'tag:reuters.com,2016:newsml_OVE48850O-PKG'
         assert str(header.priority) == '4'

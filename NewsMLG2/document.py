@@ -85,9 +85,13 @@ class NewsMLG2Document():
 
     def to_xml(self):
         """Return this document in XML form."""
-        elem = self.item.to_xml()
+        return self.item.to_xml()
+
+    def to_xml_string(self):
+        """Return this document in XML as a string."""
+        xml = self.to_xml()
         return etree.tostring(
-                    elem,
+                    xml,
                     pretty_print=True,
                     xml_declaration=True,
                     encoding='utf-8'

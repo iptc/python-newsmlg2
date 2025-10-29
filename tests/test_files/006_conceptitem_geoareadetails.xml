@@ -7,10 +7,10 @@
     guid="urn:newsml:iptc.org:006-conceptitem-with-geoareadetails-test"
     version="11"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power">
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <rightsInfo>
         <copyrightHolder>
             <name>IPTC - International Press Telecommunications Council</name>

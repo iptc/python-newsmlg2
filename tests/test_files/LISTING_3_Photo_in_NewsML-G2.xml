@@ -6,11 +6,11 @@
     guid="tag:gettyimages.com,2010:GYI0062134533"
     version="11" 
     standard="NewsML-G2" 
-    standardversion="2.34" 
+    standardversion="2.35" 
     conformance="power" 
     xml:lang="en-US">
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <catalogRef href="http://cv.gettyimages.com/nml2catalog4customers-1.xml" />
     <rightsInfo>
         <copyrightHolder uri="http://www.gettyimages.com">

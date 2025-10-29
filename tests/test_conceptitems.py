@@ -111,7 +111,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == '003-concept-item-file-test'
         assert conceptitem.standard == 'NewsML-G2'
-        assert conceptitem.standardversion == '2.34'
+        assert conceptitem.standardversion == '2.35'
         assert conceptitem.conformance == 'power'
 
         # catalog tests
@@ -137,7 +137,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'urn:newsml:iptc.org:005-conceptitem-with-persondetails-test'
         assert conceptitem.standard == 'NewsML-G2'
-        assert conceptitem.standardversion == '2.34'
+        assert conceptitem.standardversion == '2.35'
         assert conceptitem.conformance == 'power'
 
         # catalog tests
@@ -202,7 +202,7 @@ class TestNewsMLG2ConceptItemFiles(unittest.TestCase):
         conceptitem = g2doc.get_item()
         assert conceptitem.guid == 'urn:newsml:iptc.org:006-conceptitem-with-geoareadetails-test'
         assert conceptitem.standard == 'NewsML-G2'
-        assert conceptitem.standardversion == '2.34'
+        assert conceptitem.standardversion == '2.35'
         assert conceptitem.conformance == 'power'
 
         # catalog tests

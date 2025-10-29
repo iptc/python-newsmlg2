@@ -7,10 +7,10 @@
     guid="urn:newsml:iptc.org:005-conceptitem-with-persondetails-test"
     version="11" 
     standard="NewsML-G2" 
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power">
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <rightsInfo>
         <copyrightHolder>
             <name>IPTC - International Press Telecommunications Council, 20 Garrick Street, London WC2E 9BT, UK</name>

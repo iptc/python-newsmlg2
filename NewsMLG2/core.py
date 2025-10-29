@@ -12,7 +12,7 @@ from lxml import etree
 from .catalogstore import CATALOG_STORE
 from .utils import import_string
 
-NEWSMLG2_VERSION = '2.34'
+NEWSMLG2_VERSION = '2.35'
 NEWSMLG2_NS = 'http://iptc.org/std/nar/2006-10-01/'
 NEWSMLG2NSPREFIX = '{%s}' % NEWSMLG2_NS
 NITF_NS = 'http://iptc.org/std/NITF/2006-10-18/'
@@ -401,6 +401,15 @@ class BaseObject():
 
         return elem
 
+    def to_xml_string(self):
+        """Return this document in XML as a string."""
+        xml = self.to_xml()
+        return etree.tostring(
+                    xml,
+                    pretty_print=True,
+                    xml_declaration=False,
+                    encoding='utf-8'
+               ).decode('utf-8') 
 
 class GenericArray():
     """

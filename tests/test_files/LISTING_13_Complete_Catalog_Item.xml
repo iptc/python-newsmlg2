@@ -7,11 +7,11 @@
     guid="urn:newsml:iptc.org:20130517:catalog"
     version="31" 
     standard="NewsML-G2" 
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power" 
     xml:lang="en-GB">
     <catalogRef
-        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+        href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <rightsInfo>
         <copyrightHolder uri="http://www.iptc.org">
             <name>IPTC</name>

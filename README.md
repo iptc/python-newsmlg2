@@ -24,7 +24,7 @@ Example:
 import NewsMLG2
 
 # load NewsML-G2 from a file and print the parsed version
-g2doc = NewsMLG2.NewsMLG2Document(filename="test-newsmlg2-file.xml")
+g2doc = NewsMLG2.NewsMLG2Document("test-newsmlg2-file.xml")
 print(g2doc.get_item())
 
 # load NewsML-G2 from a string
@@ -72,15 +72,16 @@ assert str(itemmeta.versioncreated) == '2025-09-29T12:00:00+03:00'
 etc...
 ```
 
-## Creating NewsML-G2 files in Python
+## Creating NewsML-G2 files using Python code
 
 There are a few points to note when creating NewsML-G2 directly in Python code (as opposed to
 parsing a string containing XML).
 
 * Elements with multiple values (such as multiple <broader> elements) must be created
 individually and then added to their parent through array assignment. So you should create
+child elements and then add them as an array of values.
 
-Example:
+See the below example which adds  multiple `<broader>` elements inside the `located` element:
 ```
 g2doc = NewsMLG2.NewsMLG2Document()
 newsitem = NewsMLG2.NewsItem()
@@ -133,12 +134,13 @@ g2doc.set_item(newsitem)
 output_newsitem = g2doc.get_item()
 assert newsitem.guid == 'test-guid'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.34'
+assert newsitem.standardversion == '2.35'
 assert newsitem.conformance == 'power'
 assert newsitem.version == '1'
 assert newsitem.xml_lang == 'en-GB'
 
-output_xml = g2doc.to_xml()
+output_xml = g2doc.to_xml_string()
+
 assert output_xml == (
     "<?xml version='1.0' encoding='utf-8'?>\n"
     '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1">\n'
@@ -147,6 +149,27 @@ assert output_xml == (
     '    <provider qcode="nprov:IPTC"/>\n'
     '    <versionCreated>2025-09-29T12:00:00+03:00</versionCreated>\n'
     '  </itemMeta>\n'
+    '  <contentMeta>\n'
+    '    <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>\n'
+    '    <located qcode="city:345678" type="cptype:city">\n'
+    '      <name>Berlin</name>\n'
+    '      <broader qcode="state:2365" type="cptype:statprov">\n'
+    '        <name>Berlin</name>\n'
+    '      </broader>\n'
+    '      <broader qcode="iso3166-1a2:DE" type="cptype:country">\n'
+    '        <name>Germany</name>\n'
+    '      </broader>\n'
+    '    </located>\n'
+    '    <digitalSourceType uri="http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"/>\n'
+    '    <creator qcode="codesource:DEZDF">\n'
+    '      <name>Zweites Deutsches Fernsehen</name>\n'
+    '      <organisationDetails>\n'
+    '        <location>\n'
+    '          <name>MAINZ</name>\n'
+    '        </location>\n'
+    '      </organisationDetails>\n'
+    '    </creator>\n'
+    '  </contentMeta>\n'
     '</newsItem>\n')
 ```
 
@@ -185,3 +208,7 @@ package.
 enumerations. Updated catalog cache to include latest versions.
 * 0.10 - Fixed more packaging bugs.
 * 1.0 - First stable release. Added xs:any support and roundtrip tests.
+* 1.1 - Change NewsMLG2Document() init so it can accept either filename or string,
+as per the above examples. Changed to_xml() to output etree XML elements  and added
+to_xml_string() to output XML as a string. Added tests to ensure that the README
+examples work.

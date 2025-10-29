@@ -47,7 +47,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -68,7 +68,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -144,7 +144,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test-2"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -191,7 +191,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test-from-file'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
 
@@ -220,7 +220,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'urn:newsml:acmenews.com:20161018:US-FINANCE-FED'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-GB'
         assert newsitem.version == '11'
@@ -314,7 +314,7 @@ class TestNewsMLG2NewsItemFiles(unittest.TestCase):
         assert newsitem.guid == 'tag:gettyimages.com,2010:GYI0062134533'
         assert newsitem.version == '11'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.xml_lang == 'en-US'
         # <catalogRef
@@ -390,11 +390,100 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
-        
+
+    def test_create_newsitem_from_code_readme(self):
+        g2doc = NewsMLG2.NewsMLG2Document()
+        newsitem = NewsMLG2.NewsItem()
+        newsitem.guid = 'test-guid'
+        newsitem.xml_lang = 'en-GB'
+        itemmeta = NewsMLG2.ItemMeta()
+        itemmeta.itemclass.qcode = "ninat:text"
+        itemmeta.provider.qcode = "nprov:IPTC"
+        itemmeta.versioncreated = "2025-09-29T12:00:00+03:00"
+        newsitem.itemmeta = itemmeta
+        contentmeta = NewsMLG2.NewsItemContentMeta()
+        contentmeta.contentcreated = '2008-11-05T19:04:00-08:00'
+        located = NewsMLG2.Located()
+        located.type = 'cptype:city'
+        located.qcode = 'city:345678'
+        located.name = 'Berlin'
+        contentmeta.located = located
+        located = NewsMLG2.Located()
+        located.type = 'cptype:city'
+        located.qcode = 'city:345678'
+        located.name = 'Berlin'
+        contentmeta.located = located
+        digsrctype = NewsMLG2.DigitalSourceType()
+        digsrctype.uri = 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
+        contentmeta.digitalsourcetype = digsrctype
+        broader1 = NewsMLG2.Broader()
+        broader1.type = 'cptype:statprov'
+        broader1.qcode = 'state:2365'
+        broader1.name = 'Berlin'
+        broader2 = NewsMLG2.Broader()
+        broader2.type = 'cptype:country'
+        broader2.qcode = 'iso3166-1a2:DE'
+        broader2.name = 'Germany'
+        contentmeta.located.broader = [broader1, broader2]
+        creator = NewsMLG2.Creator()
+        creator.qcode = 'codesource:DEZDF'
+        creator.name = 'Zweites Deutsches Fernsehen'
+        # This implements
+        # contentmeta.creator.organisationdetails.location.name = 'MAINZ'
+        # we have to make each item separately.
+        orgdetails = NewsMLG2.OrganisationDetails()
+        orglocation = NewsMLG2.OrganisationLocation()
+        orglocation.name = 'MAINZ'
+        orgdetails.location = orglocation
+        creator.organisationdetails = orgdetails
+        contentmeta.creator = creator
+        newsitem.contentmeta = contentmeta
+        g2doc.set_item(newsitem)
+
+        output_newsitem = g2doc.get_item()
+        assert newsitem.guid == 'test-guid'
+        assert newsitem.standard == 'NewsML-G2'
+        assert newsitem.standardversion == '2.35'
+        assert newsitem.conformance == 'power'
+        assert newsitem.version == '1'
+        assert newsitem.xml_lang == 'en-GB'
+
+        output_xml = g2doc.to_xml_string()
+        assert output_xml == (
+            "<?xml version='1.0' encoding='utf-8'?>\n"
+            '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1">\n'
+            '  <itemMeta>\n'
+            '    <itemClass qcode="ninat:text"/>\n'
+            '    <provider qcode="nprov:IPTC"/>\n'
+            '    <versionCreated>2025-09-29T12:00:00+03:00</versionCreated>\n'
+            '  </itemMeta>\n'
+            '  <contentMeta>\n'
+            '    <contentCreated>2008-11-05T19:04:00-08:00</contentCreated>\n'
+            '    <located qcode="city:345678" type="cptype:city">\n'
+            '      <name>Berlin</name>\n'
+            '      <broader qcode="state:2365" type="cptype:statprov">\n'
+            '        <name>Berlin</name>\n'
+            '      </broader>\n'
+            '      <broader qcode="iso3166-1a2:DE" type="cptype:country">\n'
+            '        <name>Germany</name>\n'
+            '      </broader>\n'
+            '    </located>\n'
+            '    <digitalSourceType uri="http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"/>\n'
+            '    <creator qcode="codesource:DEZDF">\n'
+            '      <name>Zweites Deutsches Fernsehen</name>\n'
+            '      <organisationDetails>\n'
+            '        <location>\n'
+            '          <name>MAINZ</name>\n'
+            '        </location>\n'
+            '      </organisationDetails>\n'
+            '    </creator>\n'
+            '  </contentMeta>\n'
+            '</newsItem>\n')
+
     def test_create_newsitem_in_code_with_no_guid_fails(self):
         g2doc = NewsMLG2.NewsMLG2Document()
         newsitem = NewsMLG2.NewsItem()
@@ -412,9 +501,9 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem.xml_lang = 'en-GB'
         g2doc.set_item(newsitem)
 
-        output_xml = g2doc.to_xml()
+        output_xml = g2doc.to_xml_string()
         assert output_xml == ('<?xml version=\'1.0\' encoding=\'utf-8\'?>\n'
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1"/>\n')
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1"/>\n')
 
     def test_create_valid_newsitem_in_code(self):
         g2doc = NewsMLG2.NewsMLG2Document()
@@ -431,14 +520,14 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
 
-        output_xml = g2doc.to_xml()
+        output_xml = g2doc.to_xml_string()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:text"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -498,7 +587,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         output_newsitem = g2doc.get_item()
         assert newsitem.guid == 'test-complex-newsitem-in-code-guid'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'
@@ -511,9 +600,9 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         assert newsitem.contentmeta.digitalsourcetype.uri == 'http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia'
         assert str(output_contentmeta.located.name) == 'Berlin'
 
-        output_xml = g2doc.to_xml()
+        output_xml = g2doc.to_xml_string()
         assert output_xml == ("<?xml version='1.0' encoding='utf-8'?>\n"
-                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.34" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
+                              '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-complex-newsitem-in-code-guid" version="1">\n'
                               '  <itemMeta>\n'
                               '    <itemClass qcode="ninat:video"/>\n'
                               '    <provider qcode="nprov:IPTC"/>\n'
@@ -549,7 +638,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -581,7 +670,7 @@ class TestNewsMLG2NewsItemFromCode(unittest.TestCase):
         newsitem = g2doc.get_item()
         assert newsitem.guid == 'simplest-test'
         assert newsitem.standard == 'NewsML-G2'
-        assert newsitem.standardversion == '2.34'
+        assert newsitem.standardversion == '2.35'
         assert newsitem.conformance == 'power'
         assert newsitem.version == '1'
         assert newsitem.xml_lang == 'en-GB'

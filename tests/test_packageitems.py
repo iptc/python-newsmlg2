@@ -194,7 +194,7 @@ class TestNewsMLG2Files(unittest.TestCase):
         packageitem = g2doc.get_item()
         assert packageitem.guid == 'tag:example.com,2008:UK-NEWS-TOPTEN:UK20081220098658'
         assert packageitem.standard == 'NewsML-G2'
-        assert packageitem.standardversion == '2.34'
+        assert packageitem.standardversion == '2.35'
         assert packageitem.conformance == 'power'
         assert packageitem.version == '11'
 

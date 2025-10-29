@@ -4,13 +4,13 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              guid="news-message-example"
              standard="NewsML-G2"
-             standardversion="2.34"
+             standardversion="2.35"
              conformance="power"
              xml:lang="en-GB" -->
     <header>
         <sent>2018-10-19T11:17:00.150Z</sent>
         <catalogRef href="http://www.example.com/std/catalog/NewsNessages_1.xml" />
-        <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml" />
+        <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
         <sender>thomsonreuters.com</sender>
         <transmitId>tag:reuters.com,2016:newsml_OVE48850O-PKG</transmitId>
         <priority>4</priority>

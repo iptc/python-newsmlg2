@@ -5,10 +5,10 @@
     xmlns:rtr="http://other.com/"
     guid="003-concept-item-file-test"
     standard="NewsML-G2"
-    standardversion="2.34"
+    standardversion="2.35"
     conformance="power"
     xml:lang="en-GB">
-    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml" />
+    <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
     <itemMeta>
         <itemClass qcode="cinat:concept" />
         <provider qcode="nprov:IPTC" />

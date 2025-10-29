@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = 'newsmlg2'
-version = '1.0'
+version = '1.1'
 description = 'Python implementation of the NewsML-G2 standard (https://iptc.org/standards/newsml-g2/)'
 readme = "README.md"
 authors = [{ name = "Brendan Quinn", email = "office@iptc.org" }]

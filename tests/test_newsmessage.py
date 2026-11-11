@@ -86,7 +86,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             guid="N1"
             standard="NewsML-G2"
-            standardversion="2.35"
+            standardversion="2.36"
             conformance="power"
             xml:lang="en-GB">
             <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml" />
@@ -147,7 +147,7 @@ class TestNewsMLG2NewsItemStrings(unittest.TestCase):
             '                </group>\n'
             '            </groupSet>\n'
             '        </packageItem>\n'
-            '  <newsItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="N1" standard="NewsML-G2" standardversion="2.35" conformance="power" xml:lang="en-GB">\n'
+            '  <newsItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" guid="N1" standard="NewsML-G2" standardversion="2.36" conformance="power" xml:lang="en-GB">\n'
             '            <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml"/>\n'
             '            <itemMeta>\n'
             '                <itemClass qcode="ninat:text"/>\n'

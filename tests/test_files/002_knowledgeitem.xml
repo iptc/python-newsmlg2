@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532" version="1">
+<knowledgeItem xmlns="http://iptc.org/std/nar/2006-10-01/" standard="NewsML-G2" standardversion="2.36" conformance="power" guid="urn:newsml:iptc.org:20080229:srcncdki-nprov-TS202102091406532" version="1">
   <catalogRef href="http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_38.xml"/>
   <rightsInfo>
     <copyrightHolder uri="http://cv.iptc.org/newscodes/newsprovider/IPTC">
@@ -19,7 +19,6 @@
   </itemMeta>
   <contentMeta>
     <contentCreated>2021-02-09T12:00:00+00:00</contentCreated>
-    <name xml:lang="en-GB">News Provider</name>
     <description xml:lang="en-GB">Indicates a News Provider registered with the IPTC.</description>
   </contentMeta>
   <partMeta partid="pi0" contentrefs="nprovAFP nprovAMB nprovANA nprovANI nprovANL nprovANM nprovANSA nprovAP nprovAPA nprovAPS nprovBN nprovBNA nprovBW nprovCP nprovCTK nprovDIRECT nprovDMGT nprovdpa nprovFOOL nprovGLOBE nprovGNA nprovHNA nprovIHT nprovINA nprovIPTC nprovIRNA nprovKUNA nprovKYODO nprovLUSA nprovMTI nprovNTR nprovNYTBG nprovNYTIMES nprovNYTRNG nprovPA nprovPC nprovPETRA nprovPRN nprovPRNE nprovQNA nprovREUTERS nprovSABA nprovSPA nprovSPX nprovSTA nprovSUNA nprovTT nprovUPI nprovUSATF nprovWAFA nprovWAM">
@@ -308,7 +307,7 @@
       <related uri="http://cv.iptc.org/newscodes/newsprovider/" rel="skos:inScheme"/>
     </concept>
     <concept id="nprovMEDIAOUTREACH" modified="2021-04-21T12:00:00+00:00">
-      <conceptId qcode="nprov:MEDIAOUTREACH" created="2021-04-2102T12:00:00+00:00"/>
+      <conceptId qcode="nprov:MEDIAOUTREACH" created="2021-04-21T12:00:00+00:00"/>
       <type qcode="cpnat:abstract"/>
       <name xml:lang="en-GB">Media Outreach</name>
       <note xml:lang="en-GB">http://www.media-outreach.com</note>

@@ -44,6 +44,17 @@ class Action(QualRelPropType):
         'timestamp': {
             'xml_name': 'timestamp',
             'xml_type': 'DateOptTimeType'
+        },
+        # Additional details relating to this action. (added in NewsML-G2 2.36)
+        'detailrefs': {
+            'xml_name': 'detailrefs',
+            'xml_type': 'xs:IDREFS'
+        },
+        # Element(s) that have been manipulated by this action.
+        # (added in NewsML-G2 2.36)
+        'targetrefs': {
+            'xml_name': 'targetrefs',
+            'xml_type': 'xs:IDREFS'
         }
     }
 

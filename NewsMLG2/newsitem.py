@@ -125,6 +125,13 @@ class AltLoc(IRIType, CommonPowerAttributes):
         },
         # A refinement of the semantics or business purpose of the property -
         # expressed by a URI
+        'roleuri': {
+            'xml_name': 'roleuri',
+            'xml_type': 'IRIType',
+            'use': 'optional'
+        },
+        # Erratum: from NewsML-G2 2.18 to 2.35 the schema misspelled roleuri
+        # as "roleruri". Kept so that documents using the old name still parse.
         'roleruri': {
             'xml_name': 'roleruri',
             'xml_type': 'IRIType',

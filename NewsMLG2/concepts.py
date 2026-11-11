@@ -407,6 +407,31 @@ class FlexPOIPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
     xsAny = "other"
 
 
+class FlexSystemPropType(CommonPowerAttributes, FlexAttributes, I18NAttributes):
+    """
+    Flexible system data type for both controlled and uncontrolled values
+    (added in NewsML-G2 2.36)
+    """
+
+    elements = ConceptDefinitionGroup + ConceptRelationshipsGroup + [
+        ('provider', {
+            'type': 'single',
+            'xml_name': 'provider',
+            'element_class': 'itemmanagement.Provider'
+        })
+    ]
+    attributes = {
+        # The version of the system.
+        'versioninfo': {
+            'xml_name': 'versioninfo',
+            'xml_type': 'xs:string',
+            'use': 'optional'
+        }
+    }
+
+    xsAny = "other"
+
+
 class OpenHours(Label1Type):
     """
     Opening hours of the point of interest expressed in natural language

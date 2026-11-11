@@ -12,7 +12,7 @@ from lxml import etree
 from .catalogstore import CATALOG_STORE
 from .utils import import_string
 
-NEWSMLG2_VERSION = '2.35'
+NEWSMLG2_VERSION = '2.36'
 NEWSMLG2_NS = 'http://iptc.org/std/nar/2006-10-01/'
 NEWSMLG2NSPREFIX = '{%s}' % NEWSMLG2_NS
 NITF_NS = 'http://iptc.org/std/NITF/2006-10-18/'
@@ -122,7 +122,7 @@ class BaseObject():
                     xmlarray = xmlelement.findall(
                                     NEWSMLG2NSPREFIX+element_definition['xml_name']
                                ),
-                    element_class = element_definition['element_class']
+                    element_class = element_class
                 )
             else:
                 self._element_values[element_id] = element_class(

@@ -34,7 +34,7 @@ b"""<?xml version="1.0" encoding="UTF-8"?>
     xmlns="http://iptc.org/std/nar/2006-10-01/"
     guid="simplest-test"
     standard="NewsML-G2"
-    standardversion="2.35"
+    standardversion="2.36"
     conformance="power"
     version="1"
     xml:lang="en-GB">
@@ -56,7 +56,7 @@ newsitem = g2doc.get_item()
 # test various elements and attributes using our shortcut dot syntax
 assert newsitem.guid == 'simplest-test'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.35'
+assert newsitem.standardversion == '2.36'
 assert newsitem.conformance == 'power'
 
 itemmeta = newsitem.itemmeta
@@ -134,7 +134,7 @@ g2doc.set_item(newsitem)
 output_newsitem = g2doc.get_item()
 assert newsitem.guid == 'test-guid'
 assert newsitem.standard == 'NewsML-G2'
-assert newsitem.standardversion == '2.35'
+assert newsitem.standardversion == '2.36'
 assert newsitem.conformance == 'power'
 assert newsitem.version == '1'
 assert newsitem.xml_lang == 'en-GB'
@@ -143,7 +143,7 @@ output_xml = g2doc.to_xml_string()
 
 assert output_xml == (
     "<?xml version='1.0' encoding='utf-8'?>\n"
-    '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.35" conformance="power" guid="test-guid" version="1">\n'
+    '<newsItem xmlns="http://iptc.org/std/nar/2006-10-01/" xmlns:nitf="http://iptc.org/std/NITF/2006-10-18/" xml:lang="en-GB" standard="NewsML-G2" standardversion="2.36" conformance="power" guid="test-guid" version="1">\n'
     '  <itemMeta>\n'
     '    <itemClass qcode="ninat:text"/>\n'
     '    <provider qcode="nprov:IPTC"/>\n'
@@ -212,3 +212,6 @@ enumerations. Updated catalog cache to include latest versions.
 as per the above examples. Changed to_xml() to output etree XML elements  and added
 to_xml_string() to output XML as a string. Added tests to ensure that the README
 examples work.
+* 1.2 - Updated to NewsML-G2 2.36, adding `aiInfo` and its children. Fixed some
+small bugs. Bundled all IPTC G2 Standards catalogs from v1 to v42 plus the IPTC
+Sports catalogs v1 and v2.

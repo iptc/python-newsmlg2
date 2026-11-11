@@ -31,6 +31,68 @@ from .catalogstore import CATALOG_STORE
 # Save some commonly used catalogs in this module's cache so we don't have
 # to download catalog files from the Internet
 CATALOG_CACHE = {
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_1.xml':
+        'catalogs/catalog.IPTC-G2-Standards_1.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_2.xml':
+        'catalogs/catalog.IPTC-G2-Standards_2.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_3.xml':
+        'catalogs/catalog.IPTC-G2-Standards_3.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_4.xml':
+        'catalogs/catalog.IPTC-G2-Standards_4.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_5.xml':
+        'catalogs/catalog.IPTC-G2-Standards_5.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_6.xml':
+        'catalogs/catalog.IPTC-G2-Standards_6.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_7.xml':
+        'catalogs/catalog.IPTC-G2-Standards_7.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_8.xml':
+        'catalogs/catalog.IPTC-G2-Standards_8.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_9.xml':
+        'catalogs/catalog.IPTC-G2-Standards_9.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_10.xml':
+        'catalogs/catalog.IPTC-G2-Standards_10.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_11.xml':
+        'catalogs/catalog.IPTC-G2-Standards_11.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_12.xml':
+        'catalogs/catalog.IPTC-G2-Standards_12.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_13.xml':
+        'catalogs/catalog.IPTC-G2-Standards_13.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_14.xml':
+        'catalogs/catalog.IPTC-G2-Standards_14.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_15.xml':
+        'catalogs/catalog.IPTC-G2-Standards_15.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_16.xml':
+        'catalogs/catalog.IPTC-G2-Standards_16.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_17.xml':
+        'catalogs/catalog.IPTC-G2-Standards_17.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_18.xml':
+        'catalogs/catalog.IPTC-G2-Standards_18.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_19.xml':
+        'catalogs/catalog.IPTC-G2-Standards_19.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_20.xml':
+        'catalogs/catalog.IPTC-G2-Standards_20.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_21.xml':
+        'catalogs/catalog.IPTC-G2-Standards_21.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_22.xml':
+        'catalogs/catalog.IPTC-G2-Standards_22.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_23.xml':
+        'catalogs/catalog.IPTC-G2-Standards_23.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_24.xml':
+        'catalogs/catalog.IPTC-G2-Standards_24.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_25.xml':
+        'catalogs/catalog.IPTC-G2-Standards_25.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_26.xml':
+        'catalogs/catalog.IPTC-G2-Standards_26.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_27.xml':
+        'catalogs/catalog.IPTC-G2-Standards_27.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_28.xml':
+        'catalogs/catalog.IPTC-G2-Standards_28.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_29.xml':
+        'catalogs/catalog.IPTC-G2-Standards_29.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_30.xml':
+        'catalogs/catalog.IPTC-G2-Standards_30.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_31.xml':
+        'catalogs/catalog.IPTC-G2-Standards_31.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_32.xml':
         'catalogs/catalog.IPTC-G2-Standards_32.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_33.xml':
@@ -50,7 +112,13 @@ CATALOG_CACHE = {
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_40.xml':
         'catalogs/catalog.IPTC-G2-Standards_40.xml',
     'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_41.xml':
-        'catalogs/catalog.IPTC-G2-Standards_41.xml'
+        'catalogs/catalog.IPTC-G2-Standards_41.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-G2-Standards_42.xml':
+        'catalogs/catalog.IPTC-G2-Standards_42.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-Sports_1.xml':
+        'catalogs/catalog.IPTC-Sports_1.xml',
+    'http://www.iptc.org/std/catalog/catalog.IPTC-Sports_2.xml':
+        'catalogs/catalog.IPTC-Sports_2.xml'
 }
 
 
@@ -89,6 +157,11 @@ def add_catalog(**kwargs):
         filename = os.path.join(dirname, kwargs['file'])
         xmltree = etree.parse(filename)
         catalog_element = xmltree.getroot()
+        if not catalog_element.tag.startswith('{'):
+            # catalog v1 (2008) predates the NAR namespace, so move its
+            # elements into the namespace for our parser to find them
+            for element in catalog_element.iter(tag=etree.Element):
+                element.tag = NEWSMLG2NSPREFIX + element.tag
         catalog = Catalog(xmlelement=catalog_element)
         CATALOG_STORE.append(catalog)
     elif 'xmlelement' in kwargs:

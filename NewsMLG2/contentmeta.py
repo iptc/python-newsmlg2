@@ -10,11 +10,13 @@ from .attributegroups import (
     RankingAttributes, QuantifyAttributes
 )
 from .concepts import (
-    FlexAuthorPropType, FlexLocationPropType, Flex1ConceptPropType,
-    Flex1PartyPropType, Flex1PropType
+    FlexAuthorPropType, FlexLocationPropType, FlexSystemPropType,
+    Flex1ConceptPropType, Flex1PartyPropType, Flex1PropType
 )
 from .conceptrelationships import FlexPropType
-from .complextypes import IntlStringType, TruncatedDateTimePropType
+from .complextypes import (
+    IntlStringType, IntlStringType2, TruncatedDateTimePropType
+)
 from .extensionproperties import Flex2ExtPropType
 from .ids import AltId
 from .labeltypes import BlockType, Label1Type
@@ -230,6 +232,61 @@ class UserInteraction(CommonPowerAttributes):
             'xml_type': 'IRIType'
         }
     }
+
+
+class System(FlexSystemPropType):
+    """
+    A group of properties specific to a system (added in NewsML-G2 2.36)
+    """
+
+
+class PromptInfo(IntlStringType2):
+    """
+    The textual information for an AI prompt. Any details such as User vs.
+    System prompt information is included in this property.
+    (added in NewsML-G2 2.36)
+    """
+
+
+class PromptWriter(FlexAuthorPropType):
+    """
+    A party (person or organisation) which created the AI prompt information.
+    (added in NewsML-G2 2.36)
+    """
+
+
+class AIInfoType(CommonPowerAttributes):
+    """
+    The type for a set of properties representing the AI used to create or
+    enhance the content (added in NewsML-G2 2.36)
+    """
+    elements = [
+        ('system', {
+            'type': 'single',
+            'xml_name': 'system',
+            'element_class': System
+        }),
+        ('promptinfo', {
+            'type': 'single',
+            'xml_name': 'promptInfo',
+            'element_class': PromptInfo
+        }),
+        ('promptwriter', {
+            'type': 'single',
+            'xml_name': 'promptWriter',
+            'element_class': PromptWriter
+        })
+    ]
+
+    xsAny = "other"
+
+
+class AIInfo(AIInfoType):
+    """
+    Information about the AI used to create or enhance the content
+    (added in NewsML-G2 2.36)
+    """
+    xml_element_name = 'aiInfo'
 
 
 class LanguageName(IntlStringType):
@@ -501,12 +558,12 @@ AdministrativeMetadataGroup = [
     }),
     ('exclaudience', {
         'type': 'array',
-        'xml_name': 'exclaudience',
+        'xml_name': 'exclAudience',
         'element_class': ExclAudience
     }),
     ('altid', {
         'type': 'array',
-        'xml_name': 'altid',
+        'xml_name': 'altId',
         'element_class': AltId
     }),
     ('rating', {
@@ -518,6 +575,11 @@ AdministrativeMetadataGroup = [
         'type': 'array',
         'xml_name': 'userInteraction',
         'element_class': UserInteraction
+    }),
+    ('aiinfo', {
+        'type': 'array',
+        'xml_name': 'aiInfo',
+        'element_class': AIInfo
     })
 ]
 
